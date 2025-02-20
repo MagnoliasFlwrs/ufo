@@ -1,0 +1,20 @@
+// src/styles/_buttons.scss
+.button-primary {
+  @include button-styles;
+  background-color: $primary-color;
+  color: white;
+
+  &:hover {
+    background-color: darken($primary-color, 10%);
+  }
+}
+
+.button-secondary {
+  @include button-styles;
+  background-color: $secondary-color;
+  color: white;
+
+  &:hover {
+    background-color: darken($secondary-color, 10%);
+  }
+}
