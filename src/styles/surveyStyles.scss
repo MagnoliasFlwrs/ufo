@@ -1,0 +1,83 @@
+@use "./_variables.scss" as vars;
+
+.container {
+  max-width: 475px;
+  height: 100vh;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.survey-subtitle {
+  font-size: 14px !important;
+  font-weight: 450 !important;
+  color: vars.$secondary-text-color !important;
+}
+
+.survey-select-button {
+  height: 64px !important;
+  justify-content: flex-start !important;
+  text-align: left !important;
+  border-radius: 5px !important;
+  background-color: #f5f5f5 !important;
+  color: vars.$primary-color !important;
+  box-shadow: none !important;
+  border: 0.4px solid #dfdfdf !important;
+  text-transform: none !important;
+  font-size: 16px !important;
+
+  &:hover {
+    background-color: #e0e0e0 !important;
+    border-color: #b0b0b0 !important;
+  }
+}
+
+.survey-next-button {
+  height: 54px !important;
+  border-radius: 8px !important;
+  background-color: #ff5c1d !important;
+  box-shadow: none !important;
+  border: 0.4px solid #dfdfdf !important;
+  text-transform: none !important;
+  font-size: 16px !important;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: rgba(255, 92, 29, 0.8) !important;
+  }
+}
+
+.survey-input {
+  .MuiOutlinedInput-root {
+    height: 64px !important;
+    background-color: #f9f9f9 !important;
+    border: 0.4px solid #dfdfdf !important;
+    border-radius: 8px !important;
+
+    &.MuiOutlinedInput-notchedOutline {
+      border: none !important;
+    }
+
+    .MuiOutlinedInput-input {
+      font-size: 20px !important;
+      font-weight: 450 !important;
+      text-align: center !important;
+      color: vars.$primary-color !important;
+
+      &::placeholder {
+        font-size: 16px !important;
+        color: #999 !important;
+        opacity: 1 !important;
+      }
+    }
+
+    .MuiInputAdornment-root {
+      font-size: 20px !important;
+      font-weight: 450 !important;
+      color: vars.$primary-color !important;
+    }
+  }
+}

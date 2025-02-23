@@ -1,12 +1,7 @@
-import React from 'react';
-import MultiStepForm from "./MultiStepForm.jsx";
+import React from "react";
 
 const MainLayout = () => {
-    return (
-        <div>
-            <MultiStepForm/>
-        </div>
-    );
+  return <div>main page</div>;
 };
 
 export default MainLayout;

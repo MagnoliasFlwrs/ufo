@@ -1,10 +1,12 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import UserContext from "@/state/UserContext";
-
-import { AgeInput, GenderSelection, MeasurementSystem } from "@components";
+import { AgeInput, GenderSelection, MeasurementSystem, ProgressBar, SurveyHeader } from "@/components";
 
 const GetStartedLayout = () => {
   const [step, setStep] = useState(0);
+  const [activeStep, setActiveStep] = useState(0);
+  const [activeSubStep, setActiveSubStep] = useState(0);
+  const [completedSteps, setCompletedSteps] = useState({});
 
   const [userData, setUserData] = useState({
     measurementSystem: "",
@@ -16,36 +18,81 @@ const GetStartedLayout = () => {
 
   const handleNext = () => {
     setStep((prev) => prev + 1);
+
+    const currentStep = stepComponents[activeStep];
+    if (activeSubStep < currentStep.length - 1) {
+      setActiveSubStep((prev) => prev + 1);
+    } else {
+      setCompletedSteps((prev) => ({ ...prev, [activeStep]: true }));
+      if (activeStep < stepComponents.length - 1) {
+        setActiveStep((prev) => prev + 1);
+        setActiveSubStep(0);
+      }
+    }
   };
 
   const handleBack = () => {
     setStep((prev) => (prev > 0 ? prev - 1 : 0));
+
+    if (activeSubStep > 0) {
+      setActiveSubStep((prev) => prev - 1);
+      setCompletedSteps((prev) => ({ ...prev, [activeStep]: false }));
+    } else if (activeStep > 0) {
+      setActiveStep((prev) => prev - 1);
+      setActiveSubStep(stepComponents[activeStep - 1].length - 1);
+      setCompletedSteps((prev) => ({ ...prev, [activeStep - 1]: false }));
+    }
   };
 
   const handleUpdateUserData = (key, value) => {
-    setUserData((prev) => {
-      const newData = { ...prev, [key]: value };
-      return newData;
-    });
+    setUserData((prev) => ({ ...prev, [key]: value }));
   };
 
+  const stepComponents = [
+    [
+      { component: <MeasurementSystem onNext={handleNext} />, key: "measurement" },
+      { component: <AgeInput onNext={handleNext} />, key: "age" },
+      { component: <GenderSelection onNext={handleNext} />, key: "gender" },
+    ],
+    [
+      { component: <MeasurementSystem onNext={handleNext} />, key: "measurement" },
+      { component: <AgeInput onNext={handleNext} />, key: "age" },
+      { component: <GenderSelection onNext={handleNext} />, key: "gender" },
+      { component: <GenderSelection onNext={handleNext} />, key: "gender" },
+      { component: <GenderSelection onNext={handleNext} />, key: "gender" },
+    ],
+    [
+      { component: <MeasurementSystem onNext={handleNext} />, key: "measurement" },
+      { component: <GenderSelection onNext={handleNext} />, key: "gender" },
+    ],
+    [
+      { component: <GenderSelection onNext={handleNext} />, key: "gender" },
+      { component: <div>All done!</div>, key: "done" },
+    ],
+  ];
+
+  const flatSteps = stepComponents.flat();
+
   const renderStep = () => {
-    switch (step) {
-      case 0:
-        return <MeasurementSystem onNext={handleNext} onBack={handleBack} />;
-      case 1:
-        return <AgeInput onNext={handleNext} onBack={handleBack} />;
-      case 2:
-        return <GenderSelection onNext={handleNext} onBack={handleBack} />;
-      default:
-        return <div>All done!</div>;
-    }
+    const currentStep = flatSteps[step] || flatSteps[flatSteps.length - 1];
+    return React.cloneElement(currentStep.component, { key: currentStep.key });
   };
 
   return (
     <UserContext.Provider value={{ userData, updateUserData: handleUpdateUserData }}>
       <div className='container'>
-        <h1>Get started</h1>
+        <SurveyHeader indexTitle={activeStep} onBack={handleBack} />
+
+        <ProgressBar
+          stepComponents={stepComponents}
+          activeStep={activeStep}
+          setActiveStep={setActiveStep}
+          activeSubStep={activeSubStep}
+          setActiveSubStep={setActiveSubStep}
+          completedSteps={completedSteps}
+        />
+        <br />
+
         {renderStep()}
       </div>
     </UserContext.Provider>
