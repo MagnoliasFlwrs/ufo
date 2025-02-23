@@ -1,11 +1,11 @@
 import React from 'react';
-import MultiStepForm from "./MultiStepForm.jsx";
+import Header from "@components/Site/Header.jsx";
 
 const MainLayout = () => {
     return (
-        <div>
-            <MultiStepForm/>
-        </div>
+        <>
+            <Header/>
+        </>
     );
 };
 
