@@ -61,6 +61,7 @@ body {
 
 .site-content {
   max-width: calc(1520px + 16px * 2);
+  width: 100%;
   padding: 0 16px;
   margin: 0 auto;
 }
