@@ -2,13 +2,16 @@ import React from 'react';
 import './site-styles/appInfoBlock.css'
 import image1 from './site-images/1.png'
 import image2 from './site-images/2.png'
+import bannerPC from './site-images/banner-desctop.png'
+import bannerMobile from './site-images/banner-mob.png'
 
 const AppInfoBlock = () => {
     return (
         <div className='app-info-block'>
             <div className="site-content">
                 <div className="tb-1">
-                    <p>Find confidence with a <span className='tb-s-1'>UFO</span> <span className='tb-s-2'>weight&nbsp;loss plan</span> that actually works</p>
+                    <p>Find confidence with a <span className='tb-s-1'>UFO</span> <span
+                        className='tb-s-2'>weight&nbsp;loss plan</span> that actually works</p>
                     <a href="#">Get started</a>
                 </div>
                 <div className="image-block">
@@ -72,7 +75,48 @@ const AppInfoBlock = () => {
                         Feel better than ever
                     </p>
                 </div>
-
+                <div className="tb-3">
+                    <p className='title'>13M+</p>
+                    <p className="subtitle">lbs lost</p>
+                    <span className="description">by Simple users following our
+science-backed method</span>
+                </div>
+                <div className="rate">
+                    <span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="649" height="265" viewBox="0 0 649 265"
+                             fill="none">
+                          <path
+                              d="M0.976562 214.779V191.597L103.249 29.7784H120.067V65.6875H108.704L31.4311 187.961V189.779H169.158V214.779H0.976562ZM110.522 262.506V207.733V196.938V29.7784H137.34V262.506H110.522ZM187.526 264.324C181.92 264.324 177.109 262.317 173.094 258.301C169.079 254.286 167.071 249.476 167.071 243.87C167.071 238.264 169.079 233.453 173.094 229.438C177.109 225.423 181.92 223.415 187.526 223.415C193.132 223.415 197.942 225.423 201.958 229.438C205.973 233.453 207.98 238.264 207.98 243.87C207.98 247.582 207.033 250.991 205.139 254.097C203.321 257.203 200.859 259.703 197.753 261.597C194.723 263.415 191.314 264.324 187.526 264.324ZM224.956 262.506L329.047 56.5966V54.7784H209.047V29.7784H358.138V56.1421L254.501 262.506H224.956ZM510.398 202.733L424.489 264.779L458.352 163.87L372.216 101.597H477.67L510.398 0.6875L543.125 101.597H648.579L562.443 163.87L596.307 264.779L510.398 202.733Z"
+                              fill="url(#paint0_radial_11102_17186)"/>
+                          <defs>
+                            <radialGradient id="paint0_radial_11102_17186" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse"
+                                            gradientTransform="translate(539.022 -165.302) rotate(116.221) scale(1427.66 1142.37)">
+                              <stop stopColor="#FE9552"/>
+                              <stop offset="0.225" stopColor="#FF8959"/>
+                              <stop offset="0.51" stopColor="#FF5D1E"/>
+                            </radialGradient>
+                          </defs>
+                        </svg>
+                    </span>
+                    <p className="subtitle">average rating</p>
+                    <span className="description">with more than 350,000 5-star reviews</span>
+                </div>
+                <div className="banner">
+                    <div className="img-block">
+                        <picture>
+                            <source media="(max-width: 550px)" srcSet={bannerMobile}/>
+                            <source media="(min-width: 551px)"
+                                    srcSet={bannerPC}/>
+                            <img src={bannerPC} alt="ufo-plans"/>
+                        </picture>
+                    </div>
+                    <div className="text-block">
+                        <p>Build consistent habits that go
+                            beyond just weight loss — all
+                            tailored to fit your lifestyle</p>
+                        <a href="#">Try UFO</a>
+                    </div>
+                </div>
             </div>
         </div>
     );
