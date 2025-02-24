@@ -10,11 +10,11 @@ export const GenderSelection = ({ onNext }) => {
 
   return (
     <div>
-      <Typography variant='h6' align='left' gutterBottom sx={{ color: "primary.main" }}>
+      <Typography variant='h6' align='left' sx={{ color: "primary.main" }}>
         What measurement units do you prefer?
       </Typography>
 
-      <Typography variant='h6' align='left' gutterBottom className='survey-subtitle'>
+      <Typography variant='h6' align='left' className='survey-subtitle'>
         Biological sex can affect many physical elements, like hormones or metabolism, so we use it in our calculations.
       </Typography>
 

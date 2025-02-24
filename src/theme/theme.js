@@ -11,6 +11,10 @@ const theme = createTheme({
     secondaryText: {
       main: "#999999",
     },
+    primaryBg: {
+      main: "#F5F5F5",
+      secondary: "#DFDFDF",
+    },
   },
   typography: {
     fontFamily: ["Circular Std", "sans-serif"].join(","),

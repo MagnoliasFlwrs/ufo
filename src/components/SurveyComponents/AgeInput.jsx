@@ -36,13 +36,13 @@ export const AgeInput = ({ onNext }) => {
   };
 
   return (
-    <div style={{ height: "400px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+    <div className='content'>
       <div>
         <Typography variant='h6' align='left' gutterBottom sx={{ color: "primary.main" }}>
           How old are you?
         </Typography>
 
-        <Typography variant='h6' align='left' gutterBottom className='survey-subtitle'>
+        <Typography variant='h6' align='left' className='survey-subtitle'>
           We ask this to personalize UFO program for you.
         </Typography>
 

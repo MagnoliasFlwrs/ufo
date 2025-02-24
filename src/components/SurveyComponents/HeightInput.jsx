@@ -60,9 +60,9 @@ export const HeightInput = ({ onNext }) => {
   };
 
   return (
-    <div style={{ height: "400px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+    <div className='content'>
       <div>
-        <Typography variant='h6' align='left' gutterBottom sx={{ color: "primary.main" }}>
+        <Typography variant='h6' align='left' sx={{ color: "primary.main" }}>
           What’s your height?
         </Typography>
 

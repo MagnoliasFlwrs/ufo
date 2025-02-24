@@ -1,5 +1,13 @@
 // stepComponents.js
-import { MeasurementSystem, AgeInput, GenderSelection, HeightInput, WeightInput } from "@/components";
+import {
+  MeasurementSystem,
+  AgeInput,
+  GenderSelection,
+  HeightInput,
+  WeightInput,
+  IdealWeight,
+  WishListCheckbox,
+} from "@/components";
 
 export const getStepComponents = (handleNext) => [
   // Demographic profile
@@ -13,8 +21,8 @@ export const getStepComponents = (handleNext) => [
 
   // Goal setting
   [
-    { component: <div>TEST</div>, key: "done" },
-    { component: <div>TEST</div>, key: "done" },
+    { component: <IdealWeight onNext={handleNext} />, key: "ideal-weight" },
+    { component: <WishListCheckbox onNext={handleNext} />, key: "wishlist" },
     { component: <div>TEST</div>, key: "done" },
     { component: <div>TEST</div>, key: "done" },
   ],

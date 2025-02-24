@@ -2,21 +2,29 @@ import React, { useState } from "react";
 import UserContext from "@/state/UserContext";
 import { ProgressBar, SurveyHeader } from "@/components";
 import { getStepComponents } from "@/utils/stepComponents";
+
 const GetStartedLayout = () => {
   const [step, setStep] = useState(0);
   const [activeStep, setActiveStep] = useState(0);
   const [activeSubStep, setActiveSubStep] = useState(0);
   const [completedSteps, setCompletedSteps] = useState({});
 
+  //===================================================================================
+  // context for collecting user data
   const [userData, setUserData] = useState({
-    measurementSystem: "",
+    measurementSystem: "metric",
     age: "",
     gender: "",
     height: "",
     weight: "",
+    idealWeight: "",
+    wishlist: [],
+    listOfInterests: [],
   });
 
   console.log(userData);
+  //===================================================================================
+  //===================================================================================
 
   const handleNext = () => {
     setStep((prev) => prev + 1);
@@ -57,6 +65,9 @@ const GetStartedLayout = () => {
     const currentStep = flatSteps[step] || flatSteps[flatSteps.length - 1];
     return React.cloneElement(currentStep.component, { key: currentStep.key });
   };
+
+  //===================================================================================
+  //===================================================================================
 
   return (
     <UserContext.Provider value={{ userData, updateUserData: handleUpdateUserData }}>

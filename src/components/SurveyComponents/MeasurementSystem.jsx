@@ -11,7 +11,7 @@ export const MeasurementSystem = ({ onNext }) => {
 
   return (
     <div>
-      <Typography variant='h6' align='left' gutterBottom sx={{ color: "primary.main" }}>
+      <Typography variant='h6' align='left' sx={{ color: "primary.main" }}>
         What measurement units do you prefer?
       </Typography>
 
