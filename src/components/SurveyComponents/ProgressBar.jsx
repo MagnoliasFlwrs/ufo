@@ -17,7 +17,7 @@ export const ProgressBar = ({ stepComponents, activeStep, activeSubStep, complet
       const { progress, isCompleted } = ownerState;
 
       return {
-        width: `calc((100% - ${(stepComponents.length - 1) * 14}px) / ${stepComponents.length} + 10px / ${
+        width: `calc((100% - ${(stepComponents.length - 1) * 12}px) / ${stepComponents.length} + 10px / ${
           stepComponents.length
         })`,
         height: 10,

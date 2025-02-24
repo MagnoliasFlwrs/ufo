@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import UserContext from "@/state/UserContext";
-import { AgeInput, GenderSelection, MeasurementSystem, ProgressBar, SurveyHeader } from "@/components";
-
+import { ProgressBar, SurveyHeader } from "@/components";
+import { getStepComponents } from "@/utils/stepComponents";
 const GetStartedLayout = () => {
   const [step, setStep] = useState(0);
   const [activeStep, setActiveStep] = useState(0);
@@ -12,6 +12,8 @@ const GetStartedLayout = () => {
     measurementSystem: "",
     age: "",
     gender: "",
+    height: "",
+    weight: "",
   });
 
   console.log(userData);
@@ -48,29 +50,7 @@ const GetStartedLayout = () => {
     setUserData((prev) => ({ ...prev, [key]: value }));
   };
 
-  const stepComponents = [
-    [
-      { component: <MeasurementSystem onNext={handleNext} />, key: "measurement" },
-      { component: <AgeInput onNext={handleNext} />, key: "age" },
-      { component: <GenderSelection onNext={handleNext} />, key: "gender" },
-    ],
-    [
-      { component: <MeasurementSystem onNext={handleNext} />, key: "measurement" },
-      { component: <AgeInput onNext={handleNext} />, key: "age" },
-      { component: <GenderSelection onNext={handleNext} />, key: "gender" },
-      { component: <GenderSelection onNext={handleNext} />, key: "gender" },
-      { component: <GenderSelection onNext={handleNext} />, key: "gender" },
-    ],
-    [
-      { component: <MeasurementSystem onNext={handleNext} />, key: "measurement" },
-      { component: <GenderSelection onNext={handleNext} />, key: "gender" },
-    ],
-    [
-      { component: <GenderSelection onNext={handleNext} />, key: "gender" },
-      { component: <div>All done!</div>, key: "done" },
-    ],
-  ];
-
+  const stepComponents = getStepComponents(handleNext);
   const flatSteps = stepComponents.flat();
 
   const renderStep = () => {
