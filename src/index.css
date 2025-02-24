@@ -78,7 +78,8 @@
 a {
   text-decoration: none;
 }
-ul , ol {
+ul,
+ol {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -100,3 +101,4 @@ body {
   padding: 0 16px;
   margin: 0 auto;
 }
+
