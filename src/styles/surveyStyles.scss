@@ -22,6 +22,7 @@
   font-size: 14px !important;
   font-weight: 450 !important;
   color: vars.$secondary-text-color !important;
+  margin-top: 12px !important;
 }
 
 .accept-text {
@@ -52,6 +53,25 @@
   }
 }
 
+.base-select-button {
+  height: 64px !important;
+  justify-content: flex-start !important;
+  text-align: left !important;
+  margin-bottom: 8px !important;
+  border-radius: 5px !important;
+  background-color: vars.$primary-bg-color !important;
+  color: vars.$primary-color !important;
+  box-shadow: none !important;
+  border: 0.4px solid vars.$secondary-bg-color !important;
+  text-transform: none !important;
+  font-size: 16px !important;
+
+  &:hover {
+    background-color: #e0e0e0 !important;
+    border-color: #b0b0b0 !important;
+  }
+}
+
 //=============================================================================
 //=============================================================================
 
@@ -67,6 +87,22 @@
 
   &:hover {
     background-color: rgba(255, 92, 29, 0.8) !important;
+  }
+}
+
+.secondary-button {
+  height: 54px !important;
+  border-radius: 8px !important;
+  background-color: #ffffff !important;
+  box-shadow: none !important;
+  border: 0.4px solid vars.$secondary-color !important;
+  color: vars.$secondary-color !important;
+  text-transform: none !important;
+  font-size: 16px !important;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: vars.$primary-bg-color !important;
   }
 }
 

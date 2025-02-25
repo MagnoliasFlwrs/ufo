@@ -1,4 +1,3 @@
-// stepComponents.js
 import {
   MeasurementSystem,
   AgeInput,
@@ -7,6 +6,15 @@ import {
   WeightInput,
   IdealWeight,
   WishListCheckbox,
+  IntentionsListCheckbox,
+  InspiringEventCheckbox,
+  FastFoodConsumptionFrequency,
+  NonHungerTriggersChecklist,
+  DietingHistoryChecklist,
+  WeightLossSuccessSelector,
+  MealPreferencesSelector,
+  WeekStartDaySelector,
+  PreferredMealSchedule,
 } from "@/components";
 
 export const getStepComponents = (handleNext) => [
@@ -23,22 +31,23 @@ export const getStepComponents = (handleNext) => [
   [
     { component: <IdealWeight onNext={handleNext} />, key: "ideal-weight" },
     { component: <WishListCheckbox onNext={handleNext} />, key: "wishlist" },
-    { component: <div>TEST</div>, key: "done" },
-    { component: <div>TEST</div>, key: "done" },
+    { component: <IntentionsListCheckbox onNext={handleNext} />, key: "intentions" },
+    { component: <InspiringEventCheckbox onNext={handleNext} />, key: "inspiring-events" },
   ],
 
   // Experience
   [
-    { component: <div>TEST</div>, key: "done" },
-    { component: <div>TEST</div>, key: "done" },
-    { component: <div>TEST</div>, key: "done" },
+    { component: <FastFoodConsumptionFrequency onNext={handleNext} />, key: " fast-food" },
+    { component: <NonHungerTriggersChecklist onNext={handleNext} />, key: "non-hunger-triggers" },
+    { component: <DietingHistoryChecklist onNext={handleNext} />, key: "dieting-history" },
+    { component: <WeightLossSuccessSelector onNext={handleNext} />, key: "weight-loss" },
   ],
 
   // Preferences
   [
-    { component: <div>TEST</div>, key: "done" },
-    { component: <div>TEST</div>, key: "done" },
-    { component: <div>TEST</div>, key: "done" },
+    { component: <MealPreferencesSelector onNext={handleNext} />, key: "meal-preferences" },
+    { component: <WeekStartDaySelector onNext={handleNext} />, key: "start-day" },
+    { component: <PreferredMealSchedule onNext={handleNext} />, key: "meal-schedule" },
   ],
 
   // Health info

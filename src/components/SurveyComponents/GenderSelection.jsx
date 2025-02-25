@@ -24,7 +24,7 @@ export const GenderSelection = ({ onNext }) => {
           fullWidth
           onClick={() => handleNext("male")}
           className='survey-select-button'
-          sx={{ mb: 2 }}>
+          sx={{ mb: 1 }}>
           Male
         </Button>
 
