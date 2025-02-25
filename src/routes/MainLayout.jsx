@@ -5,6 +5,7 @@ import ResultsBlock from "@components/Site/ResultsBlock.jsx";
 import CoachBlock from "@components/Site/CoachBlock.jsx";
 import FaqBlock from "@components/Site/FAQBlock.jsx";
 import CounterBlock from "@components/Site/CounterBlock.jsx";
+import Footer from "@components/Site/Footer.jsx";
 
 const MainLayout = () => {
     return (
@@ -15,6 +16,7 @@ const MainLayout = () => {
             <CoachBlock/>
             <FaqBlock/>
             <CounterBlock/>
+            <Footer/>
         </>
     );
 };
