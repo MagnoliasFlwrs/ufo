@@ -69,7 +69,7 @@ export const IdealWeight = ({ onNext }) => {
   return (
     <div className='content'>
       <div>
-        <Typography variant='h6' align='left' gutterBottom sx={{ color: "primary.main" }}>
+        <Typography variant='h6' align='left' gutterBottom sx={{ color: "primary.main", fontWeight: 450 }}>
           What is your ideal weight that you want to reach?
         </Typography>
 

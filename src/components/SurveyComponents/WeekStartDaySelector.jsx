@@ -17,7 +17,7 @@ export const WeekStartDaySelector = ({ onNext }) => {
 
   return (
     <div>
-      <Typography variant='h6' align='left' sx={{ color: "primary.main" }}>
+      <Typography variant='h6' align='left' sx={{ color: "primary.main", fontWeight: 450 }}>
         From what day do you prefer to count the beginning of the week?
       </Typography>
 

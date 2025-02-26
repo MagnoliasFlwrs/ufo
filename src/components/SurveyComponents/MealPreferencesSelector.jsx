@@ -19,7 +19,7 @@ export const MealPreferencesSelector = ({ onNext }) => {
 
   return (
     <div>
-      <Typography variant='h6' align='left' sx={{ color: "primary.main" }}>
+      <Typography variant='h6' align='left' sx={{ color: "primary.main", fontWeight: 450 }}>
         What are your meal preferences?
       </Typography>
 

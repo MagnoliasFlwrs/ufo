@@ -17,7 +17,7 @@ export const PreferredMealSchedule = ({ onNext }) => {
 
   return (
     <div>
-      <Typography variant='h6' align='left' sx={{ color: "primary.main" }}>
+      <Typography variant='h6' align='left' sx={{ color: "primary.main", fontWeight: 450 }}>
         What meal schedule works best for you?
       </Typography>
 

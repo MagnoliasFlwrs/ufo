@@ -18,6 +18,8 @@ export const useUserData = () => {
     mealPreference: "",
     startDay: "",
     mealSchedule: "",
+    weeklyActivities: "",
+    healtConditions: [],
   });
 
   const updateUserData = (key, value) => {

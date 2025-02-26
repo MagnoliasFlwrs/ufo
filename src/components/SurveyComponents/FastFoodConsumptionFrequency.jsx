@@ -19,7 +19,7 @@ export const FastFoodConsumptionFrequency = ({ onNext }) => {
 
   return (
     <div>
-      <Typography variant='h6' align='left' sx={{ color: "primary.main" }}>
+      <Typography variant='h6' align='left' sx={{ color: "primary.main", fontWeight: 450 }}>
         How recent do you eat fast food and high sugar products?
       </Typography>
 

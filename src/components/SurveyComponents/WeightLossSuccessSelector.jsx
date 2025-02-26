@@ -20,7 +20,7 @@ export const WeightLossSuccessSelector = ({ onNext }) => {
 
   return (
     <div>
-      <Typography variant='h6' align='left' sx={{ color: "primary.main" }}>
+      <Typography variant='h6' align='left' sx={{ color: "primary.main", fontWeight: 450 }}>
         Have you successfully lost weight before?
       </Typography>
 

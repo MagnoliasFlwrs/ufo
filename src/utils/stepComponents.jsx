@@ -15,6 +15,9 @@ import {
   MealPreferencesSelector,
   WeekStartDaySelector,
   PreferredMealSchedule,
+  WeeklyActivities,
+  HealtConditionsCheckbox,
+  Disclaimer,
 } from "@/components";
 
 export const getStepComponents = (handleNext) => [
@@ -47,12 +50,13 @@ export const getStepComponents = (handleNext) => [
   [
     { component: <MealPreferencesSelector onNext={handleNext} />, key: "meal-preferences" },
     { component: <WeekStartDaySelector onNext={handleNext} />, key: "start-day" },
+    { component: <WeeklyActivities onNext={handleNext} />, key: "activities" },
     { component: <PreferredMealSchedule onNext={handleNext} />, key: "meal-schedule" },
   ],
 
   // Health info
   [
-    { component: <div>TEST</div>, key: "done" },
-    { component: <div>All done!</div>, key: "done" },
+    { component: <HealtConditionsCheckbox onNext={handleNext} />, key: "health-conditions" },
+    { component: <Disclaimer onNext={handleNext} />, key: "disclaimer" },
   ],
 ];

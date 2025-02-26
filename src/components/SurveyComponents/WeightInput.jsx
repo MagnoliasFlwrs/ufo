@@ -62,7 +62,7 @@ export const WeightInput = ({ onNext }) => {
   return (
     <div className='content'>
       <div>
-        <Typography variant='h6' align='left' sx={{ color: "primary.main" }}>
+        <Typography variant='h6' align='left' sx={{ color: "primary.main", fontWeight: 450 }}>
           What’s your weight?
         </Typography>
 

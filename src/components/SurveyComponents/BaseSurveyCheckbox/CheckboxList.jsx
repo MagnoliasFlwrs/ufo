@@ -23,7 +23,7 @@ export const CheckboxList = ({
   return (
     <div className='content'>
       <div>
-        <Typography variant='h6' align='left' sx={{ color: "primary.main" }}>
+        <Typography variant='h6' align='left' sx={{ color: "primary.main", fontWeight: 450 }}>
           {title}
         </Typography>
 

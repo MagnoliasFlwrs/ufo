@@ -38,7 +38,7 @@ export const AgeInput = ({ onNext }) => {
   return (
     <div className='content'>
       <div>
-        <Typography variant='h6' align='left' gutterBottom sx={{ color: "primary.main" }}>
+        <Typography variant='h6' align='left' gutterBottom sx={{ color: "primary.main", fontWeight: 450 }}>
           How old are you?
         </Typography>
 

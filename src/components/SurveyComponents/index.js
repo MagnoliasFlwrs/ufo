@@ -18,3 +18,6 @@ export { WeightLossSuccessSelector } from "./WeightLossSuccessSelector.jsx";
 export { MealPreferencesSelector } from "./MealPreferencesSelector.jsx";
 export { WeekStartDaySelector } from "./WeekStartDaySelector.jsx";
 export { PreferredMealSchedule } from "./PreferredMealSchedule.jsx";
+export { WeeklyActivities } from "./WeeklyActivities.jsx";
+export { HealtConditionsCheckbox } from "./HealtConditionsCheckbox.jsx";
+export { Disclaimer } from "./Disclaimer.jsx";
