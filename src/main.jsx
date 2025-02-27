@@ -1,11 +1,11 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import "./index.css";
+import { createRoot } from "react-dom/client";
+import { ThemeProvider } from "@mui/material";
 import MainLayout from "./routes/MainLayout.jsx";
 import GetStartedLayout from "./routes/GetStartedLayout.jsx";
-import { createRoot } from "react-dom/client";
-import "./styles/main.scss";
 import theme from "./theme/theme";
-import { ThemeProvider } from "@mui/material";
+import "./index.css";
+import "./styles/main.scss";
 
 // eslint-disable-next-line react-refresh/only-export-components
 const App = () => {

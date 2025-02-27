@@ -1,0 +1,27 @@
+import { useUserContext } from "@/state/UserContext";
+import { CheckboxList } from "./BaseSurveyCheckbox/CheckboxList";
+
+export const HealtConditionsCheckbox = ({ onNext }) => {
+  const { updateUserData } = useUserContext();
+
+  const options = [
+    "Heart disease or stroke",
+    "Mental health disorder",
+    "High blood pressure",
+    "High cholesterol",
+    "Diabetes",
+    "Food allergy or Intolerance",
+  ];
+
+  return (
+    <CheckboxList
+      title='Have you been diagnosed with any of the following health conditions?'
+      subtitle='We ask for this information to guarantee a safe and seamless experience.'
+      buttonText='No risks diagnosed'
+      options={options}
+      onNext={onNext}
+      updateUserDataKey='healtConditions'
+      updateUserData={updateUserData}
+    />
+  );
+};

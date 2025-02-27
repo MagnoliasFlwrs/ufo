@@ -1,78 +1,32 @@
-import React, { useState } from "react";
+import React from "react";
 import UserContext from "@/state/UserContext";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { ProgressBar, SurveyHeader } from "@/components";
 import { getStepComponents } from "@/utils/stepComponents";
+import { useUserData } from "@/hooks/useUserData";
+import { useStepNavigation } from "@/hooks/useStepNavigation";
 
 const GetStartedLayout = () => {
-  const [step, setStep] = useState(0);
-  const [activeStep, setActiveStep] = useState(0);
-  const [activeSubStep, setActiveSubStep] = useState(0);
-  const [completedSteps, setCompletedSteps] = useState({});
+  const { userData, updateUserData } = useUserData();
+  const stepComponents = getStepComponents();
+  const { step, activeStep, activeSubStep, completedSteps, handleNext, handleBack, setActiveStep, setActiveSubStep } =
+    useStepNavigation(stepComponents);
 
-  //===================================================================================
-  // context for collecting user data
-  const [userData, setUserData] = useState({
-    measurementSystem: "metric",
-    age: "",
-    gender: "",
-    height: "",
-    weight: "",
-    idealWeight: "",
-    wishlist: [],
-    listOfInterests: [],
-  });
+  const flatSteps = getStepComponents(handleNext).flat();
+
+  const [animationParent] = useAutoAnimate();
 
   console.log(userData);
-  //===================================================================================
-  //===================================================================================
-
-  const handleNext = () => {
-    setStep((prev) => prev + 1);
-
-    const currentStep = stepComponents[activeStep];
-    if (activeSubStep < currentStep.length - 1) {
-      setActiveSubStep((prev) => prev + 1);
-    } else {
-      setCompletedSteps((prev) => ({ ...prev, [activeStep]: true }));
-      if (activeStep < stepComponents.length - 1) {
-        setActiveStep((prev) => prev + 1);
-        setActiveSubStep(0);
-      }
-    }
-  };
-
-  const handleBack = () => {
-    setStep((prev) => (prev > 0 ? prev - 1 : 0));
-
-    if (activeSubStep > 0) {
-      setActiveSubStep((prev) => prev - 1);
-      setCompletedSteps((prev) => ({ ...prev, [activeStep]: false }));
-    } else if (activeStep > 0) {
-      setActiveStep((prev) => prev - 1);
-      setActiveSubStep(stepComponents[activeStep - 1].length - 1);
-      setCompletedSteps((prev) => ({ ...prev, [activeStep - 1]: false }));
-    }
-  };
-
-  const handleUpdateUserData = (key, value) => {
-    setUserData((prev) => ({ ...prev, [key]: value }));
-  };
-
-  const stepComponents = getStepComponents(handleNext);
-  const flatSteps = stepComponents.flat();
 
   const renderStep = () => {
     const currentStep = flatSteps[step] || flatSteps[flatSteps.length - 1];
     return React.cloneElement(currentStep.component, { key: currentStep.key });
   };
 
-  //===================================================================================
-  //===================================================================================
-
   return (
-    <UserContext.Provider value={{ userData, updateUserData: handleUpdateUserData }}>
+    <UserContext.Provider value={{ userData, updateUserData }}>
       <div className='container'>
-        <SurveyHeader indexTitle={activeStep} onBack={handleBack} />
+        <SurveyHeader indexTitle={activeStep} indexSubTitle={activeSubStep} onBack={handleBack} />
 
         <ProgressBar
           stepComponents={stepComponents}
@@ -84,7 +38,7 @@ const GetStartedLayout = () => {
         />
         <br />
 
-        {renderStep()}
+        <div ref={animationParent}>{renderStep()}</div>
       </div>
     </UserContext.Provider>
   );

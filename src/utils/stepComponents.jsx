@@ -1,4 +1,3 @@
-// stepComponents.js
 import {
   MeasurementSystem,
   AgeInput,
@@ -7,43 +6,66 @@ import {
   WeightInput,
   IdealWeight,
   WishListCheckbox,
+  IntentionsListCheckbox,
+  InspiringEventCheckbox,
+  FastFoodConsumptionFrequency,
+  NonHungerTriggersChecklist,
+  DietingHistoryChecklist,
+  WeightLossSuccessSelector,
+  MealPreferencesSelector,
+  WeekStartDaySelector,
+  PreferredMealSchedule,
+  WeeklyActivities,
+  HealtConditionsCheckbox,
+  Disclaimer,
 } from "@/components";
+import React from "react";
 
-export const getStepComponents = (handleNext) => [
+const stepComponents = [
   // Demographic profile
   [
-    { component: <MeasurementSystem onNext={handleNext} />, key: "measurement" },
-    { component: <AgeInput onNext={handleNext} />, key: "age" },
-    { component: <GenderSelection onNext={handleNext} />, key: "gender" },
-    { component: <HeightInput onNext={handleNext} />, key: "height" },
-    { component: <WeightInput onNext={handleNext} />, key: "weight" },
+    { component: <MeasurementSystem />, key: "measurement" },
+    { component: <AgeInput />, key: "age" },
+    { component: <GenderSelection />, key: "gender" },
+    { component: <HeightInput />, key: "height" },
+    { component: <WeightInput />, key: "weight" },
   ],
 
   // Goal setting
   [
-    { component: <IdealWeight onNext={handleNext} />, key: "ideal-weight" },
-    { component: <WishListCheckbox onNext={handleNext} />, key: "wishlist" },
-    { component: <div>TEST</div>, key: "done" },
-    { component: <div>TEST</div>, key: "done" },
+    { component: <IdealWeight />, key: "ideal-weight" },
+    { component: <WishListCheckbox />, key: "wishlist" },
+    { component: <IntentionsListCheckbox />, key: "intentions" },
+    { component: <InspiringEventCheckbox />, key: "inspiring-events" },
   ],
 
   // Experience
   [
-    { component: <div>TEST</div>, key: "done" },
-    { component: <div>TEST</div>, key: "done" },
-    { component: <div>TEST</div>, key: "done" },
+    { component: <FastFoodConsumptionFrequency />, key: " fast-food" },
+    { component: <NonHungerTriggersChecklist />, key: "non-hunger-triggers" },
+    { component: <DietingHistoryChecklist />, key: "dieting-history" },
+    { component: <WeightLossSuccessSelector />, key: "weight-loss" },
   ],
 
   // Preferences
   [
-    { component: <div>TEST</div>, key: "done" },
-    { component: <div>TEST</div>, key: "done" },
-    { component: <div>TEST</div>, key: "done" },
+    { component: <MealPreferencesSelector />, key: "meal-preferences" },
+    { component: <WeekStartDaySelector />, key: "start-day" },
+    { component: <WeeklyActivities />, key: "activities" },
+    { component: <PreferredMealSchedule />, key: "meal-schedule" },
   ],
 
   // Health info
   [
-    { component: <div>TEST</div>, key: "done" },
-    { component: <div>All done!</div>, key: "done" },
+    { component: <HealtConditionsCheckbox />, key: "health-conditions" },
+    { component: <Disclaimer />, key: "disclaimer" },
   ],
 ];
+
+export const getStepComponents = (handleNext) =>
+  stepComponents.map((group) =>
+    group.map(({ component, key }) => ({
+      component: React.cloneElement(component, { onNext: handleNext }),
+      key,
+    })),
+  );

@@ -10,7 +10,7 @@ export const GenderSelection = ({ onNext }) => {
 
   return (
     <div>
-      <Typography variant='h6' align='left' sx={{ color: "primary.main" }}>
+      <Typography variant='h6' align='left' sx={{ color: "primary.main", fontWeight: 450 }}>
         What measurement units do you prefer?
       </Typography>
 
@@ -24,7 +24,7 @@ export const GenderSelection = ({ onNext }) => {
           fullWidth
           onClick={() => handleNext("male")}
           className='survey-select-button'
-          sx={{ mb: 2 }}>
+          sx={{ mb: 1 }}>
           Male
         </Button>
 

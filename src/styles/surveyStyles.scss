@@ -2,7 +2,7 @@
 
 .container {
   max-width: 475px;
-  height: 100vb;
+  height: 100vmax;
   margin: 0 auto;
   padding: 20px;
   text-align: center;
@@ -15,13 +15,14 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 550px;
+  height: 650px;
 }
 
 .survey-subtitle {
   font-size: 14px !important;
   font-weight: 450 !important;
   color: vars.$secondary-text-color !important;
+  margin-top: 12px !important;
 }
 
 .accept-text {
@@ -42,13 +43,57 @@
   background-color: vars.$primary-bg-color !important;
   color: vars.$primary-color !important;
   box-shadow: none !important;
-  border: 0.4px solid vars.$secondary-bg-color !important;
+  border: 0.4px solid vars.$border-color !important;
   text-transform: none !important;
   font-size: 16px !important;
+  font-weight: 450 !important;
 
   &:hover {
-    background-color: #e0e0e0 !important;
-    border-color: #b0b0b0 !important;
+    background-color: vars.$secondary-bg-color !important;
+    border-color: vars.$secondary-bg-color !important;
+  }
+}
+
+.base-select-button {
+  height: 64px !important;
+  justify-content: flex-start !important;
+  text-align: left !important;
+  margin-bottom: 8px !important;
+  border-radius: 5px !important;
+  background-color: vars.$primary-bg-color !important;
+  color: vars.$primary-color !important;
+  box-shadow: none !important;
+  border: 0.4px solid vars.$border-color !important;
+  text-transform: none !important;
+  font-size: 16px !important;
+  font-weight: 450 !important;
+  display: flex !important;
+  align-items: center !important;
+  padding: 0 16px !important;
+
+  &:hover {
+    background-color: vars.$secondary-bg-color !important;
+    border-color: vars.$secondary-bg-color !important;
+  }
+
+  .button-left-text {
+    flex-grow: 1 !important;
+    text-align: left !important;
+    font-weight: 450 !important;
+  }
+
+  .button-right-text {
+    color: vars.$secondary-color !important;
+    font-size: 16px !important;
+    font-weight: 500 !important;
+    margin-left: 16px !important;
+  }
+
+  &.with-right-text {
+    height: 84px !important;
+    .button-right-text {
+      margin-left: 8px !important;
+    }
   }
 }
 
@@ -70,6 +115,22 @@
   }
 }
 
+.secondary-button {
+  height: 54px !important;
+  border-radius: 8px !important;
+  background-color: #ffffff !important;
+  box-shadow: none !important;
+  border: 0.4px solid vars.$secondary-color !important;
+  color: vars.$secondary-color !important;
+  text-transform: none !important;
+  font-size: 16px !important;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: vars.$primary-bg-color !important;
+  }
+}
+
 //=============================================================================
 //=============================================================================
 
@@ -88,7 +149,7 @@
     background-color: #ffffff;
 
     &:focus-within {
-      border-color: vars.$primary-color;
+      border-color: vars.$secondary-border-color;
     }
 
     input {
@@ -136,7 +197,7 @@
   align-items: center;
   height: 64px;
   width: 100%;
-  border: 0.4px solid vars.$secondary-bg-color;
+  border: 0.4px solid vars.$border-color;
   background-color: vars.$primary-bg-color;
   border-radius: 5px;
   margin-bottom: 8px;
@@ -145,7 +206,7 @@
   transition: background-color 0.3s ease;
 
   &:hover {
-    background-color: #d0d0d0;
+    background-color: vars.$secondary-bg-color;
   }
 
   .checkbox-icon {
