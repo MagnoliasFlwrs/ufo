@@ -1,5 +1,6 @@
 import React from "react";
 import UserContext from "@/state/UserContext";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { ProgressBar, SurveyHeader } from "@/components";
 import { getStepComponents } from "@/utils/stepComponents";
 import { useUserData } from "@/hooks/useUserData";
@@ -13,6 +14,8 @@ const GetStartedLayout = () => {
 
   const flatSteps = getStepComponents(handleNext).flat();
 
+  const [animationParent] = useAutoAnimate();
+
   console.log(userData);
 
   const renderStep = () => {
@@ -23,7 +26,7 @@ const GetStartedLayout = () => {
   return (
     <UserContext.Provider value={{ userData, updateUserData }}>
       <div className='container'>
-        <SurveyHeader indexTitle={activeStep} onBack={handleBack} />
+        <SurveyHeader indexTitle={activeStep} indexSubTitle={activeSubStep} onBack={handleBack} />
 
         <ProgressBar
           stepComponents={stepComponents}
@@ -35,7 +38,7 @@ const GetStartedLayout = () => {
         />
         <br />
 
-        {renderStep()}
+        <div ref={animationParent}>{renderStep()}</div>
       </div>
     </UserContext.Provider>
   );
