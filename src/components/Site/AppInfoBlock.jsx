@@ -20,7 +20,7 @@ const AppInfoBlock = () => {
                         <div className="circle2"></div>
                         <div className="circle3"></div>
                         <picture>
-                            <source media="(max-width: 850px)" srcSet={image2}/>
+                            <source media="(max-width: 850px)" srcSet={image1}/>
                             <source media="(min-width: 851px)"
                                     srcSet={image1}/>
                             <img src={image1} alt="ufo-plans"/>

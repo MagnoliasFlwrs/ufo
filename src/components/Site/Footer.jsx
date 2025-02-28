@@ -9,7 +9,7 @@ const Footer = () => {
             <div className="bg-block">
                 <div className="images">
                     <picture>
-                        <source media="(max-width: 850px)" srcSet={image2}/>
+                        <source media="(max-width: 850px)" srcSet={image1}/>
                         <source media="(min-width: 851px)"
                                 srcSet={image1}/>
                         <img src={image1} alt="ufo-plans"/>
@@ -61,11 +61,6 @@ const Footer = () => {
                                 </ul>
                             </div>
                         </div>
-                        <ul className="mobile-links">
-                            <li><a href="#">Media Kit</a></li>
-                            <li><a href="#">Trademark Guidelines</a></li>
-                            <li><a href="#">LinkedIn</a></li>
-                        </ul>
                         <div className="info-row">
                             <p>Practical AI coaching that guides you daily — without diets, food
                                 restrictions, or judgment — towards lasting weight loss.</p>
