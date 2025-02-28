@@ -23,10 +23,14 @@ import React from "react";
 import LooseWeightBanner from "@components/SurveyComponents/Banners/LooseWeightBanner.jsx";
 import StickingToAPlanBanner from "@components/SurveyComponents/Banners/StickingToAPlanBanner.jsx";
 import LongTermResultsBanner from "@components/SurveyComponents/Banners/LongTermResultsBanner.jsx";
+import ExperiencePromoBanner from "@components/SurveyComponents/Banners/ExperiencePromoBanner.jsx";
+import PreferencesBanner from "@components/SurveyComponents/Banners/PreferencesBanner.jsx";
 
 const stepComponents = [
   // Demographic profile
   [
+    { component: <PreferencesBanner />, key: "banner" },
+    { component: <ExperiencePromoBanner />, key: "banner" },
     { component: <LongTermResultsBanner />, key: "banner" },
     { component: <StickingToAPlanBanner />, key: "banner" },
     { component: <LooseWeightBanner />, key: "banner" },
