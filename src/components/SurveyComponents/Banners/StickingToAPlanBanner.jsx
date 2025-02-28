@@ -49,7 +49,7 @@ const StickingToAPlanBanner = ({onNext}) => {
                 />
             </Box>
             <Button variant='contained' fullWidth onClick={onNext} className='survey-next-button'>
-                Next
+                Got it!
             </Button>
         </Box>
     );

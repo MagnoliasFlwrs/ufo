@@ -20,10 +20,16 @@ import {
   Disclaimer,
 } from "@/components";
 import React from "react";
+import LooseWeightBanner from "@components/SurveyComponents/Banners/LooseWeightBanner.jsx";
+import StickingToAPlanBanner from "@components/SurveyComponents/Banners/StickingToAPlanBanner.jsx";
+import LongTermResultsBanner from "@components/SurveyComponents/Banners/LongTermResultsBanner.jsx";
 
 const stepComponents = [
   // Demographic profile
   [
+    { component: <LongTermResultsBanner />, key: "banner" },
+    { component: <StickingToAPlanBanner />, key: "banner" },
+    { component: <LooseWeightBanner />, key: "banner" },
     { component: <MeasurementSystem />, key: "measurement" },
     { component: <AgeInput />, key: "age" },
     { component: <GenderSelection />, key: "gender" },
