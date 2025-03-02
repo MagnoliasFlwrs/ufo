@@ -7,6 +7,7 @@
   background-color: #f9f9f9;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
 }
 
 .content {
@@ -200,6 +201,23 @@
   color: #241063;
   font-size: 16px;
   font-weight: 450;
+}
+
+.visible {
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out;
+  position: static;
+  z-index: 1;
+  pointer-events: auto;
+}
+
+.hidden {
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  position: absolute;
+  width: calc(100% - 40px);
+  z-index: -100;
+  pointer-events: none;
 }
 
 /*# sourceMappingURL=main.css.map */
