@@ -20,8 +20,18 @@ export const CheckboxList = ({
     onNext();
   };
 
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      if (selectedOptions.length > 0) {
+        handleNext();
+      } else if (buttonText) {
+        onNext();
+      }
+    }
+  };
+
   return (
-    <div className='content'>
+    <div className='content' onKeyDown={handleKeyDown} tabIndex={0}>
       <div>
         <Typography variant='h6' align='left' sx={{ color: "primary.main", fontWeight: 450 }}>
           {title}

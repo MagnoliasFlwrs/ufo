@@ -1,8 +1,9 @@
-import { useUserContext } from "@/state/UserContext";
+import { useUserStore } from "@/store/store";
 import { Typography, Button, Box } from "@mui/material";
 
 export const GenderSelection = ({ onNext }) => {
-  const { updateUserData } = useUserContext();
+  const updateUserData = useUserStore((state) => state.updateUserData);
+
   const handleNext = (gender) => {
     updateUserData("gender", gender);
     onNext();

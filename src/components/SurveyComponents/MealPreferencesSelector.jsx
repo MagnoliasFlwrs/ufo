@@ -1,9 +1,9 @@
-import { useUserContext } from "@/state/UserContext";
+import { useUserStore } from "@/store/store";
 import { Typography, Box } from "@mui/material";
 import { BaseSelectButton } from ".";
 
 export const MealPreferencesSelector = ({ onNext }) => {
-  const { updateUserData } = useUserContext();
+  const updateUserData = useUserStore((state) => state.updateUserData);
 
   const options = [
     { label: "Classic", value: "Classic" },

@@ -21,3 +21,5 @@ export { PreferredMealSchedule } from "./PreferredMealSchedule.jsx";
 export { WeeklyActivities } from "./WeeklyActivities.jsx";
 export { HealtConditionsCheckbox } from "./HealtConditionsCheckbox.jsx";
 export { Disclaimer } from "./Disclaimer.jsx";
+
+export * from "./Banners";
