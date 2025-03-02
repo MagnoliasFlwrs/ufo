@@ -1,3 +1,4 @@
+import React from "react";
 import {
   MeasurementSystem,
   AgeInput,
@@ -19,21 +20,12 @@ import {
   HealtConditionsCheckbox,
   Disclaimer,
 } from "@/components";
-import React from "react";
-import LooseWeightBanner from "@components/SurveyComponents/Banners/LooseWeightBanner.jsx";
-import StickingToAPlanBanner from "@components/SurveyComponents/Banners/StickingToAPlanBanner.jsx";
-import LongTermResultsBanner from "@components/SurveyComponents/Banners/LongTermResultsBanner.jsx";
-import ExperiencePromoBanner from "@components/SurveyComponents/Banners/ExperiencePromoBanner.jsx";
-import PreferencesBanner from "@components/SurveyComponents/Banners/PreferencesBanner.jsx";
+import GoalBanner from "@components/SurveyComponents/Banners/GoalBanner.jsx";
 
 const stepComponents = [
   // Demographic profile
   [
-    { component: <PreferencesBanner />, key: "banner" },
-    { component: <ExperiencePromoBanner />, key: "banner" },
-    { component: <LongTermResultsBanner />, key: "banner" },
-    { component: <StickingToAPlanBanner />, key: "banner" },
-    { component: <LooseWeightBanner />, key: "banner" },
+    { component: <GoalBanner />, key: "measurement" },
     { component: <MeasurementSystem />, key: "measurement" },
     { component: <AgeInput />, key: "age" },
     { component: <GenderSelection />, key: "gender" },
@@ -73,9 +65,9 @@ const stepComponents = [
 ];
 
 export const getStepComponents = (handleNext) =>
-  stepComponents.map((group) =>
-    group.map(({ component, key }) => ({
-      component: React.cloneElement(component, { onNext: handleNext }),
-      key,
-    })),
-  );
+    stepComponents.map((group) =>
+        group.map(({ component, key }) => ({
+          component: React.cloneElement(component, { onNext: handleNext }),
+          key,
+        })),
+    );
