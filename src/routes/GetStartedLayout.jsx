@@ -1,14 +1,11 @@
 import React from "react";
-import UserContext from "@/state/UserContext";
 import { Banners, ProgressBar, SurveyHeader } from "@/components";
 import { getStepComponents } from "@/utils/stepComponents";
-import { useUserData } from "@/hooks/useUserData";
 import { useStepNavigation } from "@/hooks/useStepNavigation";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 const GetStartedLayout = () => {
   const [isBannerVisible, setIsBannerVisible] = React.useState(false);
-  const { userData, updateUserData } = useUserData();
   const stepComponents = getStepComponents();
 
   const { step, activeStep, activeSubStep, completedSteps, handleNext, handleBack, setActiveStep, setActiveSubStep } =
@@ -24,7 +21,7 @@ const GetStartedLayout = () => {
   };
 
   return (
-    <UserContext.Provider value={{ userData, updateUserData }}>
+    <>
       <div ref={animationParent} className='container'>
         {/* Banners */}
         <Banners
@@ -56,7 +53,7 @@ const GetStartedLayout = () => {
           </div>
         </div>
       </div>
-    </UserContext.Provider>
+    </>
   );
 };
 

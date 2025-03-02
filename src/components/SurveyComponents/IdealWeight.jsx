@@ -1,15 +1,17 @@
 import { useState } from "react";
-import { useUserContext } from "@/state/UserContext";
 import { Button, Typography, Box } from "@mui/material";
 import { SurveyInput } from ".";
+import { useUserStore } from "@/store/store";
 
 export const IdealWeight = ({ onNext }) => {
   const [idealWeight, setIdealWeight] = useState("");
   const [error, setError] = useState("");
   const [isGoalAccepted, setIsGoalAccepted] = useState(null);
-  const { updateUserData, userData } = useUserContext();
 
-  const isMetric = userData.measurementSystem === "metric";
+  const updateUserData = useUserStore((state) => state.updateUserData);
+  const measurementSystem = useUserStore((state) => state.measurementSystem);
+
+  const isMetric = measurementSystem === "metric";
   const poundsToKg = (pounds) => Math.round(pounds * 0.453592);
 
   // Validate weight input
@@ -66,8 +68,14 @@ export const IdealWeight = ({ onNext }) => {
     onNext();
   };
 
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      handleNext();
+    }
+  };
+
   return (
-    <div className='content'>
+    <div className='content' onKeyDown={handleKeyDown} tabIndex={0}>
       <div>
         <Typography variant='h6' align='left' gutterBottom sx={{ color: "primary.main", fontWeight: 450 }}>
           What is your ideal weight that you want to reach?
@@ -112,7 +120,7 @@ export const IdealWeight = ({ onNext }) => {
         </Box>
       </div>
 
-      <Button variant='contained' fullWidth onClick={handleNext} className='survey-next-button'>
+      <Button variant='contained' fullWidth onClick={handleKeyDown} className='survey-next-button'>
         Next
       </Button>
     </div>

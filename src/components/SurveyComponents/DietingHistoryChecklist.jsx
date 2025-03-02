@@ -1,9 +1,8 @@
-import { useUserContext } from "@/state/UserContext";
 import { CheckboxList } from "./BaseSurveyCheckbox/CheckboxList";
+import { useUserStore } from "@/store/store";
 
 export const DietingHistoryChecklist = ({ onNext }) => {
-  const { updateUserData } = useUserContext();
-
+  const updateUserData = useUserStore((state) => state.updateUserData);
   const options = ["Keto", "Calorie-deficit diets", "Intermittent fasting", "Low carb diet"];
 
   return (

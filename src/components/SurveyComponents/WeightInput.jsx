@@ -1,15 +1,17 @@
 import { useState } from "react";
-import { useUserContext } from "@/state/UserContext";
 import { Button, Typography } from "@mui/material";
 import { SurveyInput } from ".";
+import { useUserStore } from "@/store/store";
 
 export const WeightInput = ({ onNext }) => {
   const [weight, setWeight] = useState("");
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const { updateUserData, userData } = useUserContext();
 
-  const isMetric = userData.measurementSystem === "metric";
+  const updateUserData = useUserStore((state) => state.updateUserData);
+  const measurementSystem = useUserStore((state) => state.measurementSystem);
+
+  const isMetric = measurementSystem === "metric";
 
   const poundsToKg = (pounds) => {
     return Math.round(pounds * 0.453592);
@@ -59,8 +61,14 @@ export const WeightInput = ({ onNext }) => {
     setErrorMessage("");
   };
 
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      handleNext();
+    }
+  };
+
   return (
-    <div className='content'>
+    <div className='content' onKeyDown={handleKeyDown} tabIndex={0}>
       <div>
         <Typography variant='h6' align='left' sx={{ color: "primary.main", fontWeight: 450 }}>
           What’s your weight?
@@ -85,7 +93,7 @@ export const WeightInput = ({ onNext }) => {
         />
       </div>
 
-      <Button variant='contained' fullWidth onClick={handleNext} className='survey-next-button'>
+      <Button variant='contained' fullWidth onClick={handleKeyDown} className='survey-next-button'>
         Next
       </Button>
     </div>

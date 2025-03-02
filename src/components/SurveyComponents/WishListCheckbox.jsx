@@ -1,8 +1,8 @@
-import { useUserContext } from "@/state/UserContext";
+import { useUserStore } from "@/store/store";
 import { CheckboxList } from "./BaseSurveyCheckbox/CheckboxList";
 
 export const WishListCheckbox = ({ onNext }) => {
-  const { updateUserData } = useUserContext();
+  const updateUserData = useUserStore((state) => state.updateUserData);
 
   const options = [
     "Guidance and support",

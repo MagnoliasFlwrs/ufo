@@ -1,13 +1,14 @@
 import { useState } from "react";
-import { useUserContext } from "@/state/UserContext";
 import { Button, Typography } from "@mui/material";
 import { SurveyInput } from ".";
+import { useUserStore } from "@/store/store";
 
 export const AgeInput = ({ onNext }) => {
   const [age, setAge] = useState("");
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const { updateUserData } = useUserContext();
+
+  const updateUserData = useUserStore((state) => state.updateUserData);
 
   const handleNext = () => {
     const ageNumber = parseInt(age, 10);
@@ -35,8 +36,14 @@ export const AgeInput = ({ onNext }) => {
     setErrorMessage("");
   };
 
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      handleNext();
+    }
+  };
+
   return (
-    <div className='content'>
+    <div className='content' onKeyDown={handleKeyDown} tabIndex={0}>
       <div>
         <Typography variant='h6' align='left' gutterBottom sx={{ color: "primary.main", fontWeight: 450 }}>
           How old are you?

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Box, Typography } from "@mui/material";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 import img1 from "../../Site/site-images/expirienceBanner1.png";
 import img2 from "../../Site/site-images/expirienceBanner2.png";
@@ -18,6 +19,8 @@ export const ExperiencePromoBanner = ({ onClose }) => {
 
   const [currentSlide, setCurrentSlide] = useState(0);
   const [dots, setDots] = useState("");
+
+  const [animationParent] = useAutoAnimate({ duration: 300, easing: "ease-in-out" });
 
   useEffect(() => {
     const slideInterval = setInterval(() => {
@@ -67,6 +70,7 @@ export const ExperiencePromoBanner = ({ onClose }) => {
       </Box>
 
       <Box
+        ref={animationParent}
         className='banner-slide'
         sx={{
           display: "flex",
@@ -77,26 +81,31 @@ export const ExperiencePromoBanner = ({ onClose }) => {
           height: "485px",
           marginBottom: "74px",
         }}>
-        <Typography
-          variant='h6'
+        <Box
+          key={currentSlide}
           sx={{
-            color: "#241063",
-            fontSize: "24px",
-            fontWeight: "500",
-            lineHeight: "120%",
-            marginBottom: "58px",
-            textAlign: "center",
             maxWidth: "311px",
           }}>
-          {data[currentSlide].title}
-        </Typography>
+          <Typography
+            variant='h6'
+            sx={{
+              color: "#241063",
+              fontSize: "24px",
+              fontWeight: "500",
+              lineHeight: "120%",
+              marginBottom: "58px",
+              textAlign: "center",
+            }}>
+            {data[currentSlide].title}
+          </Typography>
 
-        <Box>
-          <img
-            src={data[currentSlide].image}
-            alt='banner-image'
-            style={{ width: "100%", height: "100%", objectFit: "contain", objectPosition: "center" }}
-          />
+          <Box>
+            <img
+              src={data[currentSlide].image}
+              alt='banner-image'
+              style={{ width: "100%", height: "100%", objectFit: "contain", objectPosition: "center" }}
+            />
+          </Box>
         </Box>
       </Box>
 
