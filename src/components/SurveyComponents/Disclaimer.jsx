@@ -1,15 +1,8 @@
-import { useState } from "react";
-import { Typography, Button, Box, Snackbar } from "@mui/material";
+import { Typography, Button, Box } from "@mui/material";
 
-export const Disclaimer = () => {
-  const [openSnackbar, setOpenSnackbar] = useState(false);
-
+export const Disclaimer = ({ onNext }) => {
   const handleClick = () => {
-    setOpenSnackbar(true);
-  };
-
-  const handleCloseSnackbar = () => {
-    setOpenSnackbar(false);
+    onNext();
   };
 
   return (
@@ -47,13 +40,6 @@ export const Disclaimer = () => {
         <Button variant='contained' fullWidth onClick={handleClick} className='survey-next-button'>
           Accept
         </Button>
-
-        <Snackbar
-          open={openSnackbar}
-          autoHideDuration={3000}
-          onClose={handleCloseSnackbar}
-          message='All done! Thanks for completing the survey.'
-        />
       </div>
     </div>
   );
