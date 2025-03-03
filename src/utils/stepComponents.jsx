@@ -20,12 +20,10 @@ import {
   HealtConditionsCheckbox,
   Disclaimer,
 } from "@/components";
-import GoalBanner from "@components/SurveyComponents/Banners/GoalBanner.jsx";
 
 const stepComponents = [
   // Demographic profile
   [
-    { component: <GoalBanner />, key: "measurement" },
     { component: <MeasurementSystem />, key: "measurement" },
     { component: <AgeInput />, key: "age" },
     { component: <GenderSelection />, key: "gender" },
@@ -65,9 +63,9 @@ const stepComponents = [
 ];
 
 export const getStepComponents = (handleNext) =>
-    stepComponents.map((group) =>
-        group.map(({ component, key }) => ({
-          component: React.cloneElement(component, { onNext: handleNext }),
-          key,
-        })),
-    );
+  stepComponents.map((group) =>
+    group.map(({ component, key }) => ({
+      component: React.cloneElement(component, { onNext: handleNext }),
+      key,
+    })),
+  );

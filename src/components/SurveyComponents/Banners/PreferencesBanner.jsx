@@ -38,23 +38,12 @@ export const PreferencesBanner = ({ onClose }) => {
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [animationParent] = useAutoAnimate({ duration: 300, easing: "ease-in-out" });
-
-  useEffect(() => {
-    if (currentIndex === data.length - 1) {
-      const timeoutId = setTimeout(() => {
-        onClose && onClose();
-      }, 0);
-
-      return () => clearTimeout(timeoutId);
-    }
-  }, [currentIndex, onClose]);
+  const [animationParent] = useAutoAnimate();
 
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => {
         if (prevIndex === data.length - 1) {
-          clearInterval(interval);
           return prevIndex;
         }
         return prevIndex + 1;
@@ -63,6 +52,16 @@ export const PreferencesBanner = ({ onClose }) => {
 
     return () => clearInterval(interval);
   }, [data.length]);
+
+  useEffect(() => {
+    if (currentIndex === data.length - 1) {
+      const timeoutId = setTimeout(() => {
+        onClose && onClose();
+      }, 4000);
+
+      return () => clearTimeout(timeoutId);
+    }
+  }, [currentIndex, onClose]);
 
   const currentSlide = data[currentIndex];
 
