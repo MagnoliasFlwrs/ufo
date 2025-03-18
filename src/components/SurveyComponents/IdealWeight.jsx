@@ -16,17 +16,16 @@ export const IdealWeight = ({ onNext }) => {
   const isMetric = measurementSystem === "metric";
   const poundsToKg = (pounds) => Math.round(pounds * 0.453592);
 
-  // Calculate minimum and maximum normal weight based on height
+
   const calculateNormalWeightRange = (heightCm) => {
     const heightM = heightCm / 100;
-    const minWeight = 18.5 * heightM * heightM; // BMI = 18.5
-    const maxWeight = 24.9 * heightM * heightM; // BMI = 24.9
+    const minWeight = 18.5 * heightM * heightM;
+    const maxWeight = 24.9 * heightM * heightM;
     return { minWeight, maxWeight };
   };
 
   const { minWeight, maxWeight } = calculateNormalWeightRange(userHeight);
 
-  // Validate weight input
   const validateWeight = (weightValue) => {
     if (!weightValue) {
       return isMetric
@@ -37,20 +36,17 @@ export const IdealWeight = ({ onNext }) => {
     const min = isMetric ? minWeight : minWeight * 2.20462;
     const max = isMetric ? maxWeight : maxWeight * 2.20462;
 
-    if (weightValue < min || weightValue > max) {
-      return `Please enter a valid weight between ${Math.round(min)} and ${Math.round(max)} ${isMetric ? "kg" : "lbs"}`;
+    if (weightValue < min) {
+      return `Please enter a valid from ${Math.round(min)}`;
     }
-
     return "";
   };
 
-  // Check if the weight meets WHO standards
   const checkGoalAcceptance = (weightValue) => {
     const weightInKg = isMetric ? weightValue : poundsToKg(weightValue);
     setIsGoalAccepted(weightInKg >= 50 && weightInKg <= 120);
   };
 
-  // Handle input change
   const handleWeightChange = (e) => {
     const value = e.target.value;
     setIdealWeight(value);
@@ -101,7 +97,6 @@ export const IdealWeight = ({ onNext }) => {
               helperText={error}
               inputProps={{
                 min: isMetric ? Math.round(minWeight) : Math.round(minWeight * 2.20462),
-                max: isMetric ? Math.round(maxWeight) : Math.round(maxWeight * 2.20462),
                 step: isMetric ? "1" : "0.1",
               }}
               label={isMetric ? "kg" : "lbs"}
