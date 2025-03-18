@@ -11,6 +11,7 @@ export const HealtConditionsCheckbox = ({ onNext }) => {
     "High cholesterol",
     "Diabetes",
     "Food allergy or Intolerance",
+    "No risks diagnosed",
   ];
 
   return (

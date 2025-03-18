@@ -4,7 +4,7 @@ import { CheckboxList } from "./BaseSurveyCheckbox/CheckboxList";
 export const NonHungerTriggersChecklist = ({ onNext }) => {
   const updateUserData = useUserStore((state) => state.updateUserData);
 
-  const options = ["Anxiety", "Boredom", "Loneliness", "Stress", "Frustration", "It is more like a habit"];
+  const options = ["Anxiety", "Boredom", "Loneliness", "Stress", "Frustration", "It is more like a habit" , "I don't eat if not hungry"];
 
   return (
     <CheckboxList

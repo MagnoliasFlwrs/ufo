@@ -9,7 +9,7 @@ export const WeeklyActivities = ({ onNext }) => {
     {
       label: "Sedentary work, no exercises, rare walks and passion to change lifestyle",
       value: "sedentary",
-      rightText: "1.5x",
+      rightText: "1x",
     },
     {
       label: "Lightly active lifestyle, about 2 hours of intentional exercises a week",
@@ -19,12 +19,12 @@ export const WeeklyActivities = ({ onNext }) => {
     {
       label: "Moderately active days, about 5 hours of intentional exercises a week",
       value: "moderately_active",
-      rightText: "1.5x",
+      rightText: "2x",
     },
     {
       label: "Very active schedule, about 7 hours of intentional exercises a week",
       value: "very_active",
-      rightText: "1.5x",
+      rightText: "2.5x",
     },
   ];
 

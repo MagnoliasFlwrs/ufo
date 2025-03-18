@@ -3,7 +3,7 @@ import { useUserStore } from "@/store/store";
 
 export const DietingHistoryChecklist = ({ onNext }) => {
   const updateUserData = useUserStore((state) => state.updateUserData);
-  const options = ["Keto", "Calorie-deficit diets", "Intermittent fasting", "Low carb diet"];
+  const options = ["Keto", "Calorie-deficit diets", "Intermittent fasting", "Low carb diet", "No, never"];
 
   return (
     <CheckboxList
