@@ -6,9 +6,13 @@ import GetStartedLayout from "./routes/GetStartedLayout.jsx";
 import theme from "./theme/theme";
 import "./index.css";
 import "./styles/main.scss";
+import {useEffect} from "react";
 
 // eslint-disable-next-line react-refresh/only-export-components
 const App = () => {
+  useEffect(() => {
+    window.Paddle.Setup({ vendor: 29075 });
+  }, []);
   const routes = [
     {
       path: "/",

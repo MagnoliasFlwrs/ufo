@@ -20,10 +20,12 @@ import {
   HealtConditionsCheckbox,
   Disclaimer,
 } from "@/components";
+import PaddleCheckout from "@components/Paddle/PaddleCheckout.jsx";
 
 const stepComponents = [
   // Demographic profile
   [
+    { component: <PaddleCheckout />, key: "123" },
     { component: <MeasurementSystem />, key: "measurement" },
     { component: <AgeInput />, key: "age" },
     { component: <GenderSelection />, key: "gender" },
