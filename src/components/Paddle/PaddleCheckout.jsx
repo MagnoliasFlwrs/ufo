@@ -1,28 +1,22 @@
-import React from "react";
+import { usePaddle } from "@/hooks/usePaddle";
 
 const PaddleCheckout = () => {
-    const handleCheckout = (planId) => {
-        window.Paddle.Checkout.open({
-            productId: planId,
-            passthrough: JSON.stringify({ userId: "12345" }),
-            successCallback: (data) => console.log("Успешная покупка:", data),
-            closeCallback: () => console.log("Чекаут закрыт"),
-            displayMode: "newTab"
-        });
-    };
+  const PRICE_IDS = {
+    MONTHLY: "pri_01jqf6227819yce54z6hdf0hcj",
+    YEARLY: "pri_01jqf5zd53n6wn620w84kyaxm0",
+  };
 
+  const { openCheckout, isPaddleReady } = usePaddle();
 
-    return (
-        <div>
-            <h2>Выберите подписку</h2>
-            <button onClick={() => handleCheckout('pro_01jq7cw48bph87tn621xvj58p5')}>
-                Подписка $0.1/месяц
-            </button>
-            <button onClick={() => handleCheckout('pro_01jq7cx43g2vv1y6g3w5qpnvj6')}>
-                Подписка $1/год
-            </button>
-        </div>
-    );
+  if (!isPaddleReady) return <div>Загрузка платежной системы...</div>;
+
+  return (
+    <div>
+      <h2>Выберите подписку</h2>
+      <button onClick={() => openCheckout(PRICE_IDS.MONTHLY)}>Подписка $1/месяц</button>
+      <button onClick={() => openCheckout(PRICE_IDS.YEARLY)}>Подписка $10/год</button>
+    </div>
+  );
 };
 
 export default PaddleCheckout;
