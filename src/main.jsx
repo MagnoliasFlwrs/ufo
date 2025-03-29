@@ -6,7 +6,7 @@ import GetStartedLayout from "./routes/GetStartedLayout.jsx";
 import theme from "./theme/theme";
 import "./index.css";
 import "./styles/main.scss";
-import PaddleCheckout from "./components/Paddle/PaddleCheckout.jsx";
+import { PaddleCheckout } from "./components/Paddle/PaddleCheckout.jsx";
 
 // eslint-disable-next-line react-refresh/only-export-components
 const App = () => {
