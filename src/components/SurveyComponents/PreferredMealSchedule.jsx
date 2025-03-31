@@ -1,17 +1,28 @@
 import { useUserStore } from "@/store/store";
 import { Typography, Box } from "@mui/material";
 import { BaseSelectButton } from ".";
+import { useEffect, useState } from "react";
+import MealDiets from "@/data/MealDiets.json";
 
 export const PreferredMealSchedule = ({ onNext }) => {
-  const updateUserData = useUserStore((state) => state.updateUserData);
+  const { mealPreference, dailyCalories, selectMealPlan } = useUserStore();
+  const [filteredPlans, setFilteredPlans] = useState([]);
 
-  const options = [
-    { label: "Pesco 1400-1600 (3 times no snacks)", value: "3 times" },
-    { label: "Pesco 1400-1600 (3 times + 1  snack)", value: "3 times + 1 snack" },
-  ];
+  useEffect(() => {
+    if (!mealPreference || !dailyCalories) {
+      setFilteredPlans([]);
+      return;
+    }
 
-  const handleNext = (value) => {
-    updateUserData("mealSchedule", value);
+    const selectedDiet = MealDiets.find((diet) => diet.type === mealPreference);
+    const plans =
+      selectedDiet?.plans.filter((plan) => dailyCalories >= plan.kcalMin && dailyCalories <= plan.kcalMax) || [];
+
+    setFilteredPlans(plans);
+  }, [mealPreference, dailyCalories]);
+
+  const handleNext = (planId) => {
+    selectMealPlan(planId);
     onNext();
   };
 
@@ -26,9 +37,9 @@ export const PreferredMealSchedule = ({ onNext }) => {
       </Typography>
 
       <Box sx={{ mt: 3 }}>
-        {options.map((option) => (
-          <BaseSelectButton key={option.value} onClick={() => handleNext(option.value)}>
-            {option.label}
+        {filteredPlans.map((plan) => (
+          <BaseSelectButton key={plan.id} onClick={() => handleNext(plan.id)}>
+            {plan.title}
           </BaseSelectButton>
         ))}
       </Box>

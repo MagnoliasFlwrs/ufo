@@ -1,16 +1,15 @@
 import { useUserStore } from "@/store/store";
 import { Typography, Box } from "@mui/material";
 import { BaseSelectButton } from ".";
+import MealDiets from "@/data/MealDiets.json";
 
 export const MealPreferencesSelector = ({ onNext }) => {
   const updateUserData = useUserStore((state) => state.updateUserData);
 
-  const options = [
-    { label: "Classic", value: "Classic" },
-    { label: "Pescatarian", value: "Pescatarian" },
-    { label: "Vegetarian", value: "Vegetarian" },
-    { label: "Fully plant-based", value: "Fully plant-based" },
-  ];
+  const options = MealDiets.map((plan) => ({
+    label: plan.title,
+    value: plan.type,
+  }));
 
   const handleNext = (value) => {
     updateUserData("mealPreference", value);

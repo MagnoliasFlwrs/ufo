@@ -7,24 +7,29 @@ export const WeeklyActivities = ({ onNext }) => {
 
   const options = [
     {
-      label: "Sedentary work, no exercises, rare walks and passion to change lifestyle",
+      label: "Sedentary lifestyle (office work without workouts)",
       value: "sedentary",
-      rightText: "1x",
+      coefficient: "1.2x",
     },
     {
-      label: "Lightly active lifestyle, about 2 hours of intentional exercises a week",
+      label: "Light activity (1-3 workouts per week)",
       value: "lightly_active",
-      rightText: "1.5x",
+      coefficient: "1.375x",
     },
     {
-      label: "Moderately active days, about 5 hours of intentional exercises a week",
+      label: "Moderate activity (3-5 workouts)",
       value: "moderately_active",
-      rightText: "2x",
+      coefficient: "1.55x",
     },
     {
-      label: "Very active schedule, about 7 hours of intentional exercises a week",
+      label: "High activity (6-7 workouts)",
       value: "very_active",
-      rightText: "2.5x",
+      coefficient: "1.725x",
+    },
+    {
+      label: "Extreme activity (physically demanding job + workouts)",
+      value: "extremely_active",
+      coefficient: "1.9x",
     },
   ];
 
@@ -41,7 +46,7 @@ export const WeeklyActivities = ({ onNext }) => {
 
       <Box sx={{ mt: 3 }}>
         {options.map((option) => (
-          <BaseSelectButton key={option.value} onClick={() => handleNext(option.value)} rightText={option.rightText}>
+          <BaseSelectButton key={option.value} onClick={() => handleNext(option.value)} rightText={option.coefficient}>
             {option.label}
           </BaseSelectButton>
         ))}
