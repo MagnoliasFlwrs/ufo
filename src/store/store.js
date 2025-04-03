@@ -3,6 +3,34 @@ import MealDiets from "@/data/MealDiets.json";
 import { calculateCalories } from "@/utils/calculations";
 
 export const useUserStore = create((set) => ({
+  measurementSystem: "metric",
+  age: "",
+  gender: "",
+  height: "",
+  weight: "",
+  idealWeight: "",
+  wishlist: [],
+  listOfIntentions: [],
+  inspiringEvents: [],
+  fastFoodTime: "",
+  nonHungerTriggers: [],
+  dietingHistory: [],
+  weightLossSuccess: "",
+  mealPreference: "",
+  startDay: "",
+  mealSchedule: "",
+  weeklyActivities: "",
+  healthConditions: [],
+  dailyCalories: null,
+  selectedMealPlan: null,
+
+  paymentData: {
+    email: null,
+    checkoutId: null,
+    orderId: null,
+    subscriptionId: null,
+  },
+
   updateUserData: (key, value) =>
     set((state) => {
       const newState = { ...state, [key]: value };
@@ -23,5 +51,15 @@ export const useUserStore = create((set) => ({
         mealSchedule: planId,
         selectedMealPlan: selectedPlan || null,
       };
+    }),
+
+  setPaymentData: (paymentData) =>
+    set({
+      paymentData: {
+        email: paymentData.email,
+        checkoutId: paymentData.checkoutId,
+        orderId: paymentData.orderId,
+        subscriptionId: paymentData.subscriptionId,
+      },
     }),
 }));

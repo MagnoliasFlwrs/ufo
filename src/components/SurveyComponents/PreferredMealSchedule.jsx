@@ -27,22 +27,33 @@ export const PreferredMealSchedule = ({ onNext }) => {
   };
 
   return (
-    <div>
-      <Typography variant='h6' align='left' sx={{ color: "primary.main", fontWeight: 450 }}>
+    <Box component='div'>
+      <Typography variant='h6' align='left' sx={{ color: "primary.main", fontWeight: 450 }} component='div'>
         What meal schedule works best for you?
       </Typography>
 
-      <Typography variant='h6' align='left' className='survey-subtitle'>
+      <Typography variant='h6' align='left' className='survey-subtitle' component='div'>
         The meal schedule directly impacts your meal plan, choose the one that suits you best.
       </Typography>
 
       <Box sx={{ mt: 3 }}>
         {filteredPlans.map((plan) => (
-          <BaseSelectButton key={plan.id} onClick={() => handleNext(plan.id)}>
-            {plan.title}
+          <BaseSelectButton key={plan.id} onClick={() => handleNext(plan.id)} sx={{ textAlign: "left" }}>
+            <Box component='span'>
+              {plan.title}
+              <Box
+                component='span'
+                sx={{
+                  display: "block",
+                  fontSize: "0.8rem",
+                  color: "text.secondary",
+                }}>
+                ({plan.kcalMin}-{plan.kcalMax} kcal)
+              </Box>
+            </Box>
           </BaseSelectButton>
         ))}
       </Box>
-    </div>
+    </Box>
   );
 };
