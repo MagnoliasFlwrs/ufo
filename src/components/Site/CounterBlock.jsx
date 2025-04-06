@@ -11,7 +11,7 @@ const CounterBlock = () => {
                 <p className="title">people started their life-changing UFO
                     journey. <span>Now it’s your turn!</span> </p>
                 <a class='join' href="#">Join UFO</a>
-                <p className='social'>
+                <p className='social' id='contacts'>
                     Read our educational <a href="#">
                         Blog
                         <svg xmlns="http://www.w3.org/2000/svg" width="73" height="73" viewBox="0 0 73 73" fill="none">

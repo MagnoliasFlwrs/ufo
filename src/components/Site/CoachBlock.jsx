@@ -6,7 +6,7 @@ import coach3 from './site-images/coach3.png'
 
 const CoachBlock = () => {
     return (
-        <div className='coach-block'>
+        <div className='coach-block' id='features'>
             <div className="site-content">
                 <div className="head-block">
                     <h2>Say hello to your very own

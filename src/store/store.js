@@ -1,6 +1,9 @@
 import { create } from "zustand";
 import MealDiets from "@/data/MealDiets.json";
 import { calculateCalories } from "@/utils/calculations";
+import {createUserWithEmailAndPassword} from "firebase/auth";
+import {doc, setDoc} from "firebase/firestore";
+import {db} from "@/firebase.js";
 
 export const useUserStore = create((set) => ({
   measurementSystem: "metric",
@@ -49,4 +52,27 @@ export const useUserStore = create((set) => ({
     }),
 
   setPaymentData: (data) => set({ customerData: data }),
+}));
+
+export const useFirestoreDataStore = create((set) => ({
+    createUser: async ({ email, password, name, onboardingData }) => {
+        try {
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
+
+            await setDoc(doc(db, 'users', user.uid), {
+                name,
+                email,
+                uid: user.uid,
+                createdAt: new Date(),
+            });
+
+            await setDoc(doc(db, 'users', user.uid, 'onboarding_user_info', user.uid), onboardingData);
+
+            alert('Пользователь успешно создан и добавлен в Firestore!');
+        } catch (error) {
+            alert(error.message);
+        }
+    }
+
 }));

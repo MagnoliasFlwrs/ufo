@@ -94,7 +94,9 @@ body {
   overflow-x: hidden;
 
 }
-
+html {
+  scroll-behavior: smooth;
+}
 .site-content {
   max-width: calc(1520px + 16px * 2);
   width: 100%;

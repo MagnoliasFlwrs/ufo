@@ -4,7 +4,7 @@ import FaqAccordion from "@components/Site/FaqAccordion.jsx";
 
 const FaqBlock = () => {
     return (
-        <div className="faq-block">
+        <div className="faq-block" id='faq'>
             <div className="site-content">
                 <h2>FAQ</h2>
                 <FaqAccordion/>

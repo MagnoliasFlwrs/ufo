@@ -7,7 +7,7 @@ import bannerMobile from './site-images/banner-mob.png'
 
 const AppInfoBlock = () => {
     return (
-        <div className='app-info-block'>
+        <div className='app-info-block' id='about'>
             <div className="site-content">
                 <div className="tb-1">
                     <p>Find confidence with a <span className='tb-s-1'>UFO</span> <span

@@ -22,11 +22,11 @@ const Header = () => {
                     </a>
                     <nav className="navigation">
                         <ul>
-                            <li><a href="#">About</a></li>
-                            <li><a href="#">Testimonials</a></li>
-                            <li><a href="#">App Features</a></li>
-                            <li><a href="#">FAQ</a></li>
-                            <li><a href="#">Contacts</a></li>
+                            <li><a href="#about">About</a></li>
+                            <li><a href="#testimonials">Testimonials</a></li>
+                            <li><a href="#features">App Features</a></li>
+                            <li><a href="#faq">FAQ</a></li>
+                            <li><a href="#contacts">Contacts</a></li>
                         </ul>
                     </nav>
                     <div className="burger-wrap">
