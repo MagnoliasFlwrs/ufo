@@ -1,8 +1,11 @@
+import { useUserStore } from "@/store/store";
 import { useEffect, useState, useCallback } from "react";
 
 export const usePaddle = () => {
   const [isPaddleReady, setIsPaddleReady] = useState(false);
   const [error, setError] = useState(null);
+
+  const setPaymentData = useUserStore((state) => state.setPaymentData);
 
   const initPaddle = useCallback(() => {
     try {
@@ -18,6 +21,10 @@ export const usePaddle = () => {
           settings: {
             locale: "en",
           },
+        },
+
+        eventCallback: function (data) {
+          setPaymentData(data);
         },
       });
       setIsPaddleReady(true);

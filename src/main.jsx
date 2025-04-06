@@ -1,14 +1,27 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { createRoot } from "react-dom/client";
 import { ThemeProvider } from "@mui/material";
+import { PaddleCheckout } from "./components/Paddle/PaddleCheckout.jsx";
 import MainLayout from "./routes/MainLayout.jsx";
 import GetStartedLayout from "./routes/GetStartedLayout.jsx";
 import theme from "./theme/theme";
 import "./index.css";
 import "./styles/main.scss";
-import { PaddleCheckout } from "./components/Paddle/PaddleCheckout.jsx";
+import { useUserStore } from "./store/store.js";
+import { useEffect } from "react";
 
-// eslint-disable-next-line react-refresh/only-export-components
+// loggerer for store state changes
+const StoreLogger = () => {
+  const state = useUserStore((state) => state);
+
+  useEffect(() => {
+    // console.log("Store state updated:", state);
+    console.log("Customer data:", state.customerData);
+  }, [state]);
+
+  return null;
+};
+
 const App = () => {
   const routes = [
     {
@@ -30,6 +43,7 @@ const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <RouterProvider router={router} />
+      <StoreLogger />
     </ThemeProvider>
   );
 };
