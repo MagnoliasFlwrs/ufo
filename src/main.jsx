@@ -10,13 +10,13 @@ import "./styles/main.scss";
 import { useUserStore } from "./store/store.js";
 import { useEffect } from "react";
 
-// logger er for store state changes
+// loggerer for store state changes
 const StoreLogger = () => {
   const state = useUserStore((state) => state);
 
   useEffect(() => {
     // console.log("Store state updated:", state);
-    console.log("Payment data:", state.paymentData);
+    console.log("Customer data:", state.customerData);
   }, [state]);
 
   return null;

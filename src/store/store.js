@@ -24,12 +24,7 @@ export const useUserStore = create((set) => ({
   dailyCalories: null,
   selectedMealPlan: null,
 
-  paymentData: {
-    email: null,
-    checkoutId: null,
-    orderId: null,
-    subscriptionId: null,
-  },
+  customerData: null,
 
   updateUserData: (key, value) =>
     set((state) => {
@@ -53,13 +48,5 @@ export const useUserStore = create((set) => ({
       };
     }),
 
-  setPaymentData: (paymentData) =>
-    set({
-      paymentData: {
-        email: paymentData.email,
-        checkoutId: paymentData.checkoutId,
-        orderId: paymentData.orderId,
-        subscriptionId: paymentData.subscriptionId,
-      },
-    }),
+  setPaymentData: (data) => set({ customerData: data }),
 }));

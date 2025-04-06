@@ -11,6 +11,10 @@ export const PaddleCheckout = () => {
 
   const { openCheckout, isPaddleReady, error } = usePaddle();
 
+  const handleOpenCheckout = (priceId) => {
+    openCheckout(priceId, "magnolia.sav@gmail.com");
+  };
+
   if (!isPaddleReady) {
     return (
       <div className='container'>
@@ -90,7 +94,7 @@ export const PaddleCheckout = () => {
                 </Typography>
                 <Button
                   variant='contained'
-                  onClick={() => openCheckout(PRICE_IDS.MONTHLY)}
+                  onClick={() => handleOpenCheckout(PRICE_IDS.MONTHLY)}
                   sx={{
                     bgcolor: "primary.main",
                     "&:hover": { bgcolor: "primary.dark" },
@@ -159,7 +163,7 @@ export const PaddleCheckout = () => {
                 <Button
                   variant='contained'
                   color='secondary'
-                  onClick={() => openCheckout(PRICE_IDS.YEARLY)}
+                  onClick={() => handleOpenCheckout(PRICE_IDS.YEARLY)}
                   sx={{
                     "&:hover": { bgcolor: "secondary.dark" },
                   }}>
