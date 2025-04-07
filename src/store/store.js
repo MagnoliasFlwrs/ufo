@@ -1,9 +1,12 @@
 import { create } from "zustand";
 import MealDiets from "@/data/MealDiets.json";
 import { calculateCalories } from "@/utils/calculations";
-import {createUserWithEmailAndPassword} from "firebase/auth";
-import {doc, setDoc} from "firebase/firestore";
-import {db} from "@/firebase.js";
+import {createUserWithEmailAndPassword,
+    sendSignInLinkToEmail,
+    isSignInWithEmailLink,
+    signInWithEmailLink,} from "firebase/auth";
+import {doc, setDoc , getDoc} from "firebase/firestore";
+import {auth, db} from "@/firebase.js";
 
 export const useUserStore = create((set) => ({
   measurementSystem: "metric",
@@ -61,9 +64,9 @@ export const useFirestoreDataStore = create((set) => ({
             const user = userCredential.user;
 
             await setDoc(doc(db, 'users', user.uid), {
-                name,
-                email,
-                uid: user.uid,
+                userName:name,
+                userEmail:email,
+                userId: user.uid,
                 createdAt: new Date(),
             });
 
@@ -73,6 +76,48 @@ export const useFirestoreDataStore = create((set) => ({
         } catch (error) {
             alert(error.message);
         }
-    }
+    },
 
+    sendSignInEmail: async (email) => {
+        const actionCodeSettings = {
+            url: 'http://localhost:5173/get-started',
+            handleCodeInApp: true,
+        };
+
+        try {
+            await sendSignInLinkToEmail(auth, email, actionCodeSettings);
+            alert('Ссылка для входа отправлена на email');
+        } catch (error) {
+            alert(error.message);
+        }
+    },
+
+    completeSignInWithEmailLink: async (emailFromQuery) => {
+        try {
+            if (!emailFromQuery) throw new Error('Email не передан');
+
+            if (!isSignInWithEmailLink(auth, window.location.href)) {
+                throw new Error('Некорректная ссылка входа');
+            }
+
+            const result = await signInWithEmailLink(auth, emailFromQuery, window.location.href);
+            const user = result.user;
+
+            const userRef = doc(db, 'users', user.uid);
+            const userSnap = await getDoc(userRef);
+
+            if (!userSnap.exists()) {
+                await setDoc(userRef, {
+                    userEmail: user.email,
+                    userId: user.uid,
+                    createdAt: new Date(),
+                });
+            }
+
+            alert('Вы успешно вошли в систему!');
+            return user;
+        } catch (error) {
+            alert(error.message);
+        }
+    },
 }));
