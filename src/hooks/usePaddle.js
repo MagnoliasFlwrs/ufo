@@ -8,30 +8,30 @@ export const usePaddle = () => {
   const setPaymentData = useUserStore((state) => state.setPaymentData);
 
   const initPaddle = useCallback(() => {
-    try {
-      if (!window.Paddle) {
-        throw new Error("Paddle.js not loaded");
-      }
+    if (!window.Paddle) {
+      setError("Paddle.js not loaded");
+      return;
+    }
 
+    try {
       window.Paddle.Environment.set("sandbox");
       window.Paddle.Initialize({
         token: "test_f5c8efdb7d866cadcb0addf090b",
-
         checkout: {
           settings: {
             locale: "en",
           },
         },
-
-        eventCallback: function (data) {
+        eventCallback: (data) => {
           setPaymentData(data);
         },
       });
+
       setIsPaddleReady(true);
       setError(null);
     } catch (err) {
-      console.error("Paddle initialization failed:", err);
-      setError("Failed to initialize payment system");
+      console.error("Paddle init error:", err);
+      setError("Failed to initialize Paddle");
     }
   }, []);
 
@@ -41,48 +41,32 @@ export const usePaddle = () => {
       return;
     }
 
-    const existingScript = document.querySelector('script[src="https://cdn.paddle.com/paddle/v2/paddle.js"]');
-
-    if (existingScript) {
-      existingScript.addEventListener("load", initPaddle);
-      return;
-    }
-
     const script = document.createElement("script");
     script.src = "https://cdn.paddle.com/paddle/v2/paddle.js";
     script.async = true;
     script.onload = initPaddle;
-    script.onerror = () => {
-      console.error("Failed to load Paddle.js");
-      setError("Failed to load payment system");
-    };
+    script.onerror = () => setError("Failed to load Paddle.js");
     document.body.appendChild(script);
-
-    return () => {
-      script.removeEventListener("load", initPaddle);
-    };
   }, [initPaddle]);
 
-  const openCheckout = useCallback(
+  const openInlineCheckout = useCallback(
     (priceId, customerEmail) => {
-      if (!isPaddleReady || !window.Paddle) {
-        console.error("Paddle is not ready");
-        setError("Payment system is not ready");
-        return;
-      }
+      if (!window.Paddle || !isPaddleReady) return;
 
-      try {
-        window.Paddle.Checkout.open({
-          items: [{ priceId, quantity: 1 }],
-          ...(customerEmail && { customer: { email: customerEmail } }),
-        });
-      } catch (err) {
-        console.error("Checkout failed:", err);
-        setError("Failed to open checkout");
-      }
+      window.Paddle.Checkout.open({
+        method: "inline",
+        frameTarget: "#paddle-inline-container",
+        frameStyle: "width:100%; min-height:600px;",
+        items: [{ priceId }],
+        ...(customerEmail && { customer: { email: customerEmail } }),
+      });
     },
     [isPaddleReady],
   );
 
-  return { openCheckout, isPaddleReady, error };
+  return {
+    isPaddleReady,
+    error,
+    openInlineCheckout,
+  };
 };
