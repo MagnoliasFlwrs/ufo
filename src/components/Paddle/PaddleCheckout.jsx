@@ -2,7 +2,6 @@ import { Typography, Button, Box, Card, CardContent, Avatar } from "@mui/materia
 import { usePaddle } from "@/hooks/usePaddle";
 import DiamondIcon from "@mui/icons-material/Diamond";
 import StarsIcon from "@mui/icons-material/Stars";
-import { useEffect, useRef } from "react";
 
 export const PaddleCheckout = () => {
   const PRICE_IDS = {
@@ -10,34 +9,11 @@ export const PaddleCheckout = () => {
     YEARLY: "pri_01jqf5zd53n6wn620w84kyaxm0",
   };
 
-  const { openInlineCheckout, isPaddleReady, error } = usePaddle();
-  const checkoutRef = useRef(null);
+  const { openInlineCheckout, error } = usePaddle();
 
   const handleOpenCheckout = (priceId) => {
     openInlineCheckout(priceId, "magnolia.sav@gmail.com");
-    if (checkoutRef.current) {
-      checkoutRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
   };
-
-  // 🟢 Показываем сразу MONTHLY план при загрузке страницы
-  useEffect(() => {
-    if (!isPaddleReady) return;
-
-    const waitAndInit = () => {
-      const container = document.querySelector("#paddle-inline-container");
-
-      if (container) {
-        // 💥 Рендерим inline checkout именно в контейнер
-        openInlineCheckout(PRICE_IDS.MONTHLY, "magnolia.sav@gmail.com");
-      } else {
-        // 🕐 Если контейнера ещё нет, ждём и повторяем
-        setTimeout(waitAndInit, 100);
-      }
-    };
-
-    waitAndInit();
-  }, [isPaddleReady]);
 
   if (error) {
     return (
@@ -165,21 +141,8 @@ export const PaddleCheckout = () => {
         </Card>
       </Box>
 
-      <Typography variant='caption' color='text.secondary' textAlign='center' mt={2} fontStyle='italic'>
-        Subscription auto-renews. Cancel anytime.
-      </Typography>
-
       {/* Inline Checkout */}
-      <Box
-        id='paddle-inline-container'
-        ref={checkoutRef}
-        sx={{
-          mt: 6,
-          pt: 4,
-          borderTop: "1px dashed #ccc",
-          minHeight: "600px",
-        }}
-      />
+      <Box className='checkout-container'></Box>
     </Box>
   );
 };
