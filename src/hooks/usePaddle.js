@@ -43,7 +43,7 @@ export const usePaddle = () => {
             locale: "en",
             displayMode: "inline",
             frameTarget: "checkout-container",
-            frameInitialHeight: "450",
+            frameInitialHeight: "750",
             frameStyle: FRAME_STYLE,
           },
         },
@@ -56,15 +56,19 @@ export const usePaddle = () => {
     }
   };
 
-  const openInlineCheckout = (priceId, customerEmail) => {
+  const openInlineCheckout = (priceId) => {
     if (!window.Paddle) return;
 
     window.Paddle.Checkout.open({
       method: "inline",
-      frameTarget: "#paddle-inline-container",
-      frameStyle: FRAME_STYLE,
       items: [{ priceId }],
-      ...(customerEmail && { customer: { email: customerEmail } }),
+      customer: {
+        email: "8xK7g@example.com",
+        address: {
+          countryCode: "US",
+          postalCode: "10021",
+        },
+      },
     });
   };
 

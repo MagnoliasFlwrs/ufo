@@ -12,7 +12,7 @@ export const PaddleCheckout = () => {
   const { openInlineCheckout, error } = usePaddle();
 
   const handleOpenCheckout = (priceId) => {
-    openInlineCheckout(priceId, "magnolia.sav@gmail.com");
+    openInlineCheckout(priceId);
   };
 
   if (error) {

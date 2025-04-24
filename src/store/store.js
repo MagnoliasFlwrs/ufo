@@ -1,20 +1,22 @@
 import { create } from "zustand";
 import MealDiets from "@/data/MealDiets.json";
 import { calculateCalories } from "@/utils/calculations";
-import {createUserWithEmailAndPassword,
-    sendSignInLinkToEmail,
-    isSignInWithEmailLink,
-    signInWithEmailLink,} from "firebase/auth";
-import {doc, setDoc , getDoc} from "firebase/firestore";
-import {auth, db} from "@/firebase.js";
+import {
+  createUserWithEmailAndPassword,
+  sendSignInLinkToEmail,
+  isSignInWithEmailLink,
+  signInWithEmailLink,
+} from "firebase/auth";
+import { doc, setDoc, getDoc } from "firebase/firestore";
+import { auth, db } from "@/firebase.js";
 
 export const useUserStore = create((set) => ({
   measurementSystem: "metric",
   age: "",
   gender: "",
   height: "",
-  weight: "",
-  idealWeight: "",
+  weight: "120",
+  idealWeight: "105",
   wishlist: [],
   listOfIntentions: [],
   inspiringEvents: [],
@@ -29,6 +31,7 @@ export const useUserStore = create((set) => ({
   healthConditions: [],
   dailyCalories: null,
   selectedMealPlan: null,
+  email: null,
 
   customerData: null,
 
@@ -58,66 +61,66 @@ export const useUserStore = create((set) => ({
 }));
 
 export const useFirestoreDataStore = create((set) => ({
-    createUser: async ({ email, password, name, onboardingData }) => {
-        try {
-            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-            const user = userCredential.user;
+  createUser: async ({ email, password, name, onboardingData }) => {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
 
-            await setDoc(doc(db, 'users', user.uid), {
-                userName:name,
-                userEmail:email,
-                userId: user.uid,
-                createdAt: new Date(),
-            });
+      await setDoc(doc(db, "users", user.uid), {
+        userName: name,
+        userEmail: email,
+        userId: user.uid,
+        createdAt: new Date(),
+      });
 
-            await setDoc(doc(db, 'users', user.uid, 'onboarding_user_info', user.uid), onboardingData);
+      await setDoc(doc(db, "users", user.uid, "onboarding_user_info", user.uid), onboardingData);
 
-            alert('Пользователь успешно создан и добавлен в Firestore!');
-        } catch (error) {
-            alert(error.message);
-        }
-    },
+      alert("Пользователь успешно создан и добавлен в Firestore!");
+    } catch (error) {
+      alert(error.message);
+    }
+  },
 
-    sendSignInEmail: async (email) => {
-        const actionCodeSettings = {
-            url: 'http://localhost:5173/get-started',
-            handleCodeInApp: true,
-        };
+  sendSignInEmail: async (email) => {
+    const actionCodeSettings = {
+      url: "http://localhost:5173/get-started",
+      handleCodeInApp: true,
+    };
 
-        try {
-            await sendSignInLinkToEmail(auth, email, actionCodeSettings);
-            alert('Ссылка для входа отправлена на email');
-        } catch (error) {
-            alert(error.message);
-        }
-    },
+    try {
+      await sendSignInLinkToEmail(auth, email, actionCodeSettings);
+      alert("Ссылка для входа отправлена на email");
+    } catch (error) {
+      alert(error.message);
+    }
+  },
 
-    completeSignInWithEmailLink: async (emailFromQuery) => {
-        try {
-            if (!emailFromQuery) throw new Error('Email не передан');
+  completeSignInWithEmailLink: async (emailFromQuery) => {
+    try {
+      if (!emailFromQuery) throw new Error("Email не передан");
 
-            if (!isSignInWithEmailLink(auth, window.location.href)) {
-                throw new Error('Некорректная ссылка входа');
-            }
+      if (!isSignInWithEmailLink(auth, window.location.href)) {
+        throw new Error("Некорректная ссылка входа");
+      }
 
-            const result = await signInWithEmailLink(auth, emailFromQuery, window.location.href);
-            const user = result.user;
+      const result = await signInWithEmailLink(auth, emailFromQuery, window.location.href);
+      const user = result.user;
 
-            const userRef = doc(db, 'users', user.uid);
-            const userSnap = await getDoc(userRef);
+      const userRef = doc(db, "users", user.uid);
+      const userSnap = await getDoc(userRef);
 
-            if (!userSnap.exists()) {
-                await setDoc(userRef, {
-                    userEmail: user.email,
-                    userId: user.uid,
-                    createdAt: new Date(),
-                });
-            }
+      if (!userSnap.exists()) {
+        await setDoc(userRef, {
+          userEmail: user.email,
+          userId: user.uid,
+          createdAt: new Date(),
+        });
+      }
 
-            alert('Вы успешно вошли в систему!');
-            return user;
-        } catch (error) {
-            alert(error.message);
-        }
-    },
+      alert("Вы успешно вошли в систему!");
+      return user;
+    } catch (error) {
+      alert(error.message);
+    }
+  },
 }));

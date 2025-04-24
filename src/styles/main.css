@@ -131,6 +131,7 @@
   padding: 12px 16px;
   background-color: #ffffff;
 }
+
 .survey-input .input-wrapper:focus-within {
   border-color: #f9523c;
 }

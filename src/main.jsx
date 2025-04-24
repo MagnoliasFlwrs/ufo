@@ -1,7 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { createRoot } from "react-dom/client";
 import { ThemeProvider } from "@mui/material";
-import { PaddleCheckout } from "./components/Paddle/PaddleCheckout.jsx";
 import MainLayout from "./routes/MainLayout.jsx";
 import GetStartedLayout from "./routes/GetStartedLayout.jsx";
 import theme from "./theme/theme";
@@ -9,14 +8,15 @@ import "./index.css";
 import "./styles/main.scss";
 import { useUserStore } from "./store/store.js";
 import { useEffect } from "react";
+import SubscribeLayout from "./routes/SubscribeLayout.jsx";
 
 // loggerer for store state changes
 const StoreLogger = () => {
   const state = useUserStore((state) => state);
 
   useEffect(() => {
-    // console.log("Store state updated:", state);
-    console.log("Customer data:", state.customerData);
+    console.log("Store state updated:", state);
+    // console.log("Customer data:", state.customerData);
   }, [state]);
 
   return null;
@@ -34,7 +34,7 @@ const App = () => {
     },
     {
       path: "/subscribe",
-      element: <PaddleCheckout />,
+      element: <SubscribeLayout />,
     },
   ];
 
