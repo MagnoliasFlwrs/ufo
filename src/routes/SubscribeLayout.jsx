@@ -1,27 +1,20 @@
 import React, { useState } from "react";
 import { EmailInput } from "@/components/Paddle/EmailInput";
-import { PaddleCheckout } from "@/components/Paddle/PaddleCheckout";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
-import { Schedule } from "@/components/Paddle/Schedule";
+import { SubscribeBanner } from "@/components/Paddle/SubscribeBanner";
 
 const SubscribeLayout = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [animationParent] = useAutoAnimate();
 
-  // Шаги процесса
   const steps = [
     {
       component: <EmailInput />,
       key: "email-input",
     },
     {
-      component: <Schedule />,
-      key: "schedule",
-    },
-
-    {
-      component: <PaddleCheckout />,
-      key: "paddle-checkout",
+      component: <SubscribeBanner />,
+      key: "email-input",
     },
   ];
 

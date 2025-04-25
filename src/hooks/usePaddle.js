@@ -6,6 +6,7 @@ const FRAME_STYLE = "width:100%; min-width:312px; background-color:transparent; 
 
 export const usePaddle = () => {
   const [error, setError] = useState(null);
+  const email = useUserStore((state) => state.email);
   const setPaymentData = useUserStore((state) => state.setPaymentData);
 
   useEffect(() => {
@@ -47,7 +48,11 @@ export const usePaddle = () => {
             frameStyle: FRAME_STYLE,
           },
         },
-        eventCallback: setPaymentData,
+        eventCallback: (data) => {
+          if (data?.name === "checkout.customer.created") {
+            setPaymentData(data);
+          }
+        },
       });
       setError(null);
     } catch (err) {
@@ -59,11 +64,13 @@ export const usePaddle = () => {
   const openInlineCheckout = (priceId) => {
     if (!window.Paddle) return;
 
+    const customerEmail = email || "no-email-provided@example.com";
+
     window.Paddle.Checkout.open({
       method: "inline",
       items: [{ priceId }],
       customer: {
-        email: "8xK7g@example.com",
+        email: customerEmail,
         address: {
           countryCode: "US",
           postalCode: "10021",
