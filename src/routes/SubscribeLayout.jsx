@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { EmailInput } from "@/components/Paddle/EmailInput";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { SubscribeBanner } from "@/components/Paddle/SubscribeBanner";
@@ -7,16 +7,13 @@ const SubscribeLayout = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [animationParent] = useAutoAnimate();
 
-  const steps = [
-    {
-      component: <EmailInput />,
-      key: "email-input",
-    },
-    {
-      component: <SubscribeBanner />,
-      key: "email-input",
-    },
-  ];
+  const steps = useMemo(
+    () => [
+      { component: <EmailInput />, key: "step-email-input" },
+      { component: <SubscribeBanner />, key: "step-subscribe-banner" },
+    ],
+    [],
+  );
 
   const handleNext = () => {
     if (currentStep < steps.length - 1) {

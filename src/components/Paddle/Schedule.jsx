@@ -10,43 +10,76 @@ export const Schedule = () => {
   // Real data from store (only for labels and calculations)
   const realUserWeight = Number(useUserStore((state) => state.weight));
   const realIdealWeight = Number(useUserStore((state) => state.idealWeight));
-  if (isNaN(realUserWeight) || isNaN(realIdealWeight) || realUserWeight === realIdealWeight) return null;
+  if (isNaN(realUserWeight) || isNaN(realIdealWeight)) return null;
 
-  // Fixed chart parameters (always the same)
-  const chartUserWeight = 120;
+  // Calculate weight difference
+  const weightDifference = Math.abs(realUserWeight - realIdealWeight);
+
+  // Determine which dataset to use based on weight difference
+  const isSmallDifference = weightDifference <= 3; // 0 включается автоматически
+
+  // Fixed chart parameters
+  const chartUserWeight = isSmallDifference ? 100 : 120;
   const chartIdealWeight = 100;
-  const chartDaysDuration = 180; // Fixed chart duration (180 days)
+  const chartDaysDuration = 180;
 
   // Date calculations for labels (based on real data)
   const currentUnix = Math.floor(Date.now() / 1000);
-  const weeksNeeded = Math.abs(realUserWeight - realIdealWeight) / 0.5;
+  const weeksNeeded = weightDifference === 0 ? 0 : weightDifference / 0.5; // избегаем деления на 0
   const goalUnix = currentUnix + weeksNeeded * 7 * 24 * 60 * 60;
   const goalDate = new Date(goalUnix * 1000);
 
   // Fixed dates for the chart
   const now = new Date();
   const chartEndDate = new Date(now.getTime() + chartDaysDuration * 24 * 60 * 60 * 1000);
-  const chartGoalDate = new Date(now.getTime() + chartDaysDuration * 0.6 * 24 * 60 * 60 * 1000);
+  const chartGoalDate =
+    weightDifference === 0
+      ? now // если разницы нет, цель - сейчас
+      : new Date(now.getTime() + chartDaysDuration * 0.6 * 24 * 60 * 60 * 1000);
 
   // Y-axis settings
-  const yMin = 85;
-  const yMax = 125;
+  const yMin = isSmallDifference ? 85 : 95;
+  const yMax = isSmallDifference ? 115 : 125;
 
-  // Chart data points (fixed)
-  const progressDataBeforeGoal = [
-    { x: now, y: chartUserWeight },
-    { x: new Date(now.getTime() + chartDaysDuration * 0.1 * 86400000), y: chartUserWeight - 2 },
-    { x: new Date(now.getTime() + chartDaysDuration * 0.2 * 86400000), y: chartUserWeight - 5 },
-    { x: new Date(now.getTime() + chartDaysDuration * 0.35 * 86400000), y: chartUserWeight - 15 },
-    { x: new Date(now.getTime() + chartDaysDuration * 0.6 * 86400000), y: chartUserWeight - 20 },
-    { x: chartGoalDate, y: chartIdealWeight },
-  ];
+  // Chart data points (dynamic based on weight difference)
+  const progressDataBeforeGoal = isSmallDifference
+    ? [
+        { x: now, y: chartUserWeight },
+        {
+          x: new Date(now.getTime() + chartDaysDuration * 0.15 * 86400000),
+          y: chartUserWeight - (weightDifference === 0 ? 0 : 3),
+        },
+        {
+          x: new Date(now.getTime() + chartDaysDuration * 0.3 * 86400000),
+          y: chartUserWeight + (weightDifference === 0 ? 0 : 2),
+        },
+        {
+          x: new Date(now.getTime() + chartDaysDuration * 0.45 * 86400000),
+          y: chartUserWeight - (weightDifference === 0 ? 0 : 3),
+        },
+        { x: new Date(now.getTime() + chartDaysDuration * 0.6 * 86400000), y: chartUserWeight - 0 },
+        { x: chartGoalDate, y: chartIdealWeight },
+      ]
+    : [
+        { x: now, y: chartUserWeight },
+        { x: new Date(now.getTime() + chartDaysDuration * 0.1 * 86400000), y: chartUserWeight - 2 },
+        { x: new Date(now.getTime() + chartDaysDuration * 0.2 * 86400000), y: chartUserWeight - 5 },
+        { x: new Date(now.getTime() + chartDaysDuration * 0.35 * 86400000), y: chartUserWeight - 15 },
+        { x: new Date(now.getTime() + chartDaysDuration * 0.6 * 86400000), y: chartUserWeight - 20 },
+        { x: chartGoalDate, y: chartIdealWeight },
+      ];
 
-  const progressDataAfterGoal = [
-    { x: chartGoalDate, y: chartIdealWeight },
-    { x: new Date(now.getTime() + chartDaysDuration * 0.8 * 86400000), y: chartUserWeight - 21 },
-    { x: new Date(now.getTime() + chartDaysDuration * 1 * 86400000), y: chartUserWeight - 22 },
-  ];
+  const progressDataAfterGoal = isSmallDifference
+    ? [
+        { x: chartGoalDate, y: chartIdealWeight },
+        { x: new Date(now.getTime() + chartDaysDuration * 0.8 * 86400000), y: chartUserWeight },
+        { x: new Date(now.getTime() + chartDaysDuration * 1 * 86400000), y: chartUserWeight },
+      ]
+    : [
+        { x: chartGoalDate, y: chartIdealWeight },
+        { x: new Date(now.getTime() + chartDaysDuration * 0.8 * 86400000), y: chartUserWeight - 21 },
+        { x: new Date(now.getTime() + chartDaysDuration * 1 * 86400000), y: chartUserWeight - 22 },
+      ];
 
   const data = {
     datasets: [
@@ -134,18 +167,20 @@ export const Schedule = () => {
       ctx.fillText(`${realUserWeight} kg`, progressPoints[0].x + 8, progressPoints[0].y - 8);
       ctx.restore();
 
-      // Goal label
-      ctx.save();
-      ctx.fillStyle = "#FF5C1D";
-      ctx.beginPath();
-      ctx.roundRect(goalPoint.x - 30, goalPoint.y - 40, 60, 30, 5);
-      ctx.fill();
-      ctx.fillStyle = "#fff";
-      ctx.font = "bold 12px sans-serif";
-      ctx.textAlign = "center";
-      ctx.fillText("Goal", goalPoint.x, goalPoint.y - 25);
-      ctx.fillText(`${realIdealWeight} kg`, goalPoint.x, goalPoint.y - 12);
-      ctx.restore();
+      // Goal label (only show if weight difference > 0)
+      if (weightDifference > 0) {
+        ctx.save();
+        ctx.fillStyle = "#FF5C1D";
+        ctx.beginPath();
+        ctx.roundRect(goalPoint.x - 30, goalPoint.y - 40, 60, 30, 5);
+        ctx.fill();
+        ctx.fillStyle = "#fff";
+        ctx.font = "bold 12px sans-serif";
+        ctx.textAlign = "center";
+        ctx.fillText("Goal", goalPoint.x, goalPoint.y - 25);
+        ctx.fillText(`${realIdealWeight} kg`, goalPoint.x, goalPoint.y - 12);
+        ctx.restore();
+      }
 
       // Maintain weight label
       ctx.save();
@@ -159,25 +194,52 @@ export const Schedule = () => {
 
   return (
     <>
-      <Typography
-        sx={{
-          fontSize: "22px",
-          color: "#241063",
-          fontWeight: 500,
-          textAlign: "center",
-        }}>
-        You can reach your goal of
-      </Typography>
-      <Typography
-        sx={{
-          fontSize: "22px",
-          color: "#241063",
-          fontWeight: 500,
-          textAlign: "center",
-          mb: 2,
-        }}>
-        <strong style={{ color: "#FF5C1D" }}>{realIdealWeight} kg</strong> by <strong>{formattedGoalDate}</strong>
-      </Typography>
+      {weightDifference > 0 ? (
+        <>
+          <Typography
+            sx={{
+              fontSize: "22px",
+              color: "#241063",
+              fontWeight: 500,
+              textAlign: "center",
+            }}>
+            You can reach your goal of
+          </Typography>
+          <Typography
+            sx={{
+              fontSize: "22px",
+              color: "#241063",
+              fontWeight: 500,
+              textAlign: "center",
+              mb: 2,
+            }}>
+            <strong style={{ color: "#FF5C1D" }}>{realIdealWeight} kg</strong> by <strong>{formattedGoalDate}</strong>
+          </Typography>
+        </>
+      ) : (
+        <>
+          <Typography
+            sx={{
+              fontSize: "22px",
+              color: "#241063",
+              fontWeight: 500,
+              textAlign: "center",
+            }}>
+            You&apos;ve already reached your goal of
+          </Typography>
+
+          <Typography
+            sx={{
+              fontSize: "22px",
+              color: "#241063",
+              fontWeight: 500,
+              textAlign: "center",
+              mb: 2,
+            }}>
+            <strong style={{ color: "#FF5C1D" }}>{realIdealWeight} kg</strong>
+          </Typography>
+        </>
+      )}
 
       <Box
         sx={{
