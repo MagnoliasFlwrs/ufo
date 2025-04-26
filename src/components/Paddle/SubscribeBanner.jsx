@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect } from "react";
 import { Typography, Box, Button, Divider } from "@mui/material";
 import { usePaddle } from "@/hooks/usePaddle";
+import { usePaddleProducts } from "@/hooks/usePaddleProducts";
 import {
   CountdownTimer,
   CustomerReviews,
@@ -15,49 +16,25 @@ import {
 
 export const SubscribeBanner = () => {
   const { openInlineCheckout, error } = usePaddle();
-  const checkoutContainerRef = useRef(null);
+  const { products: PLANS, loading: productsLoading, error: productsError } = usePaddleProducts();
   const [selectedPlan, setSelectedPlan] = useState("1-MONTH");
   const [isPaddleInitialized, setIsPaddleInitialized] = useState(false);
-
-  const PLANS = [
-    {
-      id: "pri_01jqf5zd53n6wn620w84kyaxm0",
-      title: "1-WEEK",
-      originalPrice: "$9.99",
-      discountedPrice: "$4.99",
-      pricePerDay: "$0.71",
-      introPeriod: "7 days",
-    },
-    {
-      id: "pri_01jqf6227819yce54z6hdf0hcj",
-      title: "1-MONTH",
-      originalPrice: "$29.99",
-      discountedPrice: "$17.99",
-      pricePerDay: "$0.59",
-      introPeriod: "1 month",
-    },
-    {
-      id: "pri_01jqf5zd53n6wn620w84kyaxm",
-      title: "3-MONTH",
-      originalPrice: "$59.99",
-      discountedPrice: "$29.99",
-      pricePerDay: "$0.33",
-      introPeriod: "3 months",
-    },
-  ];
+  const checkoutContainerRef = useRef(null);
 
   // Initialize checkout on mount with delay
   useEffect(() => {
     const timer = setTimeout(() => {
-      const defaultPlan = PLANS.find((plan) => plan.title === "1-MONTH");
-      if (defaultPlan) {
-        openInlineCheckout(defaultPlan.id);
-        setIsPaddleInitialized(true);
+      if (PLANS.length > 0) {
+        const defaultPlan = PLANS.find((plan) => plan.title === "1-MONTH");
+        if (defaultPlan) {
+          openInlineCheckout(defaultPlan.id);
+          setIsPaddleInitialized(true);
+        }
       }
     }, 1000); // 1 second delay to ensure Paddle is loaded
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [PLANS, openInlineCheckout]);
 
   const calculateEndDate = (period) => {
     const now = new Date();
@@ -86,7 +63,6 @@ export const SubscribeBanner = () => {
   const handlePlanSelect = (priceId, planTitle) => {
     setSelectedPlan(planTitle);
     openInlineCheckout(priceId);
-    scrollToCheckout();
   };
 
   const scrollToCheckout = () => {
@@ -96,10 +72,18 @@ export const SubscribeBanner = () => {
     });
   };
 
-  if (error) {
+  if (error || productsError) {
     return (
       <Box textAlign='center' color='error.main' py={2}>
-        <Typography>{error}</Typography>
+        <Typography>{error || productsError}</Typography>
+      </Box>
+    );
+  }
+
+  if (productsLoading) {
+    return (
+      <Box textAlign='center' py={4}>
+        <Typography>Loading subscription plans...</Typography>
       </Box>
     );
   }

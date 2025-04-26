@@ -2,74 +2,55 @@ import { useState, useEffect } from "react";
 
 export const usePaddleProducts = () => {
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch("https://vendors.paddle.com/api/2.0/product/get_products", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
+        // Здесь должна быть реальная загрузка с твоего backend API
+        // Например: const response = await fetch("/api/paddle-products");
+        // const data = await response.json();
+
+        // Пока что мок-данные:
+        const data = [
+          {
+            id: "pri_01jqf5zd53n6wn620w84kyaxm0",
+            title: "1-WEEK",
+            originalPrice: "$9.99",
+            discountedPrice: "$4.99",
+            pricePerDay: "$0.71",
+            introPeriod: "7 days",
           },
-          body: JSON.stringify({
-            vendor_id: "YOUR_VENDOR_ID", // Replace with your Paddle Vendor ID
-            vendor_auth_code: "YOUR_AUTH_CODE", // Replace with your Paddle Auth Code
-          }),
-        });
+          {
+            id: "pri_01jqf6227819yce54z6hdf0hcj",
+            title: "1-MONTH",
+            originalPrice: "$29.99",
+            discountedPrice: "$17.99",
+            pricePerDay: "$0.59",
+            introPeriod: "1 month",
+          },
+          {
+            id: "pri_01jqf5zd53n6wn620w84kyaxm",
+            title: "3-MONTH",
+            originalPrice: "$59.99",
+            discountedPrice: "$29.99",
+            pricePerDay: "$0.33",
+            introPeriod: "3 months",
+          },
+        ];
 
-        const data = await response.json();
-
-        if (data.success) {
-          setProducts(data.response.products); // Save the list of products
-        } else {
-          setError(data.error.message || "Failed to fetch products");
-        }
+        setProducts(data);
+        setLoading(false);
       } catch (err) {
-        console.error("Error fetching Paddle products:", err);
-        setError("Failed to fetch products");
+        console.error("Failed to fetch Paddle products:", err);
+        setError("Failed to load subscription plans");
+        setLoading(false);
       }
     };
 
     fetchProducts();
   }, []);
 
-  return { products, error };
+  return { products, loading, error };
 };
-
-// import { usePaddleProducts } from "@/hooks/usePaddleProducts";
-
-// export const SubscribeBanner = () => {
-//   const { products, error } = usePaddleProducts();
-
-//   if (error) {
-//     return (
-//       <Box textAlign="center" color="error.main" py={2}>
-//         <Typography>{error}</Typography>
-//       </Box>
-//     );
-//   }
-
-//   if (!products.length) {
-//     return (
-//       <Box textAlign="center" py={2}>
-//         <Typography>Loading plans...</Typography>
-//       </Box>
-//     );
-//   }
-
-//   return (
-//     <Box>
-//       {products.map((product) => (
-//         <SubscriptionPlanCard
-//           key={product.id}
-//           title={product.name}
-//           originalPrice={product.base_price}
-//           discountedPrice={product.sale_price}
-//           pricePerDay={calculatePricePerDay(product.sale_price, product.billing_period)}
-//           onClick={() => handlePlanSelect(product.id, product.name)}
-//         />
-//       ))}
-//     </Box>
-//   );
-// };

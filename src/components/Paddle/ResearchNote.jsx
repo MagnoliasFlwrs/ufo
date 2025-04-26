@@ -23,7 +23,7 @@ export const ResearchNote = () => {
         <Typography variant='body1' fontWeight={500} color='primary.main' align='left' fontSize={20}>
           People using UFO for 3 months lose twice as much weight as for 1 month *
         </Typography>
-        <Typography variant='body1' align='left' fontSize={16} color='##7F6FA4'>
+        <Typography variant='body1' align='left' fontSize={16} color='#7F6FA4'>
           *According to UFO user research, 2024
         </Typography>
       </Box>

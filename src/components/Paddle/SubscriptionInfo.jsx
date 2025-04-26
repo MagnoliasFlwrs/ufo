@@ -10,28 +10,9 @@ export const SubscriptionInfo = ({ introPrice, originalPrice, endDate, introPeri
         color: "primary.main",
         textAlign: "left",
       }}>
-      <Box sx={{ display: "flex", alignItems: "flex-start", mb: 2 }}>
-        <CheckIcon
-          sx={{
-            color: "primary.main",
-            fontSize: "20px",
-            mr: 1.5,
-            mt: "2px",
-          }}
-        />
-        <Typography
-          variant='h6'
-          sx={{
-            fontSize: "18px",
-            fontWeight: 700,
-            flex: 1,
-          }}>
-          You will only be charged {introPrice} today for your first {introPeriod.toLowerCase()} (details below)
-        </Typography>
-      </Box>
-
       <Box sx={{ mb: 2 }}>
         {[
+          `You will only be charged ${introPrice} today for your first ${introPeriod.toLowerCase()} (details below)`,
           `Your introductory period will last until ${endDate}.`,
           `You may cancel at any time before ${endDate}, and you will not be charged.`,
           `If you don't cancel, we will automatically continue your membership at the end of your introductory period and charge the regular price of ${originalPrice}.`,
