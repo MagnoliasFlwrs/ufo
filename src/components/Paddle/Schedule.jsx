@@ -1,12 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import { useUserStore } from "@/store/store";
 
-<path
-  d='M31.3604 67.8066C30.9742 68.1744 30.3667 68.1744 29.9805 67.8066L21.2334 59.4775H4C1.79095 59.4775 0.000146254 57.6866 0 55.4775V9.55859C0 7.34945 1.79086 5.55859 4 5.55859H56.1611C58.3702 5.55865 60.1611 7.34949 60.1611 9.55859V55.4775C60.161 57.6865 58.3701 59.4775 56.1611 59.4775H40.1074L31.3604 67.8066Z'
-  fill='#FF5D1E'
-/>;
-
-// Константы с SVG
+// SVGs
 const LARGE_DIFFERENCE_SVG = (
   <svg width='371' height='215' viewBox='0 0 371 215' fill='none' xmlns='http://www.w3.org/2000/svg'>
     <path
@@ -81,20 +76,33 @@ const SMALL_DIFFERENCE_SVG = (
 );
 
 export const Schedule = () => {
-  // Real data from store
+  // Fetching real data from the store
+  const measurementSystem = useUserStore((state) => state.measurementSystem);
   const realUserWeight = Number(useUserStore((state) => state.weight));
   const realIdealWeight = Number(useUserStore((state) => state.idealWeight));
+
+  // Return null if the fetched weight data is invalid
   if (isNaN(realUserWeight) || isNaN(realIdealWeight)) return null;
 
-  // Calculate weight difference
+  // Function to convert weight from kilograms to pounds
+  const convertWeight = (weightInKg) => {
+    return measurementSystem === "imperial" ? Math.floor(weightInKg * 2.20462 * 10) / 10 : weightInKg;
+  };
+
+  // Function to format the displayed weight based on the measurement system
+  const getDisplayWeight = (weight) => {
+    return measurementSystem === "imperial" ? `${convertWeight(weight).toFixed(1)} lbs` : `${weight} kg`;
+  };
+
+  // Calculate the difference between current and ideal weight
   const weightDifference = Math.abs(realUserWeight - realIdealWeight);
   const isSmallDifference = weightDifference <= 3;
 
-  // Date calculations for goal
-  const currentUnix = Math.floor(Date.now() / 1000);
-  const weeksNeeded = weightDifference === 0 ? 0 : weightDifference / 0.5;
-  const goalUnix = currentUnix + weeksNeeded * 7 * 24 * 60 * 60;
-  const goalDate = new Date(goalUnix * 1000);
+  // Calculate the goal date based on weight difference and weekly progress
+  const currentUnix = Math.floor(Date.now() / 1000); // Current date in Unix timestamp
+  const weeksNeeded = weightDifference === 0 ? 0 : weightDifference / 0.5; // Progress: 0.5 kg per week
+  const goalUnix = currentUnix + weeksNeeded * 7 * 24 * 60 * 60; // Calculate goal date in Unix timestamp
+  const goalDate = new Date(goalUnix * 1000); // Convert timestamp to Date object
   const formattedGoalDate = goalDate.toLocaleDateString("en-US", {
     month: "long",
     day: "numeric",
@@ -102,6 +110,7 @@ export const Schedule = () => {
 
   return (
     <>
+      {/* Display goal information if the weight difference is greater than 0 */}
       {weightDifference > 0 ? (
         <>
           <Typography
@@ -120,11 +129,13 @@ export const Schedule = () => {
               fontWeight: 500,
               textAlign: "center",
             }}>
-            <strong style={{ color: "#FF5C1D" }}>{realIdealWeight} kg</strong> by <strong>{formattedGoalDate}</strong>
+            <strong style={{ color: "#FF5C1D" }}>{getDisplayWeight(realIdealWeight)}</strong> by{" "}
+            <strong>{formattedGoalDate}</strong>
           </Typography>
         </>
       ) : (
         <>
+          {/* Display a message if the user has already reached their goal */}
           <Typography
             sx={{
               fontSize: "22px",
@@ -143,11 +154,12 @@ export const Schedule = () => {
               textAlign: "center",
               mb: 2,
             }}>
-            <strong style={{ color: "#FF5C1D" }}>{realIdealWeight} kg</strong>
+            <strong style={{ color: "#FF5C1D" }}>{getDisplayWeight(realIdealWeight)}</strong>
           </Typography>
         </>
       )}
 
+      {/* Render the box showing weight differences and graphics */}
       <Box
         sx={{
           padding: "24px 16px",
@@ -159,9 +171,10 @@ export const Schedule = () => {
           mt: 3,
         }}>
         {isSmallDifference ? (
+          // Display graphic for small weight difference
           <Box sx={{ position: "relative", width: "100%", height: "100%" }}>
             <div style={{ width: "100%", height: "100%" }}>{SMALL_DIFFERENCE_SVG}</div>
-            {/* realUserWeight */}
+            {/* Display the current weight */}
             <div
               style={{
                 position: "absolute",
@@ -170,25 +183,42 @@ export const Schedule = () => {
                 color: "#241063",
                 fontWeight: "bold",
               }}>
-              {realUserWeight} kg
+              {convertWeight(realUserWeight)} {measurementSystem === "imperial" ? "lbs" : "kg"}
             </div>
-            {/* realIdealWeight */}
-            <div
-              style={{
-                position: "absolute",
-                top: "20px",
-                left: "205px",
-                color: "#FFFFFF",
-                fontWeight: "bold",
-              }}>
-              Goal <br />
-              {realIdealWeight} kg
-            </div>
+            {/* Display the goal weight */}
+            {measurementSystem === "imperial" ? (
+              <div
+                style={{
+                  position: "absolute",
+                  top: "13px",
+                  left: "210px",
+                  color: "#FFFFFF",
+                  fontWeight: "bold",
+                }}>
+                Goal <br />
+                {convertWeight(realIdealWeight)}
+                <br />
+                lbs
+              </div>
+            ) : (
+              <div
+                style={{
+                  position: "absolute",
+                  top: "20px",
+                  left: "205px",
+                  color: "#FFFFFF",
+                  fontWeight: "bold",
+                }}>
+                Goal <br />
+                {convertWeight(realIdealWeight)} kg
+              </div>
+            )}
           </Box>
         ) : (
+          // Display graphic for large weight difference
           <Box sx={{ position: "relative", width: "100%", height: "100%" }}>
             <div style={{ width: "100%", height: "100%" }}>{LARGE_DIFFERENCE_SVG}</div>
-            {/* realUserWeight */}
+            {/* Display the current weight */}
             <div
               style={{
                 position: "absolute",
@@ -198,23 +228,40 @@ export const Schedule = () => {
                 fontWeight: "500",
                 fontSize: "18px",
               }}>
-              {realUserWeight} kg
+              {convertWeight(realUserWeight)} {measurementSystem === "imperial" ? "lbs" : "kg"}
             </div>
-            {/* realIdealWeight */}
-            <div
-              style={{
-                position: "absolute",
-                top: "72px",
-                left: "210px",
-                color: "#FFFFFF",
-                fontWeight: "bold",
-              }}>
-              Goal <br />
-              {realIdealWeight} kg
-            </div>
+            {/* Display the goal weight */}
+            {measurementSystem === "imperial" ? (
+              <div
+                style={{
+                  position: "absolute",
+                  top: "62px",
+                  left: "215px",
+                  color: "#FFFFFF",
+                  fontWeight: "bold",
+                }}>
+                Goal <br />
+                {convertWeight(realIdealWeight)}
+                <br />
+                lbs
+              </div>
+            ) : (
+              <div
+                style={{
+                  position: "absolute",
+                  top: "72px",
+                  left: "210px",
+                  color: "#FFFFFF",
+                  fontWeight: "bold",
+                }}>
+                Goal <br />
+                {convertWeight(realIdealWeight)} kg
+              </div>
+            )}
           </Box>
         )}
 
+        {/* Render labels for NOW and goal month */}
         <Box
           sx={{
             display: "flex",
@@ -243,6 +290,7 @@ export const Schedule = () => {
         </Box>
       </Box>
 
+      {/* Disclaimer about illustrative purposes */}
       <Typography
         sx={{
           fontSize: "16px",

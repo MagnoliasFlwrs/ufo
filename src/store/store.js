@@ -11,7 +11,7 @@ import { doc, setDoc, getDoc } from "firebase/firestore";
 import { auth, db } from "@/firebase.js";
 
 export const useUserStore = create((set) => ({
-  measurementSystem: "metric",
+  measurementSystem: "",
   age: "",
   gender: "",
   height: "",

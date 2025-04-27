@@ -1,6 +1,7 @@
 import { Box, Typography } from "@mui/material";
 
 export const CustomerReviews = () => {
+  // Array of customer review objects
   const reviews = [
     {
       id: 1,
@@ -38,6 +39,7 @@ export const CustomerReviews = () => {
 
   return (
     <Box sx={{ mt: 5 }}>
+      {/* Section title */}
       <Typography
         variant='h5'
         sx={{
@@ -50,6 +52,7 @@ export const CustomerReviews = () => {
         Customers reviews
       </Typography>
 
+      {/* Mapping through all reviews */}
       {reviews.map((review) => (
         <Box
           key={review.id}
@@ -60,7 +63,7 @@ export const CustomerReviews = () => {
             border: "1px solid #E1E1E1",
             borderRadius: "8px",
           }}>
-          {/* Рейтинг и имя в одной строке */}
+          {/* Rating and author name in one line */}
           <Box
             sx={{
               display: "flex",
@@ -68,7 +71,7 @@ export const CustomerReviews = () => {
               mb: 1,
               gap: 1,
             }}>
-            {/* Рейтинг со звездами */}
+            {/* Star rating component */}
             <Box sx={{ display: "flex", alignItems: "center" }}>
               <svg width='99' height='20' viewBox='0 0 79 15' fill='none' xmlns='http://www.w3.org/2000/svg'>
                 <rect width='15' height='15' fill='#249A50' />
@@ -100,7 +103,7 @@ export const CustomerReviews = () => {
               </svg>
             </Box>
 
-            {/* Имя автора */}
+            {/* Author name */}
             <Typography
               variant='body1'
               sx={{
@@ -113,7 +116,7 @@ export const CustomerReviews = () => {
             </Typography>
           </Box>
 
-          {/* Заголовок отзыва */}
+          {/* Review title */}
           <Typography
             align='left'
             color='primary.main'
@@ -124,7 +127,7 @@ export const CustomerReviews = () => {
             {review.title}
           </Typography>
 
-          {/* Текст отзыва */}
+          {/* Review content text */}
           <Typography
             align='left'
             color='primary.main'

@@ -88,7 +88,7 @@ export const IdealWeight = ({ onNext }) => {
 
         <div style={{ marginTop: "24px" }}>
           <Typography variant='h6' align='left' className='survey-subtitle'>
-            We are checking your data for compliance with the World Health Organization's safety standards.
+            We are checking your data for compliance with the World Health Organization&apos;s safety standards.
           </Typography>
         </div>
 
