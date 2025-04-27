@@ -1,18 +1,19 @@
 import { useState, useEffect, useRef } from "react";
 import { Typography, Box } from "@mui/material";
 
-export const CountdownTimer = ({ initialMinutes = 0, initialSeconds = 0 }) => {
-  // State for tracking minutes and seconds countdown
+export const CountdownTimer = ({ initialMinutes = 0, initialSeconds = 0, onTimerEnd }) => {
+  // State for tracking remaining minutes and seconds
   const [minutes, setMinutes] = useState(initialMinutes);
   const [seconds, setSeconds] = useState(initialSeconds);
 
-  // Reference to the main timer element
+  // Refs for main and secondary timer elements
   const mainTimerRef = useRef(null);
+  const secondaryTimerRef = useRef(null);
 
-  // State to determine if the main timer has left the visible screen
+  // State for tracking main timer visibility
   const [isHidden, setIsHidden] = useState(false);
 
-  // Timer effect to decrement the countdown every second
+  // Countdown timer logic
   useEffect(() => {
     const timer = setInterval(() => {
       setSeconds((prevSeconds) => {
@@ -21,29 +22,48 @@ export const CountdownTimer = ({ initialMinutes = 0, initialSeconds = 0 }) => {
           setMinutes((prevMinutes) => prevMinutes - 1);
           return 59;
         }
-        clearInterval(timer);
+        clearInterval(timer); // Stop timer when minutes and seconds reach 0
+        if (onTimerEnd) onTimerEnd(); // Invoke callback if timer ends
         return 0;
       });
     }, 1000);
     return () => clearInterval(timer);
-  }, [minutes]);
+  }, [minutes, onTimerEnd]);
 
-  // Scroll event listener to track when the main timer leaves the viewport
+  // Dynamic bottom padding for the page
+  useEffect(() => {
+    const updatePadding = () => {
+      if (secondaryTimerRef.current) {
+        const timerHeight = secondaryTimerRef.current.offsetHeight;
+        document.body.style.paddingBottom = `${timerHeight}px`; // Add bottom padding
+      }
+    };
+
+    updatePadding();
+    window.addEventListener("resize", updatePadding);
+
+    return () => {
+      document.body.style.paddingBottom = "0px"; // Clear padding on unmount
+      window.removeEventListener("resize", updatePadding);
+    };
+  }, []);
+
+  // Logic for tracking when main timer scrolls out of view
   useEffect(() => {
     const handleScroll = () => {
       if (!mainTimerRef.current) return;
 
       const { bottom } = mainTimerRef.current.getBoundingClientRect();
-      setIsHidden(bottom < 0); // If out of view, reveal the second timer
+      setIsHidden(bottom < 0); // If main timer is not visible, show secondary timer
     };
 
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll); // Cleanup listener
+    return () => window.removeEventListener("scroll", handleScroll); // Remove listener on unmount
   }, []);
 
   return (
     <>
-      {/* Main timer - Visible on the page normally */}
+      {/* Main timer */}
       <Box
         ref={mainTimerRef}
         sx={{
@@ -55,6 +75,7 @@ export const CountdownTimer = ({ initialMinutes = 0, initialSeconds = 0 }) => {
           height: "54px",
           width: "100%",
           px: 3,
+          mt: 2,
         }}>
         <Typography
           variant='h6'
@@ -69,21 +90,22 @@ export const CountdownTimer = ({ initialMinutes = 0, initialSeconds = 0 }) => {
         </Typography>
       </Box>
 
-      {/* Secondary timer - Fixed at the bottom, only visible when the main timer is out of view */}
+      {/* Secondary timer that appears at bottom of screen */}
       <Box
+        ref={secondaryTimerRef}
         sx={{
           display: "flex",
           justifyContent: "center",
           backgroundColor: "#50B671",
           height: "54px",
           width: "100%",
-          maxWidth: "475px", // Restricts width to match the container
+          maxWidth: "475px",
           position: "fixed",
-          bottom: "10px",
+          bottom: "0px",
           marginLeft: "-20px",
-          opacity: isHidden ? 0.8 : 0, // Gradual appearance when main timer disappears
+          opacity: isHidden ? 0.8 : 0, // Smooth appearance when main timer disappears
           transition: "opacity 0.3s ease-in-out",
-          zIndex: 1000, // Ensures it's above other content
+          zIndex: 1000, // Above other content
         }}>
         <Typography
           variant='h6'

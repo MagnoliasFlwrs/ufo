@@ -5,8 +5,8 @@ export const SubscriptionInfo = ({ introPrice, originalPrice, endDate, introPeri
   return (
     <Box
       sx={{
-        mt: 3,
-        p: 3,
+        mt: 2,
+        p: 2,
         color: "primary.main",
         textAlign: "left",
       }}>
@@ -35,7 +35,7 @@ export const SubscriptionInfo = ({ introPrice, originalPrice, endDate, introPeri
             />
             <Typography
               sx={{
-                fontSize: "16px",
+                fontSize: "18px",
                 lineHeight: "24px",
                 flex: 1,
               }}>
@@ -56,7 +56,7 @@ export const SubscriptionInfo = ({ introPrice, originalPrice, endDate, introPeri
         />
         <Typography
           sx={{
-            fontSize: "16px",
+            fontSize: "18px",
             lineHeight: "24px",
             flex: 1,
           }}>

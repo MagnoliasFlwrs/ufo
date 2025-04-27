@@ -1,5 +1,4 @@
 import { Box, Typography } from "@mui/material";
-import StarIcon from "@mui/icons-material/Star";
 
 export const CustomerReviews = () => {
   const reviews = [
@@ -38,7 +37,7 @@ export const CustomerReviews = () => {
   ];
 
   return (
-    <Box sx={{ maxWidth: 800, mx: "auto", mt: 5 }}>
+    <Box sx={{ mt: 5 }}>
       <Typography
         variant='h5'
         sx={{
@@ -55,7 +54,7 @@ export const CustomerReviews = () => {
         <Box
           key={review.id}
           sx={{
-            mb: 3,
+            mb: 2,
             p: 2,
             backgroundColor: "#F5F5F5",
             border: "1px solid #E1E1E1",
@@ -71,16 +70,34 @@ export const CustomerReviews = () => {
             }}>
             {/* Рейтинг со звездами */}
             <Box sx={{ display: "flex", alignItems: "center" }}>
-              {[...Array(5)].map((_, i) => (
-                <StarIcon
-                  key={i}
-                  sx={{
-                    color: i < review.rating ? "#FFC107" : "#E0E0E0",
-                    fontSize: "20px",
-                    mr: 0.5,
-                  }}
+              <svg width='99' height='20' viewBox='0 0 79 15' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                <rect width='15' height='15' fill='#249A50' />
+                <path
+                  d='M7.4206 10.1064L9.77353 9.47412L10.7147 12.4772L7.4206 10.1064ZM12.7539 6.31294H8.67549L7.4206 2.51953L6.1657 6.31294H2.24414L5.53825 8.68383L4.28335 12.4772L7.57746 10.1064L9.61667 8.68383L12.7539 6.31294Z'
+                  fill='#FAF6F3'
                 />
-              ))}
+                <rect width='15' height='15' transform='translate(16)' fill='#249A50' />
+                <path
+                  d='M23.4206 10.1064L25.7735 9.47412L26.7147 12.4772L23.4206 10.1064ZM28.7539 6.31294H24.6755L23.4206 2.51953L22.1657 6.31294H18.2441L21.5382 8.68383L20.2834 12.4772L23.5775 10.1064L25.6167 8.68383L28.7539 6.31294Z'
+                  fill='#FAF6F3'
+                />
+                <rect width='15' height='15' transform='translate(32)' fill='#249A50' />
+                <path
+                  d='M39.4206 10.1064L41.7735 9.47412L42.7147 12.4772L39.4206 10.1064ZM44.7539 6.31294H40.6755L39.4206 2.51953L38.1657 6.31294H34.2441L37.5382 8.68383L36.2834 12.4772L39.5775 10.1064L41.6167 8.68383L44.7539 6.31294Z'
+                  fill='#FAF6F3'
+                />
+                <rect width='15' height='15' transform='translate(48)' fill='#249A50' />
+                <path
+                  d='M55.4206 10.1064L57.7735 9.47412L58.7147 12.4772L55.4206 10.1064ZM60.7539 6.31294H56.6755L55.4206 2.51953L54.1657 6.31294H50.2441L53.5382 8.68383L52.2834 12.4772L55.5775 10.1064L57.6167 8.68383L60.7539 6.31294Z'
+                  fill='#FAF6F3'
+                />
+                <rect width='15' height='15' transform='translate(64)' fill='#E1E1E1' />
+                <rect x='64' width='9' height='15' fill='#249A50' />
+                <path
+                  d='M71.4265 10.1064L73.7794 9.47412L74.7206 12.4772L71.4265 10.1064ZM76.7598 6.31294H72.6814L71.4265 2.51953L70.1716 6.31294H66.25L69.5441 8.68383L68.2892 12.4772L71.5833 10.1064L73.6225 8.68383L76.7598 6.31294Z'
+                  fill='#FAF6F3'
+                />
+              </svg>
             </Box>
 
             {/* Имя автора */}

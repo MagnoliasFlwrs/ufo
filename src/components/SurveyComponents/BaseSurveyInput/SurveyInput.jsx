@@ -1,7 +1,7 @@
 export const SurveyInput = ({ value, onChange, onFocus, placeholder, error, helperText, inputProps, label }) => {
   return (
     <div className='survey-input'>
-      <div className='input-wrapper'>
+      <div className={`input-wrapper ${error ? "error" : ""}`}>
         <input
           type='number'
           value={value}
@@ -14,7 +14,7 @@ export const SurveyInput = ({ value, onChange, onFocus, placeholder, error, help
         {label && <span className='input-label'>{label}</span>}
       </div>
 
-      {error && <div className='error-message'>{helperText}</div>}
+      <div className='error-message'>{helperText}</div>
     </div>
   );
 };

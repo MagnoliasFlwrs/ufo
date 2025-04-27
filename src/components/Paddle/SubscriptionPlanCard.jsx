@@ -28,24 +28,59 @@ export const SubscriptionPlanCard = ({ title, originalPrice, discountedPrice, pr
           p: "16px !important",
         }}>
         <Box>
-          <Typography variant='h6' fontWeight={600} color='primary.main' align='left'>
+          <Typography variant='h6' color='primary.main' align='left' fontSize={18}>
             {title}
           </Typography>
-          <Box display='flex' alignItems='baseline' gap={1}>
-            <Typography variant='body2' sx={{ textDecoration: "line-through", color: "text.secondary" }}>
+
+          {discountedPrice ? (
+            <Box display='flex' alignItems='baseline' gap={1}>
+              <Typography variant='h6' sx={{ textDecoration: "line-through", color: "#7F6FA4CC" }} fontSize={16}>
+                {originalPrice}
+              </Typography>
+              <Typography variant='h6' fontSize={16} color='primary.main'>
+                {discountedPrice}
+              </Typography>
+            </Box>
+          ) : (
+            <Typography
+              variant='h6'
+              fontSize={16}
+              color='primary.main'
+              alignItems={"left"}
+              display={"flex"}
+              sx={{
+                fontSize: "16px",
+                fontWeight: 600,
+              }}>
               {originalPrice}
             </Typography>
-            <Typography variant='h6' fontWeight={700} color='primary.main'>
-              {discountedPrice}
-            </Typography>
-          </Box>
+          )}
         </Box>
-        <Box textAlign='right'>
-          <Typography variant='h6' fontWeight={700} color='primary.main' fontSize={28}>
-            {pricePerDay}
+
+        <Box sx={{ textAlign: "right" }}>
+          <Typography
+            variant='h6'
+            fontWeight={700}
+            color='primary.main'
+            fontSize={28}
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "flex-end",
+              position: "relative",
+            }}>
+            <span style={{ fontSize: "18px", position: "relative", top: "-6px", right: "3px" }}>$</span> {pricePerDay}
           </Typography>
-          <Typography variant='caption' color='primary.main' fontSize={14}>
-            per day
+
+          <Typography
+            variant='caption'
+            color='primary.main'
+            fontSize={16}
+            sx={{
+              position: "relative",
+              top: "-8px",
+            }}>
+            <span>per day</span>
           </Typography>
         </Box>
       </CardContent>
