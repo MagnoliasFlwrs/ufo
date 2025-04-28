@@ -3,14 +3,14 @@ import { getFirestore, doc, setDoc } from "firebase/firestore";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyANIsL1JM5hNKw4puxBVCoPwxNQTn1Qz1c",
-    authDomain: "ufoapp-525c8.firebaseapp.com",
-    databaseURL: "https://ufoapp-525c8-default-rtdb.firebaseio.com",
-    projectId: "ufoapp-525c8",
-    storageBucket: "ufoapp-525c8.firebasestorage.app",
-    messagingSenderId: "988223681324",
-    appId: "1:988223681324:web:5f9a5faad4b1d4184ff289",
-    measurementId: "G-Q9ZF6GVNMX"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  databaseURL: import.meta.env.VITE_FIREBASE_DATABASE_URL,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
 };
 
 const app = initializeApp(firebaseConfig);

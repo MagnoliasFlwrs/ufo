@@ -1,88 +1,120 @@
 import { useUserStore } from "@/store/store";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
+
+const PADDLE_SCRIPT_URL = "https://cdn.paddle.com/paddle/v2/paddle.js";
+const FRAME_STYLE = "width:100%; min-width:312px; background-color:transparent; border:none;";
+const DEFAULT_LOCATION = { countryCode: "US", postalCode: "00000" };
 
 export const usePaddle = () => {
-  const [isPaddleReady, setIsPaddleReady] = useState(false);
   const [error, setError] = useState(null);
-
+  const [location, setLocation] = useState(DEFAULT_LOCATION);
+  const email = useUserStore((state) => state.email);
   const setPaymentData = useUserStore((state) => state.setPaymentData);
 
-  const initPaddle = useCallback(() => {
-    try {
-      if (!window.Paddle) {
-        throw new Error("Paddle.js not loaded");
-      }
-
-      window.Paddle.Environment.set("sandbox");
-      window.Paddle.Initialize({
-        token: "test_f5c8efdb7d866cadcb0addf090b",
-
-        checkout: {
-          settings: {
-            locale: "en",
-          },
-        },
-
-        eventCallback: function (data) {
-          setPaymentData(data);
-        },
-      });
-      setIsPaddleReady(true);
-      setError(null);
-    } catch (err) {
-      console.error("Paddle initialization failed:", err);
-      setError("Failed to initialize payment system");
-    }
+  useEffect(() => {
+    loadLocation();
+    loadPaddleScript();
   }, []);
 
-  useEffect(() => {
-    if (window.Paddle) {
-      initPaddle();
+  const loadLocation = async () => {
+    const cached = localStorage.getItem("user_location");
+    if (cached) {
+      setLocation(JSON.parse(cached));
       return;
     }
 
-    const existingScript = document.querySelector('script[src="https://cdn.paddle.com/paddle/v2/paddle.js"]');
+    try {
+      const response = await fetch("https://ipapi.co/json/");
+      const data = await response.json();
+      const userLocation = {
+        countryCode: data.country || "US",
+        postalCode: data.postal || "00000",
+      };
+      setLocation(userLocation);
+      localStorage.setItem("user_location", JSON.stringify(userLocation));
+    } catch (err) {
+      console.error("Failed to fetch user location:", err);
+      setLocation(DEFAULT_LOCATION);
+    }
+  };
 
-    if (existingScript) {
-      existingScript.addEventListener("load", initPaddle);
+  const loadPaddleScript = () => {
+    if (window.Paddle) {
+      initializePaddle();
       return;
     }
 
     const script = document.createElement("script");
-    script.src = "https://cdn.paddle.com/paddle/v2/paddle.js";
+    script.src = PADDLE_SCRIPT_URL;
     script.async = true;
-    script.onload = initPaddle;
-    script.onerror = () => {
-      console.error("Failed to load Paddle.js");
-      setError("Failed to load payment system");
-    };
+
+    const handleLoad = () => initializePaddle();
+    const handleError = () => setError("Failed to load Paddle.js");
+
+    script.addEventListener("load", handleLoad);
+    script.addEventListener("error", handleError);
+
     document.body.appendChild(script);
 
     return () => {
-      script.removeEventListener("load", initPaddle);
+      script.removeEventListener("load", handleLoad);
+      script.removeEventListener("error", handleError);
+      document.body.removeChild(script);
     };
-  }, [initPaddle]);
+  };
 
-  const openCheckout = useCallback(
-    (priceId, customerEmail) => {
-      if (!isPaddleReady || !window.Paddle) {
-        console.error("Paddle is not ready");
-        setError("Payment system is not ready");
-        return;
+  const initializePaddle = () => {
+    try {
+      const paddleToken = import.meta.env.VITE_PADDLE_TOKEN;
+
+      if (!paddleToken) {
+        throw new Error("Paddle token is missing in environment variables");
       }
 
-      try {
-        window.Paddle.Checkout.open({
-          items: [{ priceId, quantity: 1 }],
-          ...(customerEmail && { customer: { email: customerEmail } }),
-        });
-      } catch (err) {
-        console.error("Checkout failed:", err);
-        setError("Failed to open checkout");
-      }
-    },
-    [isPaddleReady],
-  );
+      const isProduction = import.meta.env.MODE === "production";
 
-  return { openCheckout, isPaddleReady, error };
+      window.Paddle.Environment.set(isProduction ? "production" : "sandbox");
+      window.Paddle.Initialize({
+        token: paddleToken,
+        checkout: {
+          settings: {
+            locale: "en",
+            displayMode: "inline",
+            frameTarget: "checkout-container",
+            frameInitialHeight: "750",
+            frameStyle: FRAME_STYLE,
+          },
+        },
+        eventCallback: (data) => {
+          if (data?.name === "checkout.customer.created") {
+            setPaymentData(data);
+          }
+        },
+      });
+      setError(null);
+    } catch (err) {
+      console.error("Paddle init error:", err);
+      setError("Failed to initialize Paddle: " + err.message);
+    }
+  };
+
+  const openInlineCheckout = (priceId) => {
+    if (!window.Paddle) return;
+
+    const customerEmail = email || "no-email-provided@example.com";
+
+    window.Paddle.Checkout.open({
+      method: "inline",
+      items: [{ priceId }],
+      customer: {
+        email: customerEmail,
+        address: {
+          countryCode: location.countryCode,
+          postalCode: location.postalCode,
+        },
+      },
+    });
+  };
+
+  return { error, openInlineCheckout };
 };

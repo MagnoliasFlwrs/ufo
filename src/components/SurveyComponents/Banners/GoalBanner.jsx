@@ -1,30 +1,25 @@
-import { useState } from "react";
-import { Box, Button, Snackbar, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import WeightLossChart from "@components/SurveyComponents/Banners/WeightLossChart.jsx";
 import CheckIcon from "@mui/icons-material/Check";
-import {useUserStore} from "@/store/store.js";
+import { useUserStore } from "@/store/store.js";
+import { useNavigate } from "react-router-dom";
 
 export const GoalBanner = () => {
-  const [openSnackbar, setOpenSnackbar] = useState(false);
   const idealWeight = useUserStore((state) => state.idealWeight);
   const userWeight = useUserStore((state) => state.weight);
 
+  const navigate = useNavigate();
+
   const handleClick = () => {
-    setOpenSnackbar(true);
+    navigate("/subscribe");
   };
 
-  const handleCloseSnackbar = () => {
-    setOpenSnackbar(false);
-  };
+  const currentUnixTimestamp = Math.floor(Date.now() / 1000);
 
-    const currentUnixTimestamp = Math.floor(Date.now() / 1000);
+  const weightDifference = userWeight - idealWeight;
+  const weeksRequired = weightDifference / 0.5;
 
-
-    const weightDifference = userWeight - idealWeight;
-    const weeksRequired = weightDifference / 0.5;
-
-
-    const targetUnixTimestamp = currentUnixTimestamp + weeksRequired * 7 * 24 * 60 * 60;
+  const targetUnixTimestamp = currentUnixTimestamp + weeksRequired * 7 * 24 * 60 * 60;
 
   return (
     <Box>
@@ -73,10 +68,15 @@ export const GoalBanner = () => {
               lineHeight: "120%",
               textAlign: "center",
             }}>
-              {idealWeight} kg by {new Date(targetUnixTimestamp * 1000).toLocaleDateString()}
+            {idealWeight} kg by {new Date(targetUnixTimestamp * 1000).toLocaleDateString()}
           </Typography>
         </Box>
-        <WeightLossChart startDateUnix={currentUnixTimestamp} startWeight={userWeight} endDateUnix={targetUnixTimestamp} targetWeight={idealWeight} />
+        <WeightLossChart
+          startDateUnix={currentUnixTimestamp}
+          startWeight={userWeight}
+          endDateUnix={targetUnixTimestamp}
+          targetWeight={idealWeight}
+        />
         <Box sx={{ display: "flex", flexDirection: "column", gap: "8px", alignItems: "flex-start" }}>
           <Typography
             variant='h6'
@@ -172,13 +172,6 @@ export const GoalBanner = () => {
       <Button variant='contained' fullWidth onClick={handleClick} className='survey-next-button'>
         Next
       </Button>
-
-      <Snackbar
-        open={openSnackbar}
-        autoHideDuration={3000}
-        onClose={handleCloseSnackbar}
-        message='All done! Thanks for completing the survey.'
-      />
     </Box>
   );
 };
