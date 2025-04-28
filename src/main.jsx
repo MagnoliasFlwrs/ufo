@@ -16,7 +16,7 @@ const StoreLogger = () => {
 
   useEffect(() => {
     // console.log("Store state updated:", state);
-    console.log("Customer data:", state.customerData);
+    // console.log("Customer data:", state.customerData);
   }, [state]);
 
   return null;

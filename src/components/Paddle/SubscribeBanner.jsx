@@ -155,7 +155,7 @@ export const SubscribeBanner = () => {
       </Typography>
 
       {/* Special Offer Timer */}
-      {isTimerActive && <CountdownTimer initialMinutes={0} initialSeconds={10} onTimerEnd={handleTimerEnd} />}
+      {isTimerActive && <CountdownTimer initialMinutes={10} initialSeconds={0} onTimerEnd={handleTimerEnd} />}
 
       {/* Plan Selection Cards */}
       <Box display='flex' flexDirection='column' gap={2} mt={4}>
@@ -183,6 +183,7 @@ export const SubscribeBanner = () => {
         onClick={scrollToCheckout}
         sx={{
           mt: 3,
+          mb: 2,
           backgroundColor: "#FF5C1D",
           "&:hover": { backgroundColor: "#FF4500" },
           "&:disabled": { backgroundColor: "#FF8D63", color: "white" },
@@ -193,6 +194,21 @@ export const SubscribeBanner = () => {
       {/* Additional Marketing Sections */}
       <UserStats />
       <CustomerReviews />
+
+      {/* CTA Button */}
+      <Button
+        variant='contained'
+        fullWidth
+        className='email-button'
+        onClick={scrollToCheckout}
+        sx={{
+          backgroundColor: "#FF5C1D",
+          "&:hover": { backgroundColor: "#FF4500" },
+          "&:disabled": { backgroundColor: "#FF8D63", color: "white" },
+        }}>
+        Get my plan
+      </Button>
+
       <MoneyBack />
 
       {/* Subscription Summary */}

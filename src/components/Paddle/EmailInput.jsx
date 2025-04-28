@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { Button, Typography, Box, Link } from "@mui/material";
 import { useUserStore } from "@/store/store";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { UfoLogo } from "./UfoLogo";
 
 export const EmailInput = ({ onNext }) => {
@@ -56,7 +55,7 @@ export const EmailInput = ({ onNext }) => {
         }}>
         <svg width='30' height='30' viewBox='0 0 30 30' fill='none' xmlns='http://www.w3.org/2000/svg'>
           <rect x='1' y='1' width='28' height='28' rx='14' fill='#50B671' />
-          <rect x='1' y='1' width='28' height='28' rx='14' stroke='white' stroke-width='2' />
+          <rect x='1' y='1' width='28' height='28' rx='14' stroke='white' strokeWidth='2' />
           <path
             d='M13.364 19.193L22.556 10L23.971 11.414L13.364 22.021L7 15.657L8.414 14.243L13.364 19.193Z'
             fill='#F5F5F5'

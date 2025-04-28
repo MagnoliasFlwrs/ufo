@@ -11,12 +11,12 @@ import { doc, setDoc, getDoc } from "firebase/firestore";
 import { auth, db } from "@/firebase.js";
 
 export const useUserStore = create((set) => ({
-  measurementSystem: "",
+  measurementSystem: "metric",
   age: "",
   gender: "",
   height: "",
-  weight: "",
-  idealWeight: "",
+  weight: "105",
+  idealWeight: "80",
   wishlist: [],
   listOfIntentions: [],
   inspiringEvents: [],

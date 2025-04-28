@@ -3,7 +3,7 @@ import React from "react";
 
 export const MoneyBack = () => {
   return (
-    <Box sx={{ mt: 3, p: 2, backgroundColor: "#F5F5F5", borderRadius: "8px", border: "0.4px solid #DFDFDF" }}>
+    <Box sx={{ mt: 2, p: 2, backgroundColor: "#F5F5F5", borderRadius: "8px", border: "0.4px solid #DFDFDF" }}>
       <Typography
         variant='h5'
         sx={{

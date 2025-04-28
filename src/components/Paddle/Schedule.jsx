@@ -32,9 +32,9 @@ const LARGE_DIFFERENCE_SVG = (
         x2='259.886'
         y2='88.1236'
         gradientUnits='userSpaceOnUse'>
-        <stop stop-color='#FF5C1D' />
-        <stop offset='0.923237' stop-color='#FF5C1D' />
-        <stop offset='1' stop-color='#249A50' />
+        <stop stopColor='#FF5C1D' />
+        <stop offset='0.923237' stopColor='#FF5C1D' />
+        <stop offset='1' stopColor='#249A50' />
       </linearGradient>
     </defs>
   </svg>
@@ -67,9 +67,9 @@ const SMALL_DIFFERENCE_SVG = (
         x2='240.867'
         y2='86.3421'
         gradientUnits='userSpaceOnUse'>
-        <stop stop-color='#FF5C1D' />
-        <stop offset='0.923237' stop-color='#FF5C1D' />
-        <stop offset='1' stop-color='#249A50' />
+        <stop stopColor='#FF5C1D' />
+        <stop offset='0.923237' stopColor='#FF5C1D' />
+        <stop offset='1' stopColor='#249A50' />
       </linearGradient>
     </defs>
   </svg>

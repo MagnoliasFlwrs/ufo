@@ -12,10 +12,10 @@ export const SubscriptionInfo = ({ introPrice, originalPrice, endDate, introPeri
       }}>
       <Box sx={{ mb: 2 }}>
         {[
-          `You will only be charged ${introPrice} today for your first ${introPeriod.toLowerCase()} (details below)`,
+          `You will only be charged $${introPrice} today for your first ${introPeriod.toLowerCase()} (details below)`,
           `Your introductory period will last until ${endDate}.`,
           `You may cancel at any time before ${endDate}, and you will not be charged.`,
-          `If you don't cancel, we will automatically continue your membership at the end of your introductory period and charge the regular price of ${originalPrice}.`,
+          `If you don't cancel, we will automatically continue your membership at the end of your introductory period and charge the regular price of $${originalPrice}.`,
           `No partial refunds. You can cancel your subscription anytime on your Subscription Management page.`,
         ].map((item, index) => (
           <Box
