@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { Button, Typography, Box, Link } from "@mui/material";
-import { useUserStore } from "@/store/store";
+import {useFirestoreDataStore, useUserStore} from "@/store/store";
 import { UfoLogo } from "./UfoLogo";
 
 export const EmailInput = ({ onNext }) => {
@@ -8,6 +8,52 @@ export const EmailInput = ({ onNext }) => {
   const inputRef = useRef(null);
   const [isValidEmail, setIsValidEmail] = useState(false);
 
+  const createUser = useFirestoreDataStore((state) => state.createUser)
+  const sendSignInEmail = useFirestoreDataStore((state) => state.sendSignInEmail)
+    const measurementSystem = useUserStore((state) => state.measurementSystem);
+    const age = useUserStore((state) => state.age);
+    const gender = useUserStore((state) => state.gender);
+    const height = useUserStore((state) => state.height);
+    const weight = useUserStore((state) => state.weight);
+    const idealWeight = useUserStore((state) => state.idealWeight);
+    const wishlist = useUserStore((state) => state.wishlist);
+    const listOfIntentions = useUserStore((state) => state.listOfIntentions);
+    const inspiringEvents = useUserStore((state) => state.inspiringEvents);
+    const fastFoodTime = useUserStore((state) => state.fastFoodTime);
+    const nonHungerTriggers = useUserStore((state) => state.nonHungerTriggers);
+    const dietingHistory = useUserStore((state) => state.dietingHistory);
+    const weightLossSuccess = useUserStore((state) => state.weightLossSuccess);
+    const mealPreference = useUserStore((state) => state.mealPreference);
+    const startDay = useUserStore((state) => state.startDay);
+    const mealSchedule = useUserStore((state) => state.mealSchedule);
+    const weeklyActivities = useUserStore((state) => state.weeklyActivities);
+    const healthConditions = useUserStore((state) => state.healthConditions);
+    const dailyCalories = useUserStore((state) => state.dailyCalories);
+    const selectedMealPlan = useUserStore((state) => state.selectedMealPlan);
+
+  // const data = {
+  //     measurementSystem:measurementSystem,
+  //     age:age,
+  //     gender:gender,
+  //     height:height,
+  //     weight:weight,
+  //     idealWeight:idealWeight,
+  //     wishlist:wishlist,
+  //     listOfIntentions:listOfIntentions,
+  //     inspiringEvents:inspiringEvents,
+  //     fastFoodTime:fastFoodTime,
+  //     nonHungerTriggers:nonHungerTriggers,
+  //     dietingHistory:dietingHistory,
+  //     weightLossSuccess:weightLossSuccess,
+  //     mealPreference:mealPreference,
+  //     startDay:startDay,
+  //     mealSchedule:mealSchedule,
+  //     weeklyActivities:weeklyActivities,
+  //     healthConditions:healthConditions,
+  //     dailyCalories:dailyCalories,
+  //     selectedMealPlan:selectedMealPlan
+  // }
+  // console.log(data);
   const updateUserData = useUserStore((state) => state.updateUserData);
 
   useEffect(() => {
@@ -28,6 +74,23 @@ export const EmailInput = ({ onNext }) => {
 
     const trimmedEmail = email.trim();
     updateUserData("email", trimmedEmail);
+
+    const onboardingData = {
+        userAge:age,
+        userHeight:height,
+        userInitWeight:weight,
+        userInspEvents:inspiringEvents,
+        userIntentions:listOfIntentions,
+        userSex:gender,
+        userWeightLoss:weightLossSuccess,
+    }
+
+    localStorage.setItem("email", trimmedEmail);
+    localStorage.setItem("mealPreference", mealPreference);
+    localStorage.setItem("startDay", startDay);
+    localStorage.setItem("onboardingData", JSON.stringify(onboardingData));
+      sendSignInEmail(trimmedEmail)
+
     onNext();
   };
 
