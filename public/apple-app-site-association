@@ -3,7 +3,7 @@
     "apps": [],
     "details": [
       {
-        "appID": "ABCDE12345.com.example.myapp",
+        "appID": "XS4572KU22.com.appossum.ufo.app",
         "paths": [ "/articles/*", "/profile/*" ]
       }
     ]
