@@ -6,9 +6,9 @@ import {
   sendSignInLinkToEmail,
   isSignInWithEmailLink,
   signInWithEmailLink,
-  signInAnonymously
+  signInAnonymously,
 } from "firebase/auth";
-import { doc, setDoc, getDoc , addDoc, collection } from "firebase/firestore";
+import { doc, setDoc, getDoc, addDoc, collection } from "firebase/firestore";
 import { auth, db } from "@/firebase.js";
 
 export const useUserStore = create((set) => ({
@@ -73,13 +73,10 @@ export const useFirestoreDataStore = create((set) => ({
         createdAt: new Date(),
         mealPreferences: mealPreference,
         weekStartDay: startDay,
-        isOnboardingPassed: true
+        isOnboardingPassed: true,
       });
 
-      await setDoc(
-          doc(db, "users", user.uid, "onboarding_user_info", user.uid),
-          onboardingData
-      );
+      await setDoc(doc(db, "users", user.uid, "onboarding_user_info", user.uid), onboardingData);
 
       console.log(" пользователь создан и добавлен в Firestore!");
     } catch (error) {
@@ -101,11 +98,11 @@ export const useFirestoreDataStore = create((set) => ({
     }
   },
 
-  finishSignIn: async (onboardingData = {}, mealPreference = '', startDay = '') => {
-    const email = window.localStorage.getItem('email') ;
+  finishSignIn: async (onboardingData = {}, mealPreference = "", startDay = "") => {
+    const email = window.localStorage.getItem("email");
 
     if (!email) {
-      console.log('Email обязателен!');
+      console.log("Email обязателен!");
       return;
     }
 
@@ -113,9 +110,9 @@ export const useFirestoreDataStore = create((set) => ({
       const result = await signInWithEmailLink(auth, email, window.location.href);
       const user = result.user;
 
-      console.log('Пользователь вошёл:', user.uid);
+      console.log("Пользователь вошёл:", user.uid);
 
-      await setDoc(doc(db, 'users', user.uid), {
+      await setDoc(doc(db, "users", user.uid), {
         userEmail: user.email,
         userId: user.uid,
         createdAt: new Date(),
@@ -125,18 +122,17 @@ export const useFirestoreDataStore = create((set) => ({
       });
 
       if (onboardingData && Object.keys(onboardingData).length > 0) {
-        await setDoc(doc(db, 'users', user.uid, 'onboarding_user_info', user.uid), onboardingData);
+        await setDoc(doc(db, "users", user.uid, "onboarding_user_info", user.uid), onboardingData);
       }
 
-      console.log('Данные пользователя добавлены в Firestore!');
-      localStorage.removeItem('email')
-      localStorage.removeItem('mealPreference')
-      localStorage.removeItem('startDay')
-      localStorage.removeItem('onboardingData')
+      console.log("Данные пользователя добавлены в Firestore!");
+      localStorage.removeItem("email");
+      localStorage.removeItem("mealPreference");
+      localStorage.removeItem("startDay");
+      localStorage.removeItem("onboardingData");
     } catch (error) {
-      console.error('Ошибка входа:', error);
+      console.error("Ошибка входа:", error);
       console.log(error.message);
-
     }
   },
 }));

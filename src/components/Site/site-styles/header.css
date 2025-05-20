@@ -237,6 +237,7 @@
   font-weight: 500;
   line-height: 120%; /* 16.8px */
   margin-left: 31px;
+  width: -moz-fit-content;
   width: fit-content;
   opacity: 0;
 }
@@ -260,6 +261,4 @@
     margin-left: 16px;
     opacity: 1;
   }
-}
-
-/*# sourceMappingURL=header.css.map */
+}/*# sourceMappingURL=header.css.map */

@@ -22,7 +22,7 @@ export const MoneyBack = () => {
         provide a full refund. You will need to demonstrate that you have followed the program. Find more about the
         applicable limitations in our{" "}
         <Link
-          href='/refund-policy'
+          href='/cancellation-refund-policy'
           sx={{
             color: "primary.main",
             textDecoration: "underline",

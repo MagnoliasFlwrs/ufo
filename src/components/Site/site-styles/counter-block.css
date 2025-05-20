@@ -89,6 +89,7 @@
   gap: 10px;
   border-radius: 8px;
   background: var(--Primary, #FF5C1D);
+  width: -moz-fit-content;
   width: fit-content;
   color: var(--Light-Grey, #F5F5F5);
   text-align: center;
@@ -163,6 +164,4 @@
     width: 28px;
     height: 28px;
   }
-}
-
-/*# sourceMappingURL=counter-block.css.map */
+}/*# sourceMappingURL=counter-block.css.map */

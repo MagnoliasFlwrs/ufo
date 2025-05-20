@@ -62,7 +62,7 @@ export const SubscriptionInfo = ({ introPrice, originalPrice, endDate, introPeri
           }}>
           Your subscription will be bound by our{" "}
           <Link
-            href='/terms'
+            href='/terms-of-use'
             sx={{
               color: "primary.main",
               textDecoration: "underline",

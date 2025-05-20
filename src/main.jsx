@@ -9,13 +9,16 @@ import theme from "./theme/theme";
 import SubscribeLayout from "./routes/SubscribeLayout.jsx";
 import "./index.css";
 import "./styles/main.scss";
+import TermsOfUse from "./routes/TermsOfUse.jsx";
+import PrivacyPolicy from "./routes/PrivacyPolicy.jsx";
+import CancellationRefundPolicy from "./routes/CancellationRefundPolicy.jsx";
 
 // loggerer for store state changes
 const StoreLogger = () => {
   const state = useUserStore((state) => state);
 
   useEffect(() => {
-    console.log("Store state updated:", state);
+    // console.log("Store state updated:", state);
     // console.log("Customer data:", state.customerData);
   }, [state]);
 
@@ -35,6 +38,18 @@ const App = () => {
     {
       path: "/subscribe",
       element: <SubscribeLayout />,
+    },
+    {
+      path: "/terms-of-use",
+      element: <TermsOfUse />,
+    },
+    {
+      path: "/privacy-policy",
+      element: <PrivacyPolicy />,
+    },
+    {
+      path: "/cancellation-refund-policy",
+      element: <CancellationRefundPolicy />,
     },
   ];
 
