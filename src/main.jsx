@@ -27,30 +27,14 @@ const StoreLogger = () => {
 
 const App = () => {
   const routes = [
-    {
-      path: "/",
-      element: <MainLayout />,
-    },
-    {
-      path: "/get-started",
-      element: <GetStartedLayout />,
-    },
-    {
-      path: "/subscribe",
-      element: <SubscribeLayout />,
-    },
-    {
-      path: "/terms-of-use",
-      element: <TermsOfUse />,
-    },
-    {
-      path: "/privacy-policy",
-      element: <PrivacyPolicy />,
-    },
-    {
-      path: "/cancellation-refund-policy",
-      element: <CancellationRefundPolicy />,
-    },
+    { path: "/", element: <MainLayout /> },
+    { path: "/get-started", element: <GetStartedLayout /> },
+    { path: "/subscribe", element: <SubscribeLayout /> },
+    { path: "/terms-of-use", element: <TermsOfUse /> },
+    { path: "/privacy-policy", element: <PrivacyPolicy /> },
+    { path: "/cancellation-refund-policy", element: <CancellationRefundPolicy /> },
+
+    { path: "*", element: <MainLayout /> }, // Default route
   ];
 
   const router = createBrowserRouter(routes);

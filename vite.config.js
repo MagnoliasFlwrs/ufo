@@ -4,6 +4,7 @@ import { resolve } from "path";
 
 export default defineConfig({
   plugins: [react()],
+  base: "/",
   resolve: {
     alias: {
       "@components": resolve(__dirname, "src/components"),
@@ -11,6 +12,10 @@ export default defineConfig({
     },
   },
   server: {
-    allowedHosts: ['.ngrok-free.app']
-  }
+    allowedHosts: [".ngrok-free.app"],
+  },
+  build: {
+    outDir: "dist",
+    assetsDir: "assets",
+  },
 });
