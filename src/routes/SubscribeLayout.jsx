@@ -16,11 +16,11 @@ const SubscribeLayout = () => {
   const navigate = useNavigate();
 
   // Effect to check measurementSystem and redirect if necessary
-  useEffect(() => {
-    if (!measurementSystem) {
-      navigate("/get-started"); // Redirect if measurementSystem is empty
-    }
-  }, [measurementSystem, navigate]); // Runs whenever measurementSystem or navigate changes
+  // useEffect(() => {
+  //   if (!measurementSystem) {
+  //     navigate("/get-started");
+  //   }
+  // }, [measurementSystem, navigate]);
 
   const steps = useMemo(
     () => [

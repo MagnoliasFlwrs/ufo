@@ -3,41 +3,163 @@
   max-width: 1050px;
   margin: 0 auto;
   padding: 20px;
-  text-align: center;
+  text-align: left;
   color: var(--Dark-Purple, #241063);
+  /* Оглавление */
+  /* Кнопки */
 }
 .policy-container h1 {
   font-size: 32px;
   margin-bottom: 15px;
+  text-align: center;
 }
 .policy-container .last-updated {
   font-size: 18px;
   margin-bottom: 30px;
+  text-align: center;
+  color: #666;
+}
+.policy-container .toc {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 30px;
+  border: 1px solid #e0e0e0;
+}
+.policy-container .toc h2 {
+  font-size: 24px;
+  margin-bottom: 15px;
+  color: var(--Dark-Purple, #241063);
+  text-align: center;
+}
+.policy-container .toc ul {
+  list-style-type: none;
+  padding: 0;
+  -moz-columns: 3;
+       columns: 3;
+  -moz-column-gap: 30px;
+       column-gap: 30px;
+}
+@media (max-width: 767px) {
+  .policy-container .toc ul {
+    -moz-columns: 1;
+         columns: 1;
+    text-align: center;
+  }
+}
+.policy-container .toc li {
+  margin: 10px 0;
+  -moz-column-break-inside: avoid;
+       break-inside: avoid;
+}
+.policy-container .toc a {
+  color: var(--Dark-Purple, #241063);
+  text-decoration: none;
+  font-size: 16px;
+  transition: color 0.2s;
+}
+.policy-container .toc a:hover {
+  color: #6a5acd;
+  text-decoration: underline;
 }
 .policy-container .policy-section {
-  margin-bottom: 30px;
+  margin-bottom: 40px;
+  line-height: 1.6;
+}
+.policy-container .policy-section .policy-list {
+  list-style-type: none;
+  padding: 0;
+}
+.policy-container .policy-section .policy-list li {
+  margin-bottom: 5px;
+  position: relative;
+  padding-left: 25px;
 }
 .policy-container .policy-section h2 {
-  font-size: 32px;
-  margin-bottom: 15px;
+  font-size: 28px;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+  color: var(--Dark-Purple, #241063);
+}
+.policy-container .policy-section h3 {
+  font-size: 24px;
+  padding-bottom: 10px;
+  color: var(--Dark-Purple, #241063);
 }
 .policy-container .policy-section p,
 .policy-container .policy-section li {
   font-size: 18px;
   line-height: 1.6;
+  margin-bottom: 15px;
 }
 .policy-container .policy-section ul {
   list-style-type: none;
   padding: 0;
 }
 .policy-container .policy-section ul li {
-  margin-bottom: 8px;
+  margin-bottom: 10px;
+  position: relative;
+  padding-left: 25px;
+  margin-left: 40px;
 }
 .policy-container .policy-section ul li::before {
   content: "•";
-  margin-right: 8px;
+  position: absolute;
+  left: 0;
+  color: var(--Dark-Purple, #241063);
+  font-size: 20px;
+  line-height: 1;
+}
+.policy-container .policy-section ul li ul {
+  list-style-type: none;
+  padding: 0;
+}
+.policy-container .policy-section ul li ul li {
+  margin-bottom: 5px;
+  margin-left: 40px;
+  position: relative;
+  padding-left: 25px;
+}
+.policy-container .policy-section strong {
+  font-weight: 600;
+}
+.policy-container .back-to-top {
+  text-align: center;
+  margin: 40px 0 30px;
+}
+.policy-container .back-to-top a {
+  color: #666;
+  text-decoration: none;
+  font-size: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.policy-container .back-to-top a:hover {
+  color: var(--Dark-Purple, #241063);
+}
+.policy-container .download-pdf {
+  text-align: center;
+  margin: 30px 0;
+}
+.policy-container .download-pdf .pdf-button {
+  display: inline-block;
+  background: var(--Dark-Purple, #241063);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 16px;
+  transition: background 0.2s, transform 0.2s;
+}
+.policy-container .download-pdf .pdf-button:hover {
+  background: #3a2a7a;
+  transform: translateY(-2px);
 }
 
+/* Адаптивность */
 @media (max-width: 1024px) {
   .policy-container {
     padding: 15px;
@@ -48,12 +170,15 @@
   .policy-container .last-updated {
     font-size: 16px;
   }
+  .policy-container .toc h2 {
+    font-size: 22px;
+  }
   .policy-container .policy-section h2 {
-    font-size: 28px;
+    font-size: 26px;
   }
   .policy-container .policy-section p,
   .policy-container .policy-section li {
-    font-size: 16px;
+    font-size: 17px;
   }
 }
 @media (max-width: 767px) {
@@ -65,34 +190,50 @@
     margin-bottom: 10px;
   }
   .policy-container .last-updated {
-    font-size: 14px;
+    font-size: 15px;
     margin-bottom: 20px;
   }
+  .policy-container .toc {
+    padding: 15px;
+  }
+  .policy-container .toc h2 {
+    font-size: 20px;
+  }
+  .policy-container .toc a {
+    font-size: 15px;
+  }
   .policy-container .policy-section {
-    margin-bottom: 20px;
+    margin-bottom: 30px;
   }
   .policy-container .policy-section h2 {
     font-size: 22px;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
   }
   .policy-container .policy-section p,
   .policy-container .policy-section li {
-    font-size: 15px;
+    font-size: 16px;
     line-height: 1.5;
+  }
+  .policy-container .download-pdf .pdf-button {
+    padding: 10px 20px;
+    font-size: 15px;
   }
 }
 @media (max-width: 479px) {
   .policy-container h1 {
-    font-size: 20px;
+    font-size: 22px;
   }
   .policy-container .last-updated {
-    font-size: 13px;
+    font-size: 14px;
+  }
+  .policy-container .toc h2 {
+    font-size: 18px;
   }
   .policy-container .policy-section h2 {
-    font-size: 18px;
+    font-size: 20px;
   }
   .policy-container .policy-section p,
   .policy-container .policy-section li {
-    font-size: 14px;
+    font-size: 15px;
   }
 }/*# sourceMappingURL=policiesCommon.css.map */
