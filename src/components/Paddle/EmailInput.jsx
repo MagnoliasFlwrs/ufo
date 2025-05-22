@@ -25,11 +25,24 @@ export const EmailInput = ({ onNext }) => {
   const healthConditions = useUserStore((state) => state.healthConditions);
 
   const updateUserData = useUserStore((state) => state.updateUserData);
+  const [password, setPassword] = useState("");
 
   useEffect(() => {
     inputRef.current?.focus();
   }, []);
 
+    const generatePassword = () => {
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
+        let newPassword = '';
+        for (let i = 0; i < 12; i++) {
+            newPassword += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        setPassword(newPassword);
+        return newPassword;
+    };
+    useEffect(() => {
+        generatePassword()
+    }, [])
   const validateEmail = (email) => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(email);
@@ -39,34 +52,35 @@ export const EmailInput = ({ onNext }) => {
     setIsValidEmail(validateEmail(email.trim()));
   }, [email]);
 
-  const handleNext = () => {
-    if (!isValidEmail) return;
+    const handleNext = async () => {
+        if (!isValidEmail) return;
 
-    const trimmedEmail = email.trim();
-    updateUserData("email", trimmedEmail);
+        const trimmedEmail = email.trim();
+        updateUserData("email", trimmedEmail);
 
-    const onboardingData = {
-      userAge: age,
-      userHeight: height,
-      userInitWeight: weight,
-      userInspEvents: inspiringEvents,
-      userIntentions: listOfIntentions,
-      userSex: gender,
-      userWeightLoss: weightLossSuccess,
-      userFastFood: fastFoodTime,
-      userGoals: wishlist,
-      userEats: nonHungerTriggers,
-      userConditions: healthConditions,
+        const onboardingData = {
+            userAge: age,
+            userHeight: height,
+            userInitWeight: weight,
+            userInspEvents: inspiringEvents,
+            userIntentions: listOfIntentions,
+            userSex: gender,
+            userWeightLoss: weightLossSuccess,
+            userFastFood: fastFoodTime,
+            userGoals: wishlist,
+            userEats: nonHungerTriggers,
+            userConditions: healthConditions,
+        };
+
+        try {
+            await createUser(trimmedEmail, mealPreference, startDay, onboardingData, password);
+            await sendSignInEmail(trimmedEmail);
+            onNext();
+        } catch (error) {
+            console.error("Ошибка в процессе регистрации:", error);
+            onNext();
+        }
     };
-
-    localStorage.setItem("email", trimmedEmail);
-    localStorage.setItem("mealPreference", mealPreference);
-    localStorage.setItem("startDay", startDay);
-    localStorage.setItem("onboardingData", JSON.stringify(onboardingData));
-    sendSignInEmail(trimmedEmail);
-
-    onNext();
-  };
 
   const handleKeyDown = (event) => {
     if (event.key === "Enter" && isValidEmail) {

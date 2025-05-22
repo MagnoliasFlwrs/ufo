@@ -62,9 +62,10 @@ export const useUserStore = create((set) => ({
 }));
 
 export const useFirestoreDataStore = create((set) => ({
-  createUser: async ({ email, mealPreference, startDay, onboardingData }) => {
+
+  createUser: async ({ email, mealPreference, startDay, onboardingData, password  }) => {
     try {
-      const userCredential = await signInAnonymously(auth);
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
       await setDoc(doc(db, "users", user.uid), {
@@ -78,15 +79,14 @@ export const useFirestoreDataStore = create((set) => ({
 
       await setDoc(doc(db, "users", user.uid, "onboarding_user_info", user.uid), onboardingData);
 
-      console.log(" пользователь создан и добавлен в Firestore!");
+      console.log("Пользователь успешно создан и добавлен в Firestore!");
     } catch (error) {
       console.log(error.message);
     }
   },
-
   sendSignInEmail: async (email) => {
     const actionCodeSettings = {
-      url: "http://localhost:5173/",
+      url: "https://ufo-weight.com/",
       handleCodeInApp: true,
     };
 
