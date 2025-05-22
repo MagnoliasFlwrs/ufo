@@ -15,13 +15,13 @@ export const AgeInput = ({ onNext }) => {
 
     if (!age) {
       setError(true);
-      setErrorMessage("Please enter your age from 18 to 40.");
+      setErrorMessage("Please enter your age from 18 to 100.");
       return;
     }
 
-    if (ageNumber < 18 || ageNumber > 40) {
+    if (ageNumber < 18 || ageNumber > 100) {
       setError(true);
-      setErrorMessage("Please enter a valid age between 18 and 40.");
+      setErrorMessage("Please enter a valid age between 18 and 100.");
       return;
     }
 
@@ -65,7 +65,7 @@ export const AgeInput = ({ onNext }) => {
           helperText={errorMessage}
           inputProps={{
             min: 18,
-            max: 40,
+            max: 100,
           }}
           label='years'
         />

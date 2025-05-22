@@ -14,7 +14,20 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 650px;
+  height: 700px;
+}
+@media (max-width: 475px) {
+  .content {
+    min-height: 84vh;
+    max-height: 700px;
+    height: auto;
+    overflow: hidden;
+  }
+}
+@media (max-width: 380px) {
+  .content {
+    min-height: 80vh;
+  }
 }
 
 .survey-subtitle {
@@ -197,8 +210,10 @@
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
-.custom-checkbox:hover {
-  background-color: #ffc9b5;
+@media (hover: hover) {
+  .custom-checkbox:hover {
+    background-color: #ffc9b5;
+  }
 }
 .custom-checkbox .checkbox-icon {
   width: 22px;

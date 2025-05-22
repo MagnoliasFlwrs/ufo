@@ -1,14 +1,32 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { Box, Button, Typography } from "@mui/material";
 import bannerImage from "@components/Site/site-images/banner3.png";
 
 export const LongTermResultsBanner = ({ onClose }) => {
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    if (containerRef.current) {
+      containerRef.current.focus();
+    }
+  }, []);
+
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      onClose();
+    }
+  };
+
   return (
     <Box
+      ref={containerRef}
+      tabIndex={0}
+      onKeyDown={handleKeyDown}
       sx={{
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
+        outline: "none",
       }}>
       <Box
         sx={{
@@ -56,6 +74,9 @@ export const LongTermResultsBanner = ({ onClose }) => {
           gap: "20px",
           alignItems: "center",
           marginBottom: "124px",
+          "@media (max-width: 380px)": {
+            marginBottom: "24px",
+          },
         }}>
         <Box
           sx={{
@@ -75,8 +96,11 @@ export const LongTermResultsBanner = ({ onClose }) => {
             fontSize: "14px",
             fontWeight: "450",
             lineHeight: "150%",
-            marginBottom: "58px",
             textAlign: "left",
+            marginBottom: "58px",
+            "@media (max-width: 380px)": {
+              marginBottom: "0px",
+            },
           }}>
           Scientific Reports - 78% of participants using UFO lost weight over a 6 month study.
         </Typography>

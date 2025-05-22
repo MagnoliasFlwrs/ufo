@@ -1,14 +1,8 @@
 import { create } from "zustand";
 import MealDiets from "@/data/MealDiets.json";
 import { calculateCalories } from "@/utils/calculations";
-import {
-  createUserWithEmailAndPassword,
-  sendSignInLinkToEmail,
-  isSignInWithEmailLink,
-  signInWithEmailLink,
-  signInAnonymously,
-} from "firebase/auth";
-import { doc, setDoc, getDoc, addDoc, collection } from "firebase/firestore";
+import { sendSignInLinkToEmail, signInWithEmailLink, signInAnonymously } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
 import { auth, db } from "@/firebase.js";
 
 export const useUserStore = create((set) => ({

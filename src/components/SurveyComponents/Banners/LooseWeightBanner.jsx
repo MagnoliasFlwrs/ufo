@@ -1,9 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Box, Button, LinearProgress, Typography } from "@mui/material";
 import bannerImage from "@components/Site/site-images/banner2.png";
 
 export const LooseWeightBanner = ({ onClose }) => {
   const [progress, setProgress] = useState(0);
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    if (containerRef.current) {
+      containerRef.current.focus();
+    }
+  }, []);
+
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter" && progress === 100) {
+      onClose();
+    }
+  };
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -21,10 +34,14 @@ export const LooseWeightBanner = ({ onClose }) => {
 
   return (
     <Box
+      ref={containerRef}
+      tabIndex={0}
+      onKeyDown={handleKeyDown}
       sx={{
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
+        outline: "none",
       }}>
       <Box
         sx={{

@@ -33,7 +33,7 @@ export const SubscribeBanner = () => {
     // Use discounted price if timer is active, otherwise use regular price
     const priceToUse = isTimerActive ? plan.discountedPrice : plan.originalPrice;
     const pricePerDay = priceToUse / plan.introPeriod;
-    return `$${pricePerDay.toFixed(2)}`;
+    return `${pricePerDay.toFixed(2)}`;
   };
 
   // Check for Paddle SDK availability

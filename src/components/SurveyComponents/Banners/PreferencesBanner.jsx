@@ -72,8 +72,8 @@ export const PreferencesBanner = ({ onClose }) => {
         flexDirection: "column",
         gap: "20px",
         alignItems: "center",
-          flexGrow:1,
-          height:'calc(100vh - 20px)'
+        flexGrow: 1,
+        height: "calc(100vh - 20px)",
       }}>
       <CircularProgress size='30px' sx={{ color: "#FF5C1D" }} />
 
@@ -84,9 +84,9 @@ export const PreferencesBanner = ({ onClose }) => {
           display: "flex",
           flexDirection: "column",
           gap: "20px",
-            flexGrow:1
+          flexGrow: 1,
         }}>
-        <Box key={currentSlide.id} sx={{flexGrow: 1, display: "flex", flexDirection: "column"}}>
+        <Box key={currentSlide.id} sx={{ flexGrow: 1, display: "flex", flexDirection: "column" }}>
           <Typography
             variant='h6'
             sx={{
@@ -110,7 +110,15 @@ export const PreferencesBanner = ({ onClose }) => {
             <PreferencesBannerCaloryItem name='fat' gr={currentSlide.fat.gr} percent={currentSlide.fat.percent} />
           </Box>
 
-          <Box sx={{ flexGrow: 1, width: "100%", position: "relative" , marginTop:'auto', display: "flex" ,alignItems: "flex-end" }}>
+          <Box
+            sx={{
+              flexGrow: 1,
+              width: "100%",
+              position: "relative",
+              marginTop: "auto",
+              display: "flex",
+              alignItems: "flex-end",
+            }}>
             <img
               style={{
                 objectPosition: "left bottom",

@@ -5,8 +5,8 @@ import { useUserStore } from "@/store/store";
 
 export const IdealWeight = ({ onNext }) => {
   const [idealWeight, setIdealWeight] = useState("");
-  const [errorMessage, setErrorMessage] = useState("Goal cannot be accepted");
-  const userWeight = useUserStore((state) => state.weight);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isTouched, setIsTouched] = useState(false);
   const userHeight = useUserStore((state) => state.height);
 
   const updateUserData = useUserStore((state) => state.updateUserData);
@@ -24,12 +24,9 @@ export const IdealWeight = ({ onNext }) => {
 
   const { minWeight, maxWeight } = calculateNormalWeightRange(userHeight);
 
-  const validateWeight = (weightValue) => {
-    const currentWeight = isMetric ? userWeight : userWeight * 2.20462;
+  const validateWeight = () => {
+    if (!isTouched) return "";
 
-    // if (!weightValue || weightValue > currentWeight) {
-    //   return "Goal cannot be accepted";
-    // }
     return "Goal accepted!";
   };
 
@@ -45,7 +42,12 @@ export const IdealWeight = ({ onNext }) => {
     }
   };
 
+  const handleFocus = () => {
+    setIsTouched(true);
+  };
+
   const handleNext = () => {
+    if (!isTouched) setIsTouched(true);
     const weightValue = parseFloat(idealWeight);
     const validationMessage = validateWeight(weightValue);
 
@@ -76,6 +78,7 @@ export const IdealWeight = ({ onNext }) => {
         <SurveyInput
           value={idealWeight}
           onChange={handleWeightChange}
+          onFocus={handleFocus}
           placeholder={isMetric ? "Enter your weight in kg" : "Enter your weight in lbs (e.g., 180)"}
           error={errorMessage === "Goal cannot be accepted"}
           helperText={errorMessage}

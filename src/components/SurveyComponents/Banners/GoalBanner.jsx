@@ -3,15 +3,28 @@ import WeightLossChart from "@components/SurveyComponents/Banners/WeightLossChar
 import CheckIcon from "@mui/icons-material/Check";
 import { useUserStore } from "@/store/store.js";
 import { useNavigate } from "react-router-dom";
+import { useEffect, useRef } from "react";
 
 export const GoalBanner = () => {
   const idealWeight = useUserStore((state) => state.idealWeight);
   const userWeight = useUserStore((state) => state.weight);
-
+  const containerRef = useRef(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (containerRef.current) {
+      containerRef.current.focus();
+    }
+  }, []);
 
   const handleClick = () => {
     navigate("/subscribe");
+  };
+
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      handleClick();
+    }
   };
 
   const currentUnixTimestamp = Math.floor(Date.now() / 1000);
@@ -22,7 +35,7 @@ export const GoalBanner = () => {
   const targetUnixTimestamp = currentUnixTimestamp + weeksRequired * 7 * 24 * 60 * 60;
 
   return (
-    <Box>
+    <Box ref={containerRef} tabIndex={0} onKeyDown={handleKeyDown} sx={{ outline: "none" }}>
       <Box
         sx={{
           display: "flex",

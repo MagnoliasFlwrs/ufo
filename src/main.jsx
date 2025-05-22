@@ -8,6 +8,7 @@ import GetStartedLayout from "./routes/GetStartedLayout.jsx";
 import theme from "./theme/theme";
 import SubscribeLayout from "./routes/SubscribeLayout.jsx";
 import "./index.css";
+import "./styles/fonts.css";
 import "./styles/main.scss";
 import TermsOfUse from "./routes/TermsOfUse.jsx";
 import PrivacyPolicy from "./routes/PrivacyPolicy.jsx";

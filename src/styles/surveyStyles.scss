@@ -16,7 +16,18 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 650px;
+  height: 700px;
+
+  @media (max-width: 475px) {
+    min-height: 84vh;
+    max-height: 700px;
+    height: auto;
+    overflow: hidden;
+  }
+
+  @media (max-width: 380px) {
+    min-height: 80vh;
+  }
 }
 
 .survey-subtitle {
@@ -225,7 +236,9 @@
   transition: background-color 0.3s ease;
 
   &:hover {
-    background-color: vars.$secondary-bg-color;
+    @media (hover: hover) {
+      background-color: vars.$secondary-bg-color;
+    }
   }
 
   .checkbox-icon {

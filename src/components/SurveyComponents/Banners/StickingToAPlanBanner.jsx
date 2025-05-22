@@ -1,14 +1,31 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { Box, Button, Typography } from "@mui/material";
 import bannerImage from "../../Site/site-images/banner1.png";
 
 export const StickingToAPlanBanner = ({ onNext }) => {
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    if (containerRef.current) {
+      containerRef.current.focus();
+    }
+  }, []);
+
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      onNext();
+    }
+  };
   return (
     <Box
+      ref={containerRef}
+      tabIndex={0}
+      onKeyDown={handleKeyDown}
       sx={{
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
+        outline: "none",
       }}>
       <Box
         sx={{

@@ -122,15 +122,17 @@ export const Schedule = () => {
             }}>
             You can reach your goal of
           </Typography>
+
           <Typography
             sx={{
               fontSize: "22px",
               color: "#241063",
-              fontWeight: 500,
               textAlign: "center",
+              fontFamily: "Inter",
+              fontWeight: 700,
             }}>
-            <strong style={{ color: "#FF5C1D" }}>{getDisplayWeight(realIdealWeight)}</strong> by{" "}
-            <strong>{formattedGoalDate}</strong>
+            <span style={{ color: "#FF5C1D" }}>{getDisplayWeight(realIdealWeight)} by</span>{" "}
+            <span>{formattedGoalDate}</span>
           </Typography>
         </>
       ) : (
@@ -193,7 +195,7 @@ export const Schedule = () => {
                   top: "13px",
                   left: "210px",
                   color: "#FFFFFF",
-                  fontWeight: "bold",
+                  fontWeight: "500",
                 }}>
                 Goal <br />
                 {convertWeight(realIdealWeight)}
@@ -207,7 +209,7 @@ export const Schedule = () => {
                   top: "20px",
                   left: "205px",
                   color: "#FFFFFF",
-                  fontWeight: "bold",
+                  fontWeight: "500",
                 }}>
                 Goal <br />
                 {convertWeight(realIdealWeight)} kg
@@ -239,7 +241,7 @@ export const Schedule = () => {
                   left: "54%",
                   color: "#FFFFFF",
                   fontSize: window.innerWidth <= 445 ? "12px" : "16px",
-                  fontWeight: "bold",
+                  fontWeight: "500",
                 }}>
                 Goal <br />
                 {convertWeight(realIdealWeight)}
@@ -254,7 +256,7 @@ export const Schedule = () => {
                   left: realIdealWeight >= 100 ? "53%" : "54%",
                   color: "#FFFFFF",
                   fontSize: window.innerWidth <= 445 ? "13px" : "16px",
-                  fontWeight: "bold",
+                  fontWeight: "500",
                 }}>
                 Goal <br />
                 {convertWeight(realIdealWeight)} kg

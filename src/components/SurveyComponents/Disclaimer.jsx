@@ -1,12 +1,27 @@
 import { Typography, Button, Box } from "@mui/material";
+import { useRef, useEffect } from "react";
 
 export const Disclaimer = ({ onNext }) => {
+  const contentRef = useRef(null);
+
+  useEffect(() => {
+    if (contentRef.current) {
+      contentRef.current.focus();
+    }
+  }, []);
+
   const handleClick = () => {
     onNext();
   };
 
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      handleClick();
+    }
+  };
+
   return (
-    <div className='content'>
+    <div ref={contentRef} className='content' onKeyDown={handleKeyDown} tabIndex={0} style={{ outline: "none" }}>
       <div>
         <Typography variant='h6' align='left' sx={{ color: "primary.main", mb: 2, fontWeight: 450 }}>
           Disclaimer
