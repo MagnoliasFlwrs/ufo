@@ -19,6 +19,7 @@ export const WishListCheckbox = ({ onNext }) => {
       onNext={onNext}
       updateUserDataKey='wishlist'
       updateUserData={updateUserData}
+      className='bottom-block'
     />
   );
 };

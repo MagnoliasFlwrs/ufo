@@ -13,6 +13,7 @@ export const DietingHistoryChecklist = ({ onNext }) => {
       onNext={onNext}
       updateUserDataKey='dietingHistory'
       updateUserData={updateUserData}
+      className='bottom-block'
     />
   );
 };

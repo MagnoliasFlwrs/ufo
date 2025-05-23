@@ -13,6 +13,7 @@ export const IdealWeight = ({ onNext }) => {
   const measurementSystem = useUserStore((state) => state.measurementSystem);
 
   const isMetric = measurementSystem === "metric";
+
   const poundsToKg = (pounds) => Math.round(pounds * 0.453592);
 
   const calculateNormalWeightRange = (heightCm) => {
@@ -75,19 +76,21 @@ export const IdealWeight = ({ onNext }) => {
           What is your ideal weight that you want to reach?
         </Typography>
 
-        <SurveyInput
-          value={idealWeight}
-          onChange={handleWeightChange}
-          onFocus={handleFocus}
-          placeholder={isMetric ? "Enter your weight in kg" : "Enter your weight in lbs (e.g., 180)"}
-          error={errorMessage === "Goal cannot be accepted"}
-          helperText={errorMessage}
-          inputProps={{
-            min: isMetric ? Math.round(minWeight) : Math.round(minWeight * 2.20462),
-            step: isMetric ? "1" : "0.1",
-          }}
-          label={isMetric ? "kg" : "lbs"}
-        />
+        <div id='ideal-weight-input'>
+          <SurveyInput
+            value={idealWeight}
+            onChange={handleWeightChange}
+            onFocus={handleFocus}
+            placeholder={isMetric ? "Enter your weight in kg" : "Enter your weight in lbs (e.g., 180)"}
+            error={errorMessage === "Goal cannot be accepted"}
+            helperText={errorMessage}
+            inputProps={{
+              min: isMetric ? Math.round(minWeight) : Math.round(minWeight * 2.20462),
+              step: isMetric ? "1" : "0.1",
+            }}
+            label={isMetric ? "kg" : "lbs"}
+          />
+        </div>
 
         <div style={{ marginTop: "24px" }}>
           <Typography variant='h6' align='left' className='survey-subtitle'>
@@ -113,25 +116,26 @@ export const IdealWeight = ({ onNext }) => {
         </Box>
       </div>
 
-      <Button
-        variant='contained'
-        fullWidth
-        onClick={handleNext}
-        className='email-button'
-        sx={{
-          mt: 3,
-          backgroundColor: "#FF5C1D",
-          "&:hover": {
-            backgroundColor: "#FF4500",
-          },
-          "&:disabled": {
-            backgroundColor: "#FF8D63",
-            color: "white",
-          },
-        }}
-        disabled={isButtonDisabled}>
-        Next
-      </Button>
+      <div className='bottom-block margin-top'>
+        <Button
+          variant='contained'
+          fullWidth
+          onClick={handleNext}
+          className='email-button'
+          sx={{
+            backgroundColor: "#FF5C1D",
+            "&:hover": {
+              backgroundColor: "#FF4500",
+            },
+            "&:disabled": {
+              backgroundColor: "#FF8D63",
+              color: "white",
+            },
+          }}
+          disabled={isButtonDisabled}>
+          Next
+        </Button>
+      </div>
     </div>
   );
 };

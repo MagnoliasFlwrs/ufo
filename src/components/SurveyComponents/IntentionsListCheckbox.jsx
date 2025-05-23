@@ -13,6 +13,7 @@ export const IntentionsListCheckbox = ({ onNext }) => {
       onNext={onNext}
       updateUserDataKey='listOfIntentions'
       updateUserData={updateUserData}
+      className='bottom-block'
     />
   );
 };

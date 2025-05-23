@@ -7,29 +7,24 @@ export const WeeklyActivities = ({ onNext }) => {
 
   const options = [
     {
-      label: "Sedentary lifestyle (office work without workouts)",
+      label: "Sedentary work, no exercises, rare walks and passion to change lifestyle",
       value: "sedentary",
-      coefficient: "1.2x",
+      coefficient: "1x",
     },
     {
-      label: "Light activity (1-3 workouts per week)",
+      label: "Lightly active lifestyle, about 2 hours of intentional exercises a week",
       value: "lightly_active",
-      coefficient: "1.375x",
+      coefficient: "1.5x",
     },
     {
-      label: "Moderate activity (3-5 workouts)",
+      label: "Moderately active days, about 5 hours of intentional exercises a week",
       value: "moderately_active",
-      coefficient: "1.55x",
+      coefficient: "2x",
     },
     {
-      label: "High activity (6-7 workouts)",
+      label: "Very active schedule, about 7 hours of intentional exercises a week",
       value: "very_active",
-      coefficient: "1.725x",
-    },
-    {
-      label: "Extreme activity (physically demanding job + workouts)",
-      value: "extremely_active",
-      coefficient: "1.9x",
+      coefficient: "2.5x",
     },
   ];
 

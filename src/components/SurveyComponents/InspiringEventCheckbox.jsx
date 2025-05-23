@@ -15,6 +15,7 @@ export const InspiringEventCheckbox = ({ onNext }) => {
       onNext={onNext}
       updateUserDataKey='inspiringEvents'
       updateUserData={updateUserData}
+      className='bottom-block margin-top'
     />
   );
 };

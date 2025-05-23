@@ -11,7 +11,6 @@ export const HealtConditionsCheckbox = ({ onNext }) => {
     "High cholesterol",
     "Diabetes",
     "Food allergy or Intolerance",
-    "No risks diagnosed",
   ];
 
   return (
@@ -23,6 +22,7 @@ export const HealtConditionsCheckbox = ({ onNext }) => {
       onNext={onNext}
       updateUserDataKey='healthConditions'
       updateUserData={updateUserData}
+      className='bottom-block margin-top'
     />
   );
 };

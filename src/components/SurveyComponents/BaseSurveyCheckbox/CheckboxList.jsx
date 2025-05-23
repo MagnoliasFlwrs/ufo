@@ -10,6 +10,7 @@ export const CheckboxList = ({
   onNext,
   updateUserDataKey,
   updateUserData,
+  className = "",
 }) => {
   const { selectedOptions, handleCheckboxChange } = useSurveyCheckboxSelection();
 
@@ -31,7 +32,7 @@ export const CheckboxList = ({
   };
 
   return (
-    <div className='content' onKeyDown={handleKeyDown} tabIndex={0}>
+    <div className={"content"} onKeyDown={handleKeyDown} tabIndex={0}>
       <div>
         <Typography variant='h6' align='left' sx={{ color: "primary.main", fontWeight: 450 }}>
           {title}
@@ -55,17 +56,19 @@ export const CheckboxList = ({
         </Box>
       </div>
 
-      {selectedOptions.length > 0 ? (
-        <Button variant='contained' fullWidth onClick={handleNext} className='survey-next-button'>
-          Next
-        </Button>
-      ) : (
-        buttonText && (
-          <Button variant='contained' fullWidth onClick={onNext} className='secondary-button'>
-            {buttonText}
+      <div className={className}>
+        {selectedOptions.length > 0 ? (
+          <Button variant='contained' fullWidth onClick={handleNext} className='survey-next-button'>
+            Next
           </Button>
-        )
-      )}
+        ) : (
+          buttonText && (
+            <Button variant='contained' fullWidth onClick={onNext} className='secondary-button'>
+              {buttonText}
+            </Button>
+          )
+        )}
+      </div>
     </div>
   );
 };

@@ -51,7 +51,7 @@ export const Disclaimer = ({ onNext }) => {
         </Box>
       </div>
 
-      <div>
+      <div className='bottom-block margin-top'>
         <Button variant='contained' fullWidth onClick={handleClick} className='survey-next-button'>
           Accept
         </Button>

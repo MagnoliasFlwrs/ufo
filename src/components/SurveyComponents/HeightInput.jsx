@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Button, Typography } from "@mui/material";
 import { SurveyInput } from ".";
 import { useUserStore } from "@/store/store";
@@ -7,11 +7,28 @@ export const HeightInput = ({ onNext }) => {
   const [height, setHeight] = useState("");
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const inputRef = useRef(null);
 
   const updateUserData = useUserStore((state) => state.updateUserData);
   const measurementSystem = useUserStore((state) => state.measurementSystem);
 
   const isMetric = measurementSystem === "metric";
+
+  useEffect(() => {
+    // Фокус и поднятие клавиатуры через небольшой таймаут
+    const timer = setTimeout(() => {
+      if (inputRef.current) {
+        const input = inputRef.current.querySelector("input");
+        if (input) {
+          input.focus();
+          // Устанавливаем соответствующий inputmode
+          input.setAttribute("inputmode", isMetric ? "decimal" : "numeric");
+        }
+      }
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, [isMetric]);
 
   const feetToCm = (feet) => {
     return Math.round(feet * 30.48);
@@ -71,31 +88,36 @@ export const HeightInput = ({ onNext }) => {
     <div className='content' onKeyDown={handleKeyDown} tabIndex={0}>
       <div>
         <Typography variant='h6' align='left' sx={{ color: "primary.main", fontWeight: 450 }}>
-          What’s your height?
+          What&apos;s your height?
         </Typography>
 
-        <SurveyInput
-          value={height}
-          onChange={(e) => {
-            setHeight(e.target.value);
-            setError(false);
-          }}
-          onFocus={handleFocus}
-          placeholder={isMetric ? "Enter your height in cm" : "Enter your height in ft (e.g., 5.68)"}
-          error={error}
-          helperText={errorMessage}
-          inputProps={{
-            min: isMetric ? 120 : 4,
-            max: isMetric ? 240 : 8,
-            step: isMetric ? "1" : "0.01",
-          }}
-          label={isMetric ? "cm" : "ft"}
-        />
+        <div ref={inputRef}>
+          <SurveyInput
+            value={height}
+            onChange={(e) => {
+              setHeight(e.target.value);
+              setError(false);
+            }}
+            onFocus={handleFocus}
+            placeholder={isMetric ? "Enter your height in cm" : "Enter your height in ft (e.g., 5.68)"}
+            error={error}
+            helperText={errorMessage}
+            inputProps={{
+              min: isMetric ? 120 : 4,
+              max: isMetric ? 240 : 8,
+              step: isMetric ? "1" : "0.01",
+              inputMode: isMetric ? "decimal" : "numeric",
+            }}
+            label={isMetric ? "cm" : "ft"}
+          />
+        </div>
       </div>
 
-      <Button variant='contained' fullWidth onClick={handleNext} className='survey-next-button'>
-        Next
-      </Button>
+      <div className='bottom-block'>
+        <Button variant='contained' fullWidth onClick={handleNext} className='survey-next-button'>
+          Next
+        </Button>
+      </div>
     </div>
   );
 };
