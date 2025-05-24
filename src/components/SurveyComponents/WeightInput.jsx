@@ -154,7 +154,7 @@ export const WeightInput = ({ onNext }) => {
         </div>
       </div>
 
-      <div className='bottom-block margin-top'>
+      <div className='bottom-block'>
         <Button variant='contained' fullWidth onClick={handleNext} className='survey-next-button'>
           Next
         </Button>
