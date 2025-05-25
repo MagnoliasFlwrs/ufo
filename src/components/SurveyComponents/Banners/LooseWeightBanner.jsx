@@ -122,8 +122,9 @@ export const LooseWeightBanner = ({ onClose }) => {
                 value={progress}
                 sx={{
                   height: "54px",
-                  borderRadius: "8px",
                   backgroundColor: "#F5F5F5",
+                  borderRadius: "8px",
+
                   "& .MuiLinearProgress-bar": {
                     backgroundColor: "#FF5C1D",
                   },
