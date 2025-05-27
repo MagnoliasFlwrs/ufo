@@ -1,7 +1,6 @@
 import React from "react";
 import "./site-styles/appInfoBlock.css";
 import image1 from "./site-images/1.png";
-import image2 from "./site-images/2.png";
 import bannerPC from "./site-images/banner-desctop.png";
 import bannerMobile from "./site-images/banner-mob.png";
 import { Link } from "react-router-dom";

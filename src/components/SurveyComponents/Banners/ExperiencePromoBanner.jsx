@@ -3,11 +3,11 @@ import { Box, Typography } from "@mui/material";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { UfoLogo } from "@/components/Paddle";
 
-import img1 from "../../Site/site-images/expirienceBanner1.png";
-import img2 from "../../Site/site-images/expirienceBanner2.png";
-import img3 from "../../Site/site-images/expirienceBanner3.png";
-import img4 from "../../Site/site-images/expirienceBanner4.png";
-import img5 from "../../Site/site-images/expirienceBanner5.png";
+import img1 from "../../Site/site-images/expirienceBanner1.webp";
+import img2 from "../../Site/site-images/expirienceBanner2.webp";
+import img3 from "../../Site/site-images/expirienceBanner3.webp";
+import img4 from "../../Site/site-images/expirienceBanner4.webp";
+import img5 from "../../Site/site-images/expirienceBanner5.webp";
 
 export const ExperiencePromoBanner = ({ onClose }) => {
   const data = [

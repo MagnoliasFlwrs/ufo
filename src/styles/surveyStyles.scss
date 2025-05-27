@@ -55,6 +55,29 @@
   text-align: left !important;
 }
 
+.responsive-banner-img {
+  object-position: left bottom;
+  margin-left: -20px;
+  margin-bottom: -20px;
+  width: 100%;
+  height: 500px;
+  object-fit: contain;
+}
+
+@media (max-width: 576px) {
+  .responsive-banner-img {
+    width: 90%;
+    height: 450px;
+  }
+}
+
+@media (max-width: 380px) {
+  .responsive-banner-img {
+    width: 80%;
+    height: 350px;
+  }
+}
+
 //=============================================================================
 //=============================================================================
 

@@ -107,32 +107,32 @@
 }
 .coach-block .site-content .coach-content-block .gradient-block.blue {
   border-radius: 20px;
-  background: linear-gradient(197deg, #EDFAFF 14.55%, #C3E2FF 64.35%, #90CBFF 98.25%);
+  background: linear-gradient(197deg, #edfaff 14.55%, #c3e2ff 64.35%, #90cbff 98.25%);
 }
 @media (max-width: 850px) {
   .coach-block .site-content .coach-content-block .gradient-block.blue {
     border-radius: 16px;
-    background: linear-gradient(197deg, #ECFAFF 14.55%, #DCDDFE 64.35%, #D4D6FF 98.25%);
+    background: linear-gradient(197deg, #ecfaff 14.55%, #dcddfe 64.35%, #d4d6ff 98.25%);
   }
 }
 .coach-block .site-content .coach-content-block .gradient-block.green {
   border-radius: 20px;
-  background: linear-gradient(197deg, #E2F5E7 14.55%, #B2D3BB 64.35%, #9AD3AA 98.25%);
+  background: linear-gradient(197deg, #e2f5e7 14.55%, #b2d3bb 64.35%, #9ad3aa 98.25%);
 }
 @media (max-width: 850px) {
   .coach-block .site-content .coach-content-block .gradient-block.green {
     border-radius: 16px;
-    background: linear-gradient(201deg, #FEFEE8 12.45%, #C7FFD8 59.1%, #8DFFB6 98.16%);
+    background: linear-gradient(201deg, #fefee8 12.45%, #c7ffd8 59.1%, #8dffb6 98.16%);
   }
 }
 .coach-block .site-content .coach-content-block .gradient-block.orange {
   border-radius: 20px;
-  background: linear-gradient(197deg, #FFDBC5 14.55%, #FF9155 64.35%, #FF7842 98.25%);
+  background: linear-gradient(197deg, #ffdbc5 14.55%, #ff9155 64.35%, #ff7842 98.25%);
 }
 @media (max-width: 850px) {
   .coach-block .site-content .coach-content-block .gradient-block.orange {
     border-radius: 16px;
-    background: linear-gradient(197deg, #FFFBDA 14.55%, #FEA887 64.35%, #FD8777 98.25%);
+    background: linear-gradient(197deg, #fffbda 14.55%, #fea887 64.35%, #fd8777 98.25%);
   }
 }
 .coach-block .site-content .coach-content-block .gradient-block .gradient-block-text {
@@ -147,7 +147,7 @@
   }
 }
 .coach-block .site-content .coach-content-block .gradient-block .gradient-block-text .title {
-  color: var(--Primary, #FF5C1D);
+  color: var(--Primary, #ff5c1d);
   text-align: center;
   font-family: "Circular Std";
   font-size: 34px;
@@ -206,8 +206,8 @@
 }
 @media (max-width: 850px) {
   .coach-block .site-content .coach-content-block .gradient-block .img {
-    width: 210px;
-    height: 354px;
+    width: 219px;
+    height: 356px;
     flex: unset;
   }
 }
@@ -245,7 +245,7 @@
   font-weight: 500;
   line-height: normal;
   letter-spacing: -1.08px;
-  background: linear-gradient(90deg, #FE9552 3.09%, #FF8959 100%, #FF5D1E 100%);
+  background: linear-gradient(90deg, #fe9552 3.09%, #ff8959 100%, #ff5d1e 100%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import img1 from "../../Site/site-images/preferences1.png";
-import img2 from "../../Site/site-images/preferences2.png";
-import img3 from "../../Site/site-images/preferences3.png";
+import img1 from "../../Site/site-images/preferences1.webp";
+import img2 from "../../Site/site-images/preferences2.webp";
+import img3 from "../../Site/site-images/preferences3.webp";
 import { Box, CircularProgress, Typography } from "@mui/material";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { PreferencesBannerCaloryItem } from ".";
@@ -73,7 +73,9 @@ export const PreferencesBanner = ({ onClose }) => {
         gap: "20px",
         alignItems: "center",
         flexGrow: 1,
-        height: "calc(100vh - 20px)",
+        "@media (max-width: 576px)": {
+          height: "calc(100vh - 40px)",
+        },
       }}>
       <CircularProgress size='30px' sx={{ color: "#FF5C1D" }} />
 
@@ -115,27 +117,21 @@ export const PreferencesBanner = ({ onClose }) => {
               flexGrow: 1,
               width: "100%",
               position: "relative",
-              marginTop: "auto",
+              marginTop: "50px",
               display: "flex",
               alignItems: "flex-end",
+
+              "@media (max-width: 576px)": {
+                marginTop: "20px",
+              },
             }}>
-            <img
-              style={{
-                objectPosition: "left bottom",
-                marginLeft: "-20px",
-                width: "100%",
-                height: "500px",
-                objectFit: "contain",
-              }}
-              src={currentSlide.image}
-              alt='banner'
-            />
+            <img className='responsive-banner-img' src={currentSlide.image} alt='banner' />
 
             <Typography
               variant='h6'
               sx={{
                 position: "absolute",
-                bottom: "50px",
+                bottom: "30px",
                 left: "50%",
                 transform: "translateX(-50%)",
                 whiteSpace: "nowrap",

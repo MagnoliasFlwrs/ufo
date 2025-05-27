@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { Box, Button, Typography } from "@mui/material";
-import bannerImage from "../../Site/site-images/banner1.png";
+import bannerImage from "../../Site/site-images/banner1.webp";
 import { UfoLogo } from "@/components/Paddle";
 
 export const StickingToAPlanBanner = ({ onNext }) => {
