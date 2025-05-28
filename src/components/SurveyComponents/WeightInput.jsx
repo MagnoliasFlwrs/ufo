@@ -42,23 +42,27 @@ export const WeightInput = ({ onNext }) => {
   };
 
   const calculateWeightBounds = () => {
-    if (!height) return { min: isMetric ? 70 : 154, max: isMetric ? 300 : 661 };
+    // if (!height) return { min: isMetric ? 40 : 88, max: isMetric ? 300 : 661 };
 
-    let heightInCm = height;
+    // let heightInCm = height;
 
-    if (!isMetric) {
-      const [feet, inches] = height.split("'").map(Number);
-      heightInCm = feetToCm(feet, inches);
-    }
+    // if (!isMetric) {
+    //   const [feet, inches] = height.split("'").map(Number);
+    //   heightInCm = feetToCm(feet, inches);
+    // }
 
-    const minHealthyWeight = Math.round(18.5 * Math.pow(heightInCm / 100, 2));
-    const maxHealthyWeight = Math.round(24.9 * Math.pow(heightInCm / 100, 2));
+    // const minHealthyWeight = Math.round(18.5 * Math.pow(heightInCm / 100, 2));
+    // const maxHealthyWeight = Math.round(24.9 * Math.pow(heightInCm / 100, 2));
 
-    const buffer = Math.round((maxHealthyWeight - minHealthyWeight) * 1.2);
+    // const buffer = Math.round((maxHealthyWeight - minHealthyWeight) * 1.2);
 
+    // return {
+    //   min: Math.max(minHealthyWeight - buffer, isMetric ? 40 : 88),
+    //   max: Math.min(maxHealthyWeight + buffer, isMetric ? 300 : 661),
+    // };
     return {
-      min: Math.max(minHealthyWeight - buffer, isMetric ? 40 : 88),
-      max: Math.min(maxHealthyWeight + buffer, isMetric ? 300 : 661),
+      min: isMetric ? 40 : 88,
+      max: isMetric ? 300 : 661,
     };
   };
 

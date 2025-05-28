@@ -21,9 +21,9 @@ export const PreferredMealSchedule = ({ onNext }) => {
     }
 
     const plansWithTolerance = selectedDiet.plans.filter((plan) => {
-      const lowerBound = plan.kcalMin * 0.9; // -10%
-      const upperBound = plan.kcalMax * 1.1; // +10%
-      return dailyCalories >= lowerBound && dailyCalories <= upperBound;
+      const lowerBound = plan.kcalMin;
+      const upperBound = plan.kcalMax;
+      return dailyCalories > lowerBound && dailyCalories <= upperBound;
     });
 
     setFilteredPlans(plansWithTolerance);
