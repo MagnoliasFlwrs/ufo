@@ -31,18 +31,21 @@ export const EmailInput = ({ onNext }) => {
     inputRef.current?.focus();
   }, []);
 
-  const generatePassword = () => {
-    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*";
-    let newPassword = "";
-    for (let i = 0; i < 12; i++) {
-      newPassword += chars.charAt(Math.floor(Math.random() * chars.length));
-    }
-    setPassword(newPassword);
-    return newPassword;
-  };
-  useEffect(() => {
-    generatePassword();
-  }, []);
+
+
+    const generatePassword = () => {
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
+        let newPassword = '';
+        for (let i = 0; i < 12; i++) {
+            newPassword += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        setPassword(newPassword);
+        return newPassword;
+    };
+    useEffect(() => {
+        generatePassword()
+    }, [])
+
   const validateEmail = (email) => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(email);
@@ -52,44 +55,50 @@ export const EmailInput = ({ onNext }) => {
     setIsValidEmail(validateEmail(email.trim()));
   }, [email]);
 
-  const handleNext = async () => {
-    if (!isValidEmail) return;
 
-    const trimmedEmail = email.trim();
-    updateUserData("email", trimmedEmail);
 
-    const onboardingData = {
-      userAge: age,
-      userHeight: height,
-      userInitWeight: weight,
-      userInspEvents: inspiringEvents,
-      userIntentions: listOfIntentions,
-      userSex: gender,
-      userWeightLoss: weightLossSuccess,
-      userFastFood: fastFoodTime,
-      userGoals: wishlist,
-      userEats: nonHungerTriggers,
-      userConditions: healthConditions,
+    const handleNext = async () => {
+        if (!isValidEmail) return;
+
+        const trimmedEmail = email.trim();
+        updateUserData("email", trimmedEmail);
+
+        const onboardingData = {
+            userAge: age,
+            userHeight: height,
+            userInitWeight: weight,
+            userInspEvents: inspiringEvents,
+            userIntentions: listOfIntentions,
+            userSex: gender,
+            userWeightLoss: weightLossSuccess,
+            userFastFood: fastFoodTime,
+            userGoals: wishlist,
+            userEats: nonHungerTriggers,
+            userConditions: healthConditions,
+        };
+
+        if (trimmedEmail && password) {
+
+            try {
+                await createUser({
+                    email: trimmedEmail,
+                    password: password,
+                    mealPreference: mealPreference,
+                    startDay: startDay,
+                    onboardingData: onboardingData
+                });
+
+                await sendSignInEmail(trimmedEmail);
+                onNext();
+            } catch (error) {
+                console.error("Ошибка в процессе регистрации:", error);
+                onNext();
+            }
+        }
+
+
     };
 
-    if (trimmedEmail && password) {
-      try {
-        await createUser({
-          email: trimmedEmail,
-          password: password,
-          mealPreference: mealPreference,
-          startDay: startDay,
-          onboardingData: onboardingData,
-        });
-
-        await sendSignInEmail(trimmedEmail);
-        onNext();
-      } catch (error) {
-        console.error("Ошибка в процессе регистрации:", error);
-        onNext();
-      }
-    }
-  };
 
   const handleKeyDown = (event) => {
     if (event.key === "Enter" && isValidEmail) {

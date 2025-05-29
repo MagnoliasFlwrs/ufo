@@ -56,11 +56,13 @@ export const useUserStore = create((set) => ({
 }));
 
 export const useFirestoreDataStore = create((set) => ({
+
   createUser: async ({ email, mealPreference, startDay, onboardingData, password }) => {
     try {
       if (!email || !password) {
         throw new Error("Email and password are required");
       }
+
 
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
@@ -70,7 +72,11 @@ export const useFirestoreDataStore = create((set) => ({
         password: password,
         userId: user.uid,
         createdAt: new Date(),
-        isOnboardingPassed: true,
+        
+
+
+
+        isOnboardingPassed: true
       };
 
       if (mealPreference) userData.mealPreferences = mealPreference;
@@ -81,6 +87,7 @@ export const useFirestoreDataStore = create((set) => ({
       if (onboardingData) {
         await setDoc(doc(db, "users", user.uid, "onboarding_user_info", user.uid), onboardingData);
       }
+
 
       console.log("User created successfully!");
       return user;
