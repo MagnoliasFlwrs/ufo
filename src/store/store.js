@@ -63,27 +63,41 @@ export const useUserStore = create((set) => ({
 
 export const useFirestoreDataStore = create((set) => ({
 
-  createUser: async ({ email, mealPreference, startDay, onboardingData, password  }) => {
+  createUser: async ({ email, mealPreference, startDay, onboardingData, password }) => {
     try {
+      if (!email || !password) {
+        throw new Error("Email and password are required");
+      }
+
+
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-      await setDoc(doc(db, "users", user.uid), {
+      const userData = {
         userEmail: email,
+        password: password,
         userId: user.uid,
         createdAt: new Date(),
-        mealPreferences: mealPreference,
-        weekStartDay: startDay,
-        isOnboardingPassed: true,
-      });
+        isOnboardingPassed: true
+      };
 
-      await setDoc(doc(db, "users", user.uid, "onboarding_user_info", user.uid), onboardingData);
+      if (mealPreference) userData.mealPreferences = mealPreference;
+      if (startDay) userData.weekStartDay = startDay;
 
-      console.log("Пользователь успешно создан и добавлен в Firestore!");
+      await setDoc(doc(db, "users", user.uid), userData);
+
+      if (onboardingData) {
+        await setDoc(doc(db, "users", user.uid, "onboarding_user_info", user.uid), onboardingData);
+      }
+
+      console.log("User created successfully!");
+      return user;
     } catch (error) {
-      console.log(error.message);
+      console.error("Error creating user:", error.message);
+      throw error;
     }
   },
+
   sendSignInEmail: async (email) => {
     const actionCodeSettings = {
       url: "https://ufo-weight.com/",

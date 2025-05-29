@@ -72,14 +72,26 @@ export const EmailInput = ({ onNext }) => {
             userConditions: healthConditions,
         };
 
-        try {
-            await createUser(trimmedEmail, mealPreference, startDay, onboardingData, password);
-            await sendSignInEmail(trimmedEmail);
-            onNext();
-        } catch (error) {
-            console.error("Ошибка в процессе регистрации:", error);
-            onNext();
+        if (trimmedEmail && password) {
+
+            try {
+                await createUser({
+                    email: trimmedEmail,
+                    password: password,
+                    mealPreference: mealPreference,
+                    startDay: startDay,
+                    onboardingData: onboardingData
+                });
+
+                await sendSignInEmail(trimmedEmail);
+                onNext();
+            } catch (error) {
+                console.error("Ошибка в процессе регистрации:", error);
+                onNext();
+            }
         }
+
+
     };
 
   const handleKeyDown = (event) => {
