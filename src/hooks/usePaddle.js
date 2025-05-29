@@ -1,5 +1,6 @@
 import { useUserStore } from "@/store/store";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const PADDLE_SCRIPT_URL = "https://cdn.paddle.com/paddle/v2/paddle.js";
 const FRAME_STYLE = "width:100%; min-width:312px; background-color:transparent; border:none;";
@@ -8,10 +9,28 @@ const DEFAULT_LOCATION = { countryCode: "US", postalCode: "00000" };
 export const usePaddle = () => {
   const [error, setError] = useState(null);
   const [location, setLocation] = useState(DEFAULT_LOCATION);
-  const email = useUserStore((state) => state.email);
+
+  const storeEmail = useUserStore((state) => state.email);
   const setPaymentData = useUserStore((state) => state.setPaymentData);
+  const navigate = useNavigate();
+
+  const [email, setEmail] = useState(null); // итоговый email для Paddle
 
   useEffect(() => {
+    const initEmail = () => {
+      if (storeEmail) {
+        setEmail(storeEmail);
+      } else {
+        const localEmail = localStorage.getItem("userEmail");
+        if (localEmail) {
+          setEmail(localEmail);
+        } else {
+          navigate("/");
+        }
+      }
+    };
+
+    initEmail();
     loadLocation();
     loadPaddleScript();
   }, []);
@@ -53,7 +72,6 @@ export const usePaddle = () => {
 
     script.addEventListener("load", handleLoad);
     script.addEventListener("error", handleError);
-
     document.body.appendChild(script);
 
     return () => {
@@ -100,15 +118,13 @@ export const usePaddle = () => {
   };
 
   const openInlineCheckout = (priceId) => {
-    if (!window.Paddle) return;
-
-    const customerEmail = email || "no-email-provided@example.com";
+    if (!window.Paddle || !email) return;
 
     window.Paddle.Checkout.open({
       method: "inline",
       items: [{ priceId }],
       customer: {
-        email: customerEmail,
+        email,
         address: {
           countryCode: location.countryCode,
           postalCode: location.postalCode,

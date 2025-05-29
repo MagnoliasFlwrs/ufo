@@ -21,7 +21,7 @@ export const GoalBanner = () => {
   }, []);
 
   const handleClick = () => {
-    navigate("/subscribe");
+    navigate("/email-subscribe");
   };
 
   const handleKeyDown = (event) => {

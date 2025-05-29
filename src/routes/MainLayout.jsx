@@ -8,21 +8,17 @@ import CounterBlock from "@components/Site/CounterBlock.jsx";
 import Footer from "@components/Site/Footer.jsx";
 
 const MainLayout = () => {
-
-
-
-    return (
-        <>
-            <Header/>
-            <AppInfoBlock/>
-            <ResultsBlock/>
-            <CoachBlock/>
-            <FaqBlock/>
-            <CounterBlock/>
-            <Footer/>
-        </>
-    );
-
+  return (
+    <>
+      <Header />
+      <AppInfoBlock />
+      <ResultsBlock />
+      <CoachBlock />
+      <FaqBlock />
+      <CounterBlock />
+      <Footer />
+    </>
+  );
 };
 
 export default MainLayout;

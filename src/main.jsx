@@ -13,13 +13,14 @@ import "./styles/main.scss";
 import TermsOfUse from "./routes/TermsOfUse.jsx";
 import PrivacyPolicy from "./routes/PrivacyPolicy.jsx";
 import CancellationRefundPolicy from "./routes/CancellationRefundPolicy.jsx";
+import EmailSubscribeLayout from "./routes/EmailSubscribeLayout.jsx";
 
 // loggerer for store state changes
 const StoreLogger = () => {
   const state = useUserStore((state) => state);
 
   useEffect(() => {
-    // console.log("Store state updated:", state);
+    console.log("Store state updated:", state);
     // console.log("Customer data:", state.customerData);
   }, [state]);
 
@@ -30,6 +31,7 @@ const App = () => {
   const routes = [
     { path: "/", element: <MainLayout /> },
     { path: "/get-started", element: <GetStartedLayout /> },
+    { path: "/email-subscribe", element: <EmailSubscribeLayout /> },
     { path: "/subscribe", element: <SubscribeLayout /> },
     { path: "/terms-of-use", element: <TermsOfUse /> },
     { path: "/privacy-policy", element: <PrivacyPolicy /> },
