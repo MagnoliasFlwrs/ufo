@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useRef } from "react";
 import { DescendingGraphSvg } from "./DescendingGraphSvg";
 import { StraightGraphSvg } from "./StraightGraphSvg";
-
 import { convertWeight, calculateGoalDate, isSmallWeightDifference } from "@/utils/weightUtils";
 
 export const GoalBanner = () => {
@@ -38,12 +37,11 @@ export const GoalBanner = () => {
   });
 
   const isSmallDifference = isSmallWeightDifference(userWeight, idealWeight);
-  const currentWeightDisplay = `${convertWeight(userWeight, measurementSystem)} ${
-    measurementSystem === "imperial" ? "lbs" : "kg"
-  }`;
-  const idealWeightDisplay = `${convertWeight(idealWeight, measurementSystem)} ${
-    measurementSystem === "imperial" ? "lbs" : "kg"
-  }`;
+
+  const idealWeightDisplay =
+    measurementSystem === "imperial"
+      ? `${convertWeight(idealWeight, measurementSystem)} lbs`
+      : `${convertWeight(idealWeight, measurementSystem)} kg`;
 
   return (
     <Box ref={containerRef} tabIndex={0} onKeyDown={handleKeyDown} sx={{ outline: "none" }}>
@@ -82,7 +80,7 @@ export const GoalBanner = () => {
               textTransform: "uppercase",
               textAlign: "center",
             }}>
-            We predict you’ll be
+            {isSmallDifference ? "We predict a lifestyle change" : "We predict you’ll be"}
           </Typography>
           <Typography
             variant='h6'
@@ -93,84 +91,126 @@ export const GoalBanner = () => {
               lineHeight: "120%",
               textAlign: "center",
             }}>
-            {idealWeightDisplay} by {formattedGoalDate}
+            {isSmallDifference ? `by ${formattedGoalDate}` : `${idealWeightDisplay} by ${formattedGoalDate}`}
           </Typography>
 
-          {/* SVG графики */}
-          <Box sx={{ position: "relative", width: "100%", height: "140px", mt: 2 }}>
+          <Box
+            sx={{
+              position: "relative",
+              width: "100%",
+              maxWidth: "475px",
+              height: "140px",
+              mt: 2,
+              mx: "auto",
+            }}>
             {isSmallDifference ? (
               <>
-                <StraightGraphSvg />
+                <Box sx={{ width: "80%", height: "auto", margin: "0 auto" }}>
+                  <StraightGraphSvg />
+                </Box>
+
                 <Box
                   sx={{
                     position: "absolute",
-                    top: "38%",
-                    left: "10px",
-                    color: "#241063",
-                    fontSize: "14px",
+                    top: { xs: "33%", sm: "38%" },
+                    left: "0%",
+                    color: "#999",
+                    fontSize: { xs: "12px", sm: "14px" },
                     fontWeight: "bold",
                   }}>
-                  {currentWeightDisplay}
+                  {convertWeight(idealWeight, measurementSystem)}
                 </Box>
                 <Box
                   sx={{
                     position: "absolute",
-                    top: "8%",
-                    left: "50%",
+                    top: { xs: "10%", sm: "11%" },
+                    left: { xs: "36%", sm: "35%" },
                     color: "#FFFFFF",
-                    fontSize: "14px",
+                    fontSize: { xs: "12px", sm: "16px" },
                     fontWeight: "bold",
                   }}>
-                  Goal <br />
-                  {idealWeightDisplay}
+                  Lifestyle shift
                 </Box>
               </>
             ) : (
               <>
-                <DescendingGraphSvg />
-                <Box
-                  sx={{
-                    position: "absolute",
-                    top: "5px",
-                    left: "10px",
-                    color: "#241063",
-                    fontSize: "14px",
-                    fontWeight: "bold",
-                  }}>
-                  {currentWeightDisplay}
+                <Box sx={{ width: "80%", height: "auto", margin: "0 auto" }}>
+                  <DescendingGraphSvg />
                 </Box>
+
                 <Box
                   sx={{
                     position: "absolute",
-                    top: "30%",
-                    left: "50%",
-                    color: "#FFFFFF",
-                    fontSize: "14px",
+                    top: "0%",
+                    left: "0%",
+                    color: "#999",
+                    fontSize: { xs: "12px", sm: "14px" },
                     fontWeight: "bold",
                   }}>
-                  Goal <br />
-                  {idealWeightDisplay}
+                  {convertWeight(userWeight, measurementSystem)}
+                </Box>
+
+                <Box
+                  sx={{
+                    position: "absolute",
+                    top: { xs: "60%", sm: "73%" },
+                    left: "0%",
+                    color: "#999",
+                    fontSize: { xs: "12px", sm: "14px" },
+                    fontWeight: "bold",
+                  }}>
+                  {convertWeight(idealWeight, measurementSystem)}
+                </Box>
+
+                <Box
+                  sx={{
+                    position: "absolute",
+                    top: {
+                      xs: measurementSystem === "imperial" ? "22%" : "25%",
+                      sm: measurementSystem === "imperial" ? "26%" : "30%",
+                    },
+
+                    left: "78%",
+                    color: "#FFFFFF",
+                    fontSize: { xs: "12px", sm: "14px" },
+                    fontWeight: "bold",
+                    textAlign: "center",
+                  }}>
+                  {measurementSystem === "imperial" ? (
+                    <>
+                      Goal
+                      <br />
+                      {convertWeight(idealWeight, measurementSystem)}
+                      <br />
+                      lbs
+                    </>
+                  ) : (
+                    <>
+                      Goal
+                      <br />
+                      {idealWeightDisplay}
+                    </>
+                  )}
                 </Box>
               </>
             )}
 
-            {/* Месяцы под графиком */}
             <Box
               sx={{
                 position: "absolute",
-                bottom: 5,
+                bottom: { xs: 15, sm: 5 },
                 left: 0,
                 width: "100%",
                 display: "flex",
                 justifyContent: "space-between",
-                px: 5,
+                px: { xs: 7, sm: 8.5 },
                 color: "#999",
                 fontSize: "12px",
                 fontWeight: "500",
                 letterSpacing: "1px",
               }}>
-              <span>{new Date().toLocaleString("en-US", { month: "long" }).toUpperCase()}</span>
-              <span>{goalDate.toLocaleString("en-US", { month: "long" }).toUpperCase()}</span>
+              <span>{new Date().toLocaleString("en-US", { month: "short" })}</span>
+              {!isSmallDifference && <span>{goalDate.toLocaleString("en-US", { month: "short" })}</span>}
             </Box>
           </Box>
         </Box>

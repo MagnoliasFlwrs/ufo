@@ -19,13 +19,11 @@ import {
   WeeklyActivities,
   HealtConditionsCheckbox,
   Disclaimer,
-  GoalBanner,
 } from "@/components";
 
 const stepComponents = [
   // Demographic profile
   [
-    // { component: <GoalBanner />, key: "measurement" },
     { component: <MeasurementSystem />, key: "measurement" },
     { component: <AgeInput />, key: "age" },
     { component: <GenderSelection />, key: "gender" },

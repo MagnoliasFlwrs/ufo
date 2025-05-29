@@ -1,5 +1,5 @@
 export const StraightGraphSvg = () => (
-  <svg width='340' height='114' viewBox='0 0 340 114' fill='none' xmlns='http://www.w3.org/2000/svg'>
+  <svg width='100%' height='100%' viewBox='0 0 340 114' fill='none' xmlns='http://www.w3.org/2000/svg'>
     <path d='M0 64.8125V111.943L339.997 111.943V64.8125H0Z' fill='#FAF6F3' />
     <path d='M0 112.469L339.997 113.003' stroke='#999999' />
     <path d='M0 63.5625L169.999 63.5625' stroke='#FFE4DB' strokeWidth='3.5' />
