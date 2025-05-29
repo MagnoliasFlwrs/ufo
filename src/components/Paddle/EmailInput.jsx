@@ -1,20 +1,15 @@
 import { useState, useRef, useEffect } from "react";
-import { Button, Typography, Box, Link, CircularProgress } from "@mui/material";
+import { Button, Typography, Box, Link } from "@mui/material";
 import { useFirestoreDataStore, useUserStore } from "@/store/store";
 import { UfoLogo } from "./UfoLogo";
 
 export const EmailInput = ({ onNext }) => {
-  // Local state
   const [email, setEmail] = useState("");
   const inputRef = useRef(null);
   const [isValidEmail, setIsValidEmail] = useState(false);
-  const [isCheckingStorage, setIsCheckingStorage] = useState(true);
 
-  // Store actions
-  const { sendSignInEmail } = useFirestoreDataStore();
-  const updateUserData = useUserStore((state) => state.updateUserData);
-
-  // Store user data selector
+  const createUser = useFirestoreDataStore((state) => state.createUser);
+  const sendSignInEmail = useFirestoreDataStore((state) => state.sendSignInEmail);
   const age = useUserStore((state) => state.age);
   const gender = useUserStore((state) => state.gender);
   const height = useUserStore((state) => state.height);
@@ -29,49 +24,35 @@ export const EmailInput = ({ onNext }) => {
   const startDay = useUserStore((state) => state.startDay);
   const healthConditions = useUserStore((state) => state.healthConditions);
 
-  // Email validation
+  const updateUserData = useUserStore((state) => state.updateUserData);
+  const [password, setPassword] = useState("");
+
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
+
+  const generatePassword = () => {
+    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*";
+    let newPassword = "";
+    for (let i = 0; i < 12; i++) {
+      newPassword += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    setPassword(newPassword);
+    return newPassword;
+  };
+  useEffect(() => {
+    generatePassword();
+  }, []);
   const validateEmail = (email) => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(email);
   };
 
-  // Check localStorage on mount
-  useEffect(() => {
-    const checkLocalStorage = async () => {
-      const storedEmail = localStorage.getItem("email");
-
-      if (storedEmail && validateEmail(storedEmail)) {
-        try {
-          updateUserData("email", storedEmail);
-
-          await sendSignInEmail(storedEmail);
-
-          onNext();
-        } catch (error) {
-          console.error("Failed to auto-proceed:", error);
-          setIsCheckingStorage(false);
-        }
-      } else {
-        setIsCheckingStorage(false);
-      }
-    };
-
-    checkLocalStorage();
-  }, []);
-
-  // Focus input when ready
-  useEffect(() => {
-    if (!isCheckingStorage) {
-      inputRef.current?.focus();
-    }
-  }, [isCheckingStorage]);
-
-  // Validate email on change
   useEffect(() => {
     setIsValidEmail(validateEmail(email.trim()));
   }, [email]);
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (!isValidEmail) return;
 
     const trimmedEmail = email.trim();
@@ -91,13 +72,23 @@ export const EmailInput = ({ onNext }) => {
       userConditions: healthConditions,
     };
 
-    localStorage.setItem("email", trimmedEmail);
-    localStorage.setItem("mealPreference", mealPreference);
-    localStorage.setItem("startDay", startDay);
-    localStorage.setItem("onboardingData", JSON.stringify(onboardingData));
-    sendSignInEmail(trimmedEmail);
+    if (trimmedEmail && password) {
+      try {
+        await createUser({
+          email: trimmedEmail,
+          password: password,
+          mealPreference: mealPreference,
+          startDay: startDay,
+          onboardingData: onboardingData,
+        });
 
-    onNext();
+        await sendSignInEmail(trimmedEmail);
+        onNext();
+      } catch (error) {
+        console.error("Ошибка в процессе регистрации:", error);
+        onNext();
+      }
+    }
   };
 
   const handleKeyDown = (event) => {
@@ -106,22 +97,6 @@ export const EmailInput = ({ onNext }) => {
     }
   };
 
-  // Render
-  if (isCheckingStorage) {
-    return (
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100vh",
-        }}>
-        <CircularProgress size={60} sx={{ color: "#FF5C1D" }} />
-      </Box>
-    );
-  }
-
-  // Main component render
   return (
     <div onKeyDown={handleKeyDown} tabIndex={0}>
       <UfoLogo />
