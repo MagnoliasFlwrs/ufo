@@ -72,6 +72,10 @@ export const useFirestoreDataStore = create((set) => ({
         password: password,
         userId: user.uid,
         createdAt: new Date(),
+        
+
+
+
         isOnboardingPassed: true
       };
 
@@ -83,6 +87,7 @@ export const useFirestoreDataStore = create((set) => ({
       if (onboardingData) {
         await setDoc(doc(db, "users", user.uid, "onboarding_user_info", user.uid), onboardingData);
       }
+
 
       console.log("User created successfully!");
       return user;

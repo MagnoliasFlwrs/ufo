@@ -7,15 +7,25 @@ export const IdealWeight = ({ onNext }) => {
   const [idealWeight, setIdealWeight] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [isTouched, setIsTouched] = useState(false);
-  const userHeight = useUserStore((state) => state.height);
 
-  const updateUserData = useUserStore((state) => state.updateUserData);
+  // Получаем данные из хранилища
+  const userHeight = useUserStore((state) => state.height);
+  const currentWeight = useUserStore((state) => state.weight);
   const measurementSystem = useUserStore((state) => state.measurementSystem);
+  const updateUserData = useUserStore((state) => state.updateUserData);
 
   const isMetric = measurementSystem === "metric";
 
-  const poundsToKg = (pounds) => Math.round(pounds * 0.453592);
+  // Константы и преобразования
+  const MIN_WEIGHT_KG = 40;
+  const MIN_WEIGHT_LBS = Math.round(MIN_WEIGHT_KG * 2.20462);
+  const currentWeightLbs = Math.round(currentWeight * 2.20462);
 
+  // Функции преобразования
+  const poundsToKg = (pounds) => Math.round(pounds * 0.453592);
+  const kgToPounds = (kg) => Math.round(kg * 2.20462);
+
+  // Расчет здорового диапазона веса
   const calculateNormalWeightRange = (heightCm) => {
     const heightM = heightCm / 100;
     const minWeight = 18.5 * heightM * heightM;
@@ -25,8 +35,23 @@ export const IdealWeight = ({ onNext }) => {
 
   const { minWeight, maxWeight } = calculateNormalWeightRange(userHeight);
 
-  const validateWeight = () => {
-    if (!isTouched) return "";
+  // Валидация введенного веса
+  const validateWeight = (value) => {
+    const weightValue = parseFloat(value);
+
+    if (isNaN(weightValue)) {
+      return "Please enter a valid number";
+    }
+
+    if (weightValue < (isMetric ? MIN_WEIGHT_KG : MIN_WEIGHT_LBS)) {
+      return `Minimum weight is ${isMetric ? MIN_WEIGHT_KG : MIN_WEIGHT_LBS} ${isMetric ? "kg" : "lbs"}`;
+    }
+
+    if (weightValue > (isMetric ? currentWeight : currentWeightLbs)) {
+      return `Your ideal weight should be less than current weight (${isMetric ? currentWeight : currentWeightLbs} ${
+        isMetric ? "kg" : "lbs"
+      })`;
+    }
 
     return "Goal accepted!";
   };
@@ -35,11 +60,8 @@ export const IdealWeight = ({ onNext }) => {
     const value = e.target.value;
     setIdealWeight(value);
 
-    const weightValue = parseFloat(value);
-    if (isNaN(weightValue)) {
-      setErrorMessage("Goal cannot be accepted");
-    } else {
-      setErrorMessage("Goal accepted!");
+    if (isTouched) {
+      setErrorMessage(validateWeight(value));
     }
   };
 
@@ -49,14 +71,14 @@ export const IdealWeight = ({ onNext }) => {
 
   const handleNext = () => {
     if (!isTouched) setIsTouched(true);
-    const weightValue = parseFloat(idealWeight);
-    const validationMessage = validateWeight(weightValue);
 
-    if (validationMessage === "Goal cannot be accepted") {
-      return;
-    }
+    const validationMessage = validateWeight(idealWeight);
+    setErrorMessage(validationMessage);
 
-    const weightInKg = isMetric ? weightValue : poundsToKg(weightValue);
+    if (validationMessage !== "Goal accepted!") return;
+
+    const weightInKg = isMetric ? parseFloat(idealWeight) : poundsToKg(parseFloat(idealWeight));
+
     updateUserData("idealWeight", weightInKg);
     onNext();
   };
@@ -67,7 +89,14 @@ export const IdealWeight = ({ onNext }) => {
     }
   };
 
-  const isButtonDisabled = !idealWeight || errorMessage === "Goal cannot be accepted";
+  const isButtonDisabled = !idealWeight || errorMessage !== "Goal accepted!";
+
+  // Параметры для поля ввода
+  const inputProps = {
+    min: isMetric ? MIN_WEIGHT_KG : MIN_WEIGHT_LBS,
+    max: isMetric ? currentWeight : currentWeightLbs,
+    step: isMetric ? "1" : "0.1",
+  };
 
   return (
     <div className='content' onKeyDown={handleKeyDown} tabIndex={0}>
@@ -82,15 +111,17 @@ export const IdealWeight = ({ onNext }) => {
             onChange={handleWeightChange}
             onFocus={handleFocus}
             placeholder={isMetric ? "Enter your weight in kg" : "Enter your weight in lbs (e.g., 180)"}
-            error={errorMessage === "Goal cannot be accepted"}
+            error={!!errorMessage && errorMessage !== "Goal accepted!"}
             helperText={errorMessage}
-            inputProps={{
-              min: isMetric ? Math.round(minWeight) : Math.round(minWeight * 2.20462),
-              step: isMetric ? "1" : "0.1",
-            }}
+            inputProps={inputProps}
             label={isMetric ? "kg" : "lbs"}
           />
         </div>
+
+        {/* <Typography variant='caption' sx={{ display: "block", mt: 1, color: "text.secondary" }}>
+          Must be between {isMetric ? MIN_WEIGHT_KG : MIN_WEIGHT_LBS} and {isMetric ? currentWeight : currentWeightLbs}{" "}
+          {isMetric ? "kg" : "lbs"}
+        </Typography> */}
 
         <div style={{ marginTop: "24px" }}>
           <Typography variant='h6' align='left' className='survey-subtitle'>
@@ -105,7 +136,6 @@ export const IdealWeight = ({ onNext }) => {
             {isMetric
               ? `${Math.round(minWeight)} - ${Math.round(maxWeight)} kg`
               : `${Math.round(minWeight * 2.20462)} - ${Math.round(maxWeight * 2.20462)} lbs`}
-            <br />
           </Typography>
 
           <Typography variant='h6' align='justify' className='survey-subtitle'>

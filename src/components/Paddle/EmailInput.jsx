@@ -31,6 +31,8 @@ export const EmailInput = ({ onNext }) => {
     inputRef.current?.focus();
   }, []);
 
+
+
     const generatePassword = () => {
         const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
         let newPassword = '';
@@ -43,6 +45,7 @@ export const EmailInput = ({ onNext }) => {
     useEffect(() => {
         generatePassword()
     }, [])
+
   const validateEmail = (email) => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(email);
@@ -51,6 +54,8 @@ export const EmailInput = ({ onNext }) => {
   useEffect(() => {
     setIsValidEmail(validateEmail(email.trim()));
   }, [email]);
+
+
 
     const handleNext = async () => {
         if (!isValidEmail) return;
@@ -93,6 +98,7 @@ export const EmailInput = ({ onNext }) => {
 
 
     };
+
 
   const handleKeyDown = (event) => {
     if (event.key === "Enter" && isValidEmail) {

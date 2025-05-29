@@ -1,4 +1,4 @@
-import React, {use, useEffect} from 'react';
+import React, { use, useEffect } from "react";
 import Header from "@components/Site/Header.jsx";
 import AppInfoBlock from "@components/Site/AppInfoBlock.jsx";
 import ResultsBlock from "@components/Site/ResultsBlock.jsx";
@@ -8,6 +8,7 @@ import CounterBlock from "@components/Site/CounterBlock.jsx";
 import Footer from "@components/Site/Footer.jsx";
 
 const MainLayout = () => {
+
 
 
     return (
@@ -21,6 +22,7 @@ const MainLayout = () => {
             <Footer/>
         </>
     );
+
 };
 
 export default MainLayout;
