@@ -80,7 +80,7 @@ export const useFirestoreDataStore = create((set) => ({
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-      console.log(trimmedEmail , password , onboardingData);
+      console.log(email , password , onboardingData);
 
       const userData = {
         userEmail: email,
