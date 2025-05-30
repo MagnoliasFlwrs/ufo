@@ -1,7 +1,12 @@
 import { create } from "zustand";
 import MealDiets from "@/data/MealDiets.json";
 import { calculateCalories } from "@/utils/calculations";
-import { sendSignInLinkToEmail, signInWithEmailLink, signInAnonymously } from "firebase/auth";
+import {
+  sendSignInLinkToEmail,
+  signInWithEmailLink,
+  signInAnonymously,
+  createUserWithEmailAndPassword
+} from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { auth, db } from "@/firebase.js";
 
@@ -74,6 +79,8 @@ export const useFirestoreDataStore = create((set) => ({
 
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
+
+      console.log(trimmedEmail , password , onboardingData);
 
       const userData = {
         userEmail: email,

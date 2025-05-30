@@ -67,6 +67,7 @@ export const EmailInput = ({ onNext }) => {
     updateUserData("email", trimmedEmail);
     localStorage.setItem("email", trimmedEmail);
 
+
     const onboardingData = {
       userAge: age,
       userHeight: height,
@@ -80,7 +81,7 @@ export const EmailInput = ({ onNext }) => {
       userEats: nonHungerTriggers,
       userConditions: healthConditions,
     };
-
+    console.log(trimmedEmail , password , onboardingData);
     if (trimmedEmail && password) {
       try {
         await createUser({
