@@ -5,13 +5,18 @@ import { sendSignInLinkToEmail, signInWithEmailLink, signInAnonymously } from "f
 import { doc, setDoc } from "firebase/firestore";
 import { auth, db } from "@/firebase.js";
 
+const getLocalStorageItem = (key) => {
+  const value = localStorage.getItem(key);
+  return value !== null ? value : "";
+};
+
 export const useUserStore = create((set) => ({
-  measurementSystem: "",
+  measurementSystem: getLocalStorageItem("measurementSystem"),
   age: "",
   gender: "",
   height: "",
-  weight: "",
-  idealWeight: "",
+  weight: getLocalStorageItem("weight"),
+  idealWeight: getLocalStorageItem("idealWeight"),
   wishlist: [],
   listOfIntentions: [],
   inspiringEvents: [],
@@ -26,13 +31,18 @@ export const useUserStore = create((set) => ({
   healthConditions: [],
   dailyCalories: null,
   selectedMealPlan: null,
-  email: null,
+  email: getLocalStorageItem("email"),
 
   customerData: null,
 
   updateUserData: (key, value) =>
     set((state) => {
       const newState = { ...state, [key]: value };
+
+      const localStorageKeys = ["measurementSystem", "weight", "idealWeight", "email"];
+      if (localStorageKeys.includes(key)) {
+        localStorage.setItem(key, value);
+      }
 
       if (["gender", "age", "height", "weight", "weeklyActivities"].includes(key)) {
         newState.dailyCalories = calculateCalories(newState);

@@ -30,9 +30,10 @@ export const EmailInput = ({ onNext }) => {
   useEffect(() => {
     inputRef.current?.focus();
 
-    const savedEmail = localStorage.getItem("userEmail");
+    const savedEmail = localStorage.getItem("email");
+
     if (savedEmail) {
-      setEmail(savedEmail);
+      // setEmail(savedEmail);
       updateUserData("email", savedEmail);
     }
   }, []);
@@ -64,7 +65,7 @@ export const EmailInput = ({ onNext }) => {
 
     const trimmedEmail = email.trim();
     updateUserData("email", trimmedEmail);
-    localStorage.setItem("userEmail", trimmedEmail);
+    localStorage.setItem("email", trimmedEmail);
 
     const onboardingData = {
       userAge: age,

@@ -21,7 +21,7 @@ export const usePaddle = () => {
       if (storeEmail) {
         setEmail(storeEmail);
       } else {
-        const localEmail = localStorage.getItem("userEmail");
+        const localEmail = localStorage.getItem("email");
         if (localEmail) {
           setEmail(localEmail);
         } else {
