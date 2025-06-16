@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Typography } from "@mui/material";
+import { Box, CircularProgress, Typography } from "@mui/material";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { UfoLogo } from "@/components/Paddle";
 
@@ -20,30 +20,50 @@ export const ExperiencePromoBanner = ({ onClose }) => {
 
   const [currentSlide, setCurrentSlide] = useState(0);
   const [dots, setDots] = useState("");
+  const [loadedSlides, setLoadedSlides] = useState(new Set());
+  const [isReady, setIsReady] = useState(false);
 
   const [animationParent] = useAutoAnimate({ duration: 300, easing: "ease-in-out" });
 
+  // Предзагрузка
   useEffect(() => {
-    const slideInterval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % data.length);
-    }, 3000);
+    data.forEach((item, index) => {
+      const img = new Image();
+      img.src = item.image;
+      img.onload = () => {
+        setLoadedSlides((prev) => new Set(prev).add(index));
+      };
+    });
+  }, []);
 
-    const dotInterval = setInterval(() => {
-      setDots((prev) => (prev.length < 3 ? prev + "." : ""));
-    }, 500);
+  // Запуск анимации
+  useEffect(() => {
+    if (loadedSlides.size === data.length) {
+      setIsReady(true);
 
-    const timer = setTimeout(() => {
-      clearInterval(slideInterval);
-      clearInterval(dotInterval);
-      onClose?.();
-    }, 15000);
+      const slideInterval = setInterval(() => {
+        setCurrentSlide((prev) => (prev + 1) % data.length);
+      }, 3000);
 
-    return () => {
-      clearInterval(slideInterval);
-      clearInterval(dotInterval);
-      clearTimeout(timer);
-    };
-  }, [data.length, onClose]);
+      const timer = setTimeout(() => {
+        clearInterval(slideInterval);
+        onClose?.();
+      }, 15000);
+
+      return () => {
+        clearInterval(slideInterval);
+        clearTimeout(timer);
+      };
+    }
+  }, [loadedSlides, data.length, onClose]);
+
+  if (!isReady) {
+    return (
+      <Box sx={{ height: "485px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <CircularProgress sx={{ color: "#241063" }} />
+      </Box>
+    );
+  }
 
   return (
     <div className='content'>

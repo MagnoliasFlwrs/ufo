@@ -3,12 +3,23 @@ import { useUserStore } from "@/store/store";
 
 export const DietingHistoryChecklist = ({ onNext }) => {
   const updateUserData = useUserStore((state) => state.updateUserData);
-  const options = ["Keto", "Calorie-deficit diets", "Intermittent fasting", "Low carb diet", "No, never"];
+
+  const options = [
+    { label: "Keto", key: "keto" },
+    { label: "Calorie-deficit diets", key: "deficit" },
+    { label: "Intermittent fasting", key: "fasting" },
+    { label: "Low carb diet", key: "lowCarbs" },
+  ];
+
+  const buttonOption = {
+    label: "No, never",
+    key: "dont",
+  };
 
   return (
     <CheckboxList
       title='Have you ever tried restrictive weight loss methods?'
-      buttonText='No, never'
+      buttonText={buttonOption}
       options={options}
       onNext={onNext}
       updateUserDataKey='dietingHistory'

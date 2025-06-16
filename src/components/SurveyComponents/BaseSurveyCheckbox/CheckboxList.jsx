@@ -5,8 +5,8 @@ import { CustomCheckbox } from "./CustomCheckbox";
 export const CheckboxList = ({
   title,
   subtitle = "",
-  buttonText = "",
-  options,
+  buttonText = null, // Может быть { label: string, key: string } или string
+  options, // Массив строк или объектов { label: string, key: string }
   onNext,
   updateUserDataKey,
   updateUserData,
@@ -14,9 +14,26 @@ export const CheckboxList = ({
 }) => {
   const { selectedOptions, handleCheckboxChange } = useSurveyCheckboxSelection();
 
-  const handleNext = () => {
+  // Нормализуем options к единому формату
+  const normalizedOptions = options.map((option) =>
+    typeof option === "string" ? { label: option, key: option } : option,
+  );
+
+  // Нормализуем buttonText
+  const normalizedButtonText = typeof buttonText === "string" ? { label: buttonText, key: buttonText } : buttonText;
+
+  const handleNextWithSelection = () => {
     if (updateUserData && updateUserDataKey) {
+      // Всегда сохраняем массив, даже с одним элементом
       updateUserData(updateUserDataKey, selectedOptions);
+    }
+    onNext();
+  };
+
+  const handleNextWithButton = () => {
+    if (updateUserData && updateUserDataKey && normalizedButtonText) {
+      // Для кнопки тоже сохраняем массив с одним элементом-ключом
+      updateUserData(updateUserDataKey, [normalizedButtonText.key]);
     }
     onNext();
   };
@@ -24,9 +41,9 @@ export const CheckboxList = ({
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
       if (selectedOptions.length > 0) {
-        handleNext();
-      } else if (buttonText) {
-        onNext();
+        handleNextWithSelection();
+      } else if (normalizedButtonText) {
+        handleNextWithButton();
       }
     }
   };
@@ -45,12 +62,12 @@ export const CheckboxList = ({
         )}
 
         <Box sx={{ mt: 2 }}>
-          {options.map((option) => (
+          {normalizedOptions.map((option) => (
             <CustomCheckbox
-              key={option}
-              option={option}
-              isChecked={selectedOptions.includes(option)}
-              onChange={handleCheckboxChange}
+              key={option.key}
+              option={option.label}
+              isChecked={selectedOptions.includes(option.key)}
+              onChange={() => handleCheckboxChange(option.key)}
             />
           ))}
         </Box>
@@ -58,13 +75,13 @@ export const CheckboxList = ({
 
       <div className={className}>
         {selectedOptions.length > 0 ? (
-          <Button variant='contained' fullWidth onClick={handleNext} className='survey-next-button'>
+          <Button variant='contained' fullWidth onClick={handleNextWithSelection} className='survey-next-button'>
             Next
           </Button>
         ) : (
-          buttonText && (
-            <Button variant='contained' fullWidth onClick={onNext} className='secondary-button'>
-              {buttonText}
+          normalizedButtonText && (
+            <Button variant='contained' fullWidth onClick={handleNextWithButton} className='secondary-button'>
+              {normalizedButtonText.label}
             </Button>
           )
         )}

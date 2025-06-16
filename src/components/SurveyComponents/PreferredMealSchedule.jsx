@@ -5,28 +5,46 @@ import { useEffect, useState } from "react";
 import MealDiets from "@/data/MealDiets.json";
 
 export const PreferredMealSchedule = ({ onNext }) => {
-  const { mealPreference, dailyCalories, selectMealPlan } = useUserStore();
+  const { mealPreference = "classic", dailyCalories, selectMealPlan } = useUserStore();
   const [filteredPlans, setFilteredPlans] = useState([]);
 
   useEffect(() => {
-    if (!mealPreference || !dailyCalories) {
+    if (!dailyCalories) {
       setFilteredPlans([]);
       return;
     }
 
-    const selectedDiet = MealDiets.find((diet) => diet.type === mealPreference);
+    // Используем "classic" как тип по умолчанию, если не выбран
+    const dietType = mealPreference || "classic";
+    const selectedDiet = MealDiets.find((diet) => diet.type === dietType);
+
     if (!selectedDiet) {
       setFilteredPlans([]);
       return;
     }
 
-    const plansWithTolerance = selectedDiet.plans.filter((plan) => {
-      const lowerBound = plan.kcalMin;
-      const upperBound = plan.kcalMax;
-      return dailyCalories > lowerBound && dailyCalories <= upperBound;
-    });
+    // Находим минимальный и максимальный диапазоны среди всех планов
+    const allKcalMins = selectedDiet.plans.map((plan) => plan.kcalMin);
+    const allKcalMaxes = selectedDiet.plans.map((plan) => plan.kcalMax);
+    const absoluteMin = Math.min(...allKcalMins);
+    const absoluteMax = Math.max(...allKcalMaxes);
 
-    setFilteredPlans(plansWithTolerance);
+    let suitablePlans = [];
+
+    if (dailyCalories > absoluteMax) {
+      // Показываем планы с максимальными калориями
+      suitablePlans = selectedDiet.plans.filter((plan) => plan.kcalMax === absoluteMax);
+    } else if (dailyCalories < absoluteMin) {
+      // Показываем планы с минимальными калориями
+      suitablePlans = selectedDiet.plans.filter((plan) => plan.kcalMin === absoluteMin);
+    } else {
+      // Обычная фильтрация по диапазону
+      suitablePlans = selectedDiet.plans.filter(
+        (plan) => dailyCalories > plan.kcalMin && dailyCalories <= plan.kcalMax,
+      );
+    }
+
+    setFilteredPlans(suitablePlans);
   }, [mealPreference, dailyCalories]);
 
   const handleNext = (planId) => {
@@ -44,7 +62,7 @@ export const PreferredMealSchedule = ({ onNext }) => {
         The meal schedule directly impacts your meal plan, choose the one that suits you best.
       </Typography>
 
-      {filteredPlans.length > 0 ? (
+      {filteredPlans.length > 0 && (
         <Box sx={{ mt: 3 }}>
           {filteredPlans.map((plan) => (
             <BaseSelectButton key={plan.id} onClick={() => handleNext(plan.id)} sx={{ textAlign: "left" }}>
@@ -62,16 +80,6 @@ export const PreferredMealSchedule = ({ onNext }) => {
               </Box>
             </BaseSelectButton>
           ))}
-        </Box>
-      ) : (
-        <Box sx={{ mt: 5, p: 2, backgroundColor: "#F5F5F5", borderRadius: "12px", border: "0.4px solid #DFDFDF" }}>
-          <Typography variant='h7' align='сenter' sx={{ color: "primary.main", fontWeight: 450 }} component='div'>
-            No meal schedules available for your preferences.
-          </Typography>
-
-          <Typography variant='h6' align='сenter' className='survey-subtitle' component='div'>
-            Please adjust your meal preference or daily calories.
-          </Typography>
         </Box>
       )}
     </Box>

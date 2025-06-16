@@ -6,8 +6,8 @@ export const WeekStartDaySelector = ({ onNext }) => {
   const updateUserData = useUserStore((state) => state.updateUserData);
 
   const options = [
-    { label: "Sunday", value: "Sunday" },
-    { label: "Monday", value: "Monday" },
+    { label: "Sunday", value: "sunday" },
+    { label: "Monday", value: "monday" },
   ];
 
   const handleNext = (value) => {

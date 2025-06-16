@@ -5,11 +5,11 @@ export const WishListCheckbox = ({ onNext }) => {
   const updateUserData = useUserStore((state) => state.updateUserData);
 
   const options = [
-    "Guidance and support",
-    "Increase self-awareness",
-    "Get more knowledge",
-    "Build healthy habits",
-    "Stay motivated",
+    { label: "Guidance and support", key: "guidance" },
+    { label: "Increase self-awareness", key: "awareness" },
+    { label: "Get more knowledge", key: "knowledge" },
+    { label: "Build healthy habits", key: "habits" },
+    { label: "Stay motivated", key: "motivated" },
   ];
 
   return (

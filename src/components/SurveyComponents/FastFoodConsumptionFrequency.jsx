@@ -6,10 +6,10 @@ export const FastFoodConsumptionFrequency = ({ onNext }) => {
   const updateUserData = useUserStore((state) => state.updateUserData);
 
   const options = [
-    { label: "A lot!", value: "A lot!" },
-    { label: "1-2 times a week", value: "1-2 times a week" },
-    { label: "Occasionally as a treat", value: "Occasionally as a treat" },
-    { label: "I try to avoid them", value: "I try to avoid them" },
+    { label: "A lot!", value: "alot" },
+    { label: "1-2 times a week", value: "times" },
+    { label: "Occasionally as a treat", value: "treat" },
+    { label: "I try to avoid them", value: "avoid" },
   ];
 
   const handleNext = (value) => {

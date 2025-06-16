@@ -20,7 +20,7 @@ const StoreLogger = () => {
   const state = useUserStore((state) => state);
 
   useEffect(() => {
-    // console.log("Store state updated:", state);
+    console.log("Store state updated:", state);
     // console.log("Customer data:", state.customerData);
   }, [state]);
 

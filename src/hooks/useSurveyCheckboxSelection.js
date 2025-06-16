@@ -1,14 +1,16 @@
 import { useState } from "react";
 
-export const useSurveyCheckboxSelection = (initialOptions = []) => {
+export const useSurveyCheckboxSelection = () => {
   const [selectedOptions, setSelectedOptions] = useState([]);
 
-  const handleCheckboxChange = (option) => {
-    setSelectedOptions((prev) => (prev.includes(option) ? prev.filter((item) => item !== option) : [...prev, option]));
+  const handleCheckboxChange = (optionKey) => {
+    setSelectedOptions((prev) =>
+      prev.includes(optionKey) ? prev.filter((item) => item !== optionKey) : [...prev, optionKey],
+    );
   };
 
   return {
-    selectedOptions,
+    selectedOptions, // Всегда массив ключей
     handleCheckboxChange,
     setSelectedOptions,
   };

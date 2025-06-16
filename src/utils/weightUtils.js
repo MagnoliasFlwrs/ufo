@@ -8,11 +8,13 @@ export const getDisplayWeight = (weightInKg, measurementSystem) => {
 };
 
 export const calculateGoalDate = (currentWeight, idealWeight) => {
+  const lostWeightPerWeek = currentWeight >= 90 ? 1 : 0.7;
+  const SECONDS_IN_WEEK = 7 * 24 * 60 * 60;
+
   const weightDifference = Math.abs(currentWeight - idealWeight);
-  const weeksNeeded = weightDifference === 0 ? 0 : weightDifference / 0.5;
-  const currentUnix = Math.floor(Date.now() / 1000);
-  const goalUnix = currentUnix + weeksNeeded * 7 * 24 * 60 * 60;
-  return new Date(goalUnix * 1000);
+  const weeksNeeded = weightDifference === 0 ? 0 : weightDifference / lostWeightPerWeek;
+
+  return new Date((Math.floor(Date.now() / 1000) + weeksNeeded * SECONDS_IN_WEEK) * 1000);
 };
 
 export const isSmallWeightDifference = (currentWeight, idealWeight) => {

@@ -38,30 +38,54 @@ export const PreferencesBanner = ({ onClose }) => {
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [loadedSlides, setLoadedSlides] = useState(new Set());
+  const [isReady, setIsReady] = useState(false);
   const [animationParent] = useAutoAnimate();
 
+  // Предзагрузка изображений
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => {
-        if (prevIndex === data.length - 1) {
-          return prevIndex;
-        }
-        return prevIndex + 1;
-      });
-    }, 4000);
+    data.forEach((item, index) => {
+      const img = new Image();
+      img.src = item.image;
+      img.onload = () => {
+        setLoadedSlides((prev) => new Set(prev).add(index));
+      };
+    });
+  }, []);
 
-    return () => clearInterval(interval);
-  }, [data.length]);
-
+  // Запуск анимации после загрузки
   useEffect(() => {
-    if (currentIndex === data.length - 1) {
-      const timeoutId = setTimeout(() => {
-        onClose && onClose();
+    if (loadedSlides.size === data.length) {
+      setIsReady(true);
+
+      const interval = setInterval(() => {
+        setCurrentIndex((prev) => {
+          if (prev === data.length - 1) {
+            return prev;
+          }
+          return prev + 1;
+        });
       }, 4000);
 
-      return () => clearTimeout(timeoutId);
+      const timeoutId = setTimeout(() => {
+        clearInterval(interval);
+        onClose?.();
+      }, data.length * 4000);
+
+      return () => {
+        clearInterval(interval);
+        clearTimeout(timeoutId);
+      };
     }
-  }, [currentIndex, onClose]);
+  }, [loadedSlides, data.length, onClose]);
+
+  if (!isReady) {
+    return (
+      <Box sx={{ height: "485px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <CircularProgress sx={{ color: "#241063" }} />
+      </Box>
+    );
+  }
 
   const currentSlide = data[currentIndex];
 

@@ -6,11 +6,11 @@ export const WeightLossSuccessSelector = ({ onNext }) => {
   const updateUserData = useUserStore((state) => state.updateUserData);
 
   const options = [
-    { label: "Yes, but here we go again", value: "Yes, but here we go again" },
-    { label: "Not as good as I would like", value: "Not as good as I would like" },
-    { label: "Yes and I keep going", value: "Yes and I keep going" },
-    { label: "Not really successful", value: "Not really successful" },
-    { label: "I’ve never tried before", value: "I’ve never tried before" },
+    { label: "Yes, but here we go again", value: "again" },
+    { label: "Not as good as I would like", value: "notGood" },
+    { label: "Yes and I keep going", value: "going" },
+    { label: "Not really successful", value: "notReally" },
+    { label: "I’ve never tried before", value: "never" },
   ];
 
   const handleNext = (value) => {
