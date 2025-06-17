@@ -21,7 +21,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  background: linear-gradient(180deg, #FFF 0%, rgba(255, 255, 255, 0) 100%);
+  background: linear-gradient(180deg, #fff 0%, rgba(255, 255, 255, 0) 100%);
   height: 532px;
   width: 100%;
   z-index: 1;
@@ -82,7 +82,7 @@
 .footer .bg-block .footer-nav .logo-row a {
   display: flex;
   align-items: center;
-  color: #FFF;
+  color: #fff;
   font-family: "Circular Std";
   font-size: 38.294px;
   font-style: normal;
@@ -126,7 +126,7 @@
   }
 }
 .footer .bg-block .footer-nav .nav-row .footer-nav-links li a {
-  color: #FFF;
+  color: #fff;
   font-family: Inter;
   font-size: 28px;
   font-style: normal;
@@ -136,7 +136,7 @@
 }
 @media (max-width: 850px) {
   .footer .bg-block .footer-nav .nav-row .footer-nav-links li a {
-    color: #FFF;
+    color: #fff;
     font-family: "Circular Std";
     font-size: 14px;
     font-style: normal;
@@ -186,10 +186,10 @@
   }
 }
 .footer .bg-block .footer-nav .nav-row .contacts-column ul li {
-  color: #FFF;
+  color: #fff;
 }
 .footer .bg-block .footer-nav .nav-row .contacts-column ul p {
-  color: #FFF;
+  color: #fff;
   font-family: Inter;
   font-size: 18px;
   font-style: normal;
@@ -198,7 +198,7 @@
 }
 @media (max-width: 850px) {
   .footer .bg-block .footer-nav .nav-row .contacts-column ul p {
-    color: #FFF;
+    color: #fff;
     font-family: "Circular Std";
     font-size: 14px;
     font-style: normal;
@@ -207,7 +207,7 @@
   }
 }
 .footer .bg-block .footer-nav .nav-row .contacts-column ul a {
-  color: #C2B9FF;
+  color: #c2b9ff;
   font-family: Inter;
   font-size: 18px;
   font-style: normal;
@@ -216,12 +216,24 @@
 }
 @media (max-width: 850px) {
   .footer .bg-block .footer-nav .nav-row .contacts-column ul a {
-    color: #C2B9FF;
+    color: #c2b9ff;
     font-family: "Circular Std";
     font-size: 14px;
     font-style: normal;
     font-weight: 500;
     line-height: 28px; /* 200% */
+  }
+}
+.footer .bg-block .footer-nav .nav-row .contacts-column ul .phone-number-svg {
+  display: inline-block;
+  height: 25px;
+  width: auto;
+  vertical-align: middle;
+  margin-top: 2px;
+}
+@media (max-width: 850px) {
+  .footer .bg-block .footer-nav .nav-row .contacts-column ul .phone-number-svg {
+    height: 20px;
   }
 }
 .footer .bg-block .footer-nav .mobile-links {
@@ -236,7 +248,7 @@
   }
 }
 .footer .bg-block .footer-nav .mobile-links li a {
-  color: #FFF;
+  color: #fff;
   font-family: "Circular Std";
   font-size: 16px;
   font-style: normal;
@@ -269,7 +281,7 @@
   }
 }
 .footer .bg-block .footer-nav .info-row p {
-  color: #FFF;
+  color: #fff;
   font-family: Inter;
   font-size: 18px;
   font-style: normal;
@@ -280,7 +292,7 @@
 }
 @media (max-width: 850px) {
   .footer .bg-block .footer-nav .info-row p {
-    color: #FFF;
+    color: #fff;
     font-family: Inter;
     font-size: 12px;
     font-style: normal;
@@ -290,7 +302,7 @@
 }
 .footer .bg-block .footer-nav .info-row span {
   opacity: 0.6;
-  color: #FFF;
+  color: #fff;
   font-family: Inter;
   font-size: 18px;
   font-style: normal;
@@ -300,7 +312,7 @@
 }
 @media (max-width: 850px) {
   .footer .bg-block .footer-nav .info-row span {
-    color: #FFF;
+    color: #fff;
     font-family: Inter;
     font-size: 12px;
     font-style: normal;

@@ -10,12 +10,13 @@ const CancellationRefundPolicyBlock = () => {
     <div className='policy-container'>
       <h1>Refund & Cancellation Policy</h1>
       <p className='last-updated'>Effective Date: March , 2025</p>
-      <p className='last-updated'> Last Updated: May, 2025</p>
+      <p className='last-updated'> Last Updated: June, 2025</p>
 
       <section className='policy-section'>
         <p>
           This Refund and Cancellation Policy applies to purchases made for the UFO mobile application ("App"), operated
-          by Appossum PSA ("we," "our," or "us"), via the Apple App Store or Paddle.com.
+          by Appossum PSA ("we," "our," or "us"), via the Apple App Store or our Website using Stripe (including Apple
+          Pay).
         </p>
 
         <p>By subscribing to or purchasing our services, you agree to the terms outlined below.</p>
@@ -26,49 +27,50 @@ const CancellationRefundPolicyBlock = () => {
 
         <h3>1. Access & Plans</h3>
         <p>
-          The UFO app requires a paid subscription to access its full features. Subscription plans and pricing are
-          displayed within the app and, where applicable, on our website. Pricing may vary by region.
+          Access to premium features in UFO requires a paid subscription. Pricing and plan options are shown in the App
+          and, where applicable, on our Website. Prices may vary by region and currency.
         </p>
 
         <h3>2. Payment Methods</h3>
-        <p>Payments are processed either through:</p>
+        <p>We process payments via:</p>
 
         <ul>
           <li>
-            <strong>Apple App Store</strong>, using your Apple ID, or
+            <strong>Apple App Store</strong>, using your Apple ID;
           </li>
           <li>
-            <strong>Paddle.com</strong>, our Merchant of Record for web purchases.
+            <strong>Stripe</strong>, including <strong>Apple Pay</strong>, for purchases made through the Website.
           </li>
         </ul>
 
         <p>
-          You authorize the relevant platform to charge your selected payment method for recurring subscription
-          payments.
+          By purchasing a subscription, you authorize the platform to charge your selected payment method on a recurring
+          basis.
         </p>
 
         <h3>3. Auto-Renewal</h3>
         <p>
-          All subscriptions automatically renew 24 hours before the end of the current billing cycle unless cancelled
-          beforehand. Notification of renewal charges is managed by the respective platform (Apple or Paddle).
+          All subscriptions automatically renew unless cancelled at least 24 hours before the current billing period
+          ends. Renewal notifications and billing are managed by Apple or Stripe, depending on where you purchased.
         </p>
 
         <h3>4. Cancellation</h3>
 
+        <p>You can cancel your subscription anytime:</p>
+
         <ul>
           <li>
-            If you purchased via the <strong>App Store</strong>, manage your subscription via your Apple ID account
-            settings.
+            <strong>Apple App Store users:</strong> via your Apple ID account settings;
           </li>
           <li>
-            If you purchased via <strong>Paddle</strong>, follow the instructions in your confirmation email or visit
-            your Paddle Customer Portal to manage your subscription.
+            <strong>Stripe users (Website):</strong> via the link provided in your confirmation email or by contacting
+            our support.
           </li>
         </ul>
 
         <p>
-          Cancellations apply only to future billing cycles. You will retain access to premium features for the
-          remainder of the current period. No partial refunds are issued for unused time.
+          Cancellations apply to future billing cycles. You will retain access until the end of the current paid period.
+          No partial refunds are issued for unused time.
         </p>
       </section>
 
@@ -77,73 +79,74 @@ const CancellationRefundPolicyBlock = () => {
 
         <h3>1. General Policy</h3>
         <p>
-          All sales are considered final. UFO is a digital product with immediate access upon payment, and refunds are
-          only granted in specific cases.
+          All sales are final. Because UFO is a digital service with immediate access, we do not offer refunds except in
+          specific, limited cases.
         </p>
 
-        <h3>2. Eligible Refund Cases</h3>
+        <h3>2. Eligible Refund Scenarios</h3>
 
-        <p> We may grant a refund in the following situations:</p>
+        <p>We may grant a refund if:</p>
         <ul>
-          <li>Duplicate charges due to technical error</li>
-          <li>Inability to access the service due to a verified technical issue on our side</li>
-          <li>Unauthorized charge (subject to verification)</li>
+          <li>You were charged multiple times due to a technical error</li>
+          <li>You were unable to access the App due to a verified issue on our end</li>
+          <li>The charge was unauthorized and verifiably fraudulent</li>
         </ul>
 
         <p>
-          Refunds <strong>will not</strong> be granted for:
+          Refunds are <strong>not issued</strong> for:
         </p>
 
         <ul>
           <li>Change of mind</li>
-          <li>Failure to cancel in time</li>
-          <li>General dissatisfaction not tied to service failure</li>
+          <li>Accidental purchases</li>
+          <li>General dissatisfaction not based on a service failure</li>
+          <li>Forgetting to cancel before renewal</li>
           <li>Lack of usage</li>
         </ul>
 
         <h3>3. Refund Process</h3>
 
-        <p> To request a refund, contact us at {MailLink} with:</p>
+        <p> To request a refund (Stripe/Web purchases only), contact us at {MailLink} and provide:</p>
 
         <ul>
-          <li>Your full name and email used for purchase</li>
-          <li>Date of transaction</li>
-          <li>Reason for refund</li>
-          <li>Proof of payment or transaction ID</li>
+          <li>Your full name and email used for the purchase</li>
+          <li>Transaction date and payment method</li>
+          <li>Reason for the request</li>
+          <li>Proof of payment (e.g., receipt or transaction ID)</li>
         </ul>
 
         <p>
-          We aim to respond within 5 business days. If approved, refunds are issued to the original payment method.
-          Processing time may vary.
+          We aim to respond within 5 business days. Approved refunds are returned to the original payment method; bank
+          processing times may vary.
         </p>
 
-        <h3>4. App Store Purchases</h3>
+        <h3>4. Apple App Store Purchases</h3>
 
         <p>
-          For purchases made via the Apple App Store, refunds must be requested directly from Apple at{" "}
-          <a href='https://reportaproblem.apple.com'>https://reportaproblem.apple.com</a>. We cannot issue or influence
-          App Store refunds.
+          For purchases made via the App Store, we cannot issue refunds directly. Please request refunds from Apple via:
+          <br />
+          <a href='https://reportaproblem.apple.com'>https://reportaproblem.apple.com</a>
         </p>
 
         <h3>5. Disputes & Chargebacks</h3>
 
         <p>
-          We encourage you to contact us before disputing a charge. Fraudulent chargebacks may result in account
-          suspension or termination.
+          If you believe you were charged in error, please contact us first. Unjustified chargebacks may result in
+          permanent account suspension.
         </p>
       </section>
 
       <section className='policy-section'>
         <h2>III. Policy Changes</h2>
         <p>
-          We may update this Refund Policy at any time. Substantial changes will be communicated via the App, Website,
-          or email. Continued use of the service implies acceptance of the updated policy.
+          We may update this policy at any time. Substantial changes will be communicated via the App, Website, or
+          email. Continued use of our services implies acceptance of any revised terms.
         </p>
       </section>
 
       <section className='policy-section'>
         <h2>IV. CONTACT</h2>
-        <p>If you have any questions regarding this policy or your transactions, please contact us:</p>
+        <p>If you have any questions regarding your purchase or this policy, please reach out to:</p>
         <p>
           <strong>Email: </strong> {MailLink}
           <br />

@@ -35,18 +35,22 @@
 .policy-container .toc ul {
   list-style-type: none;
   padding: 0;
-  columns: 3;
-  column-gap: 30px;
+  -moz-columns: 3;
+       columns: 3;
+  -moz-column-gap: 30px;
+       column-gap: 30px;
 }
 @media (max-width: 767px) {
   .policy-container .toc ul {
-    columns: 1;
+    -moz-columns: 1;
+         columns: 1;
     text-align: center;
   }
 }
 .policy-container .toc li {
   margin: 10px 0;
-  break-inside: avoid;
+  -moz-column-break-inside: avoid;
+       break-inside: avoid;
 }
 .policy-container .toc a {
   color: var(--Dark-Purple, #241063);
@@ -232,6 +236,4 @@
   .policy-container .policy-section li {
     font-size: 15px;
   }
-}
-
-/*# sourceMappingURL=policiesCommon.css.map */
+}/*# sourceMappingURL=policiesCommon.css.map */

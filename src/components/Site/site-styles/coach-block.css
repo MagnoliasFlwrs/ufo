@@ -214,8 +214,10 @@
 .coach-block .site-content .coach-content-block .gradient-block .img img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  object-position: center;
+  -o-object-fit: cover;
+     object-fit: cover;
+  -o-object-position: center;
+     object-position: center;
 }
 .coach-block .site-content .coach-content-block .block-info {
   display: flex;
@@ -265,6 +267,4 @@
   font-weight: 700;
   line-height: 36px; /* 138.462% */
   letter-spacing: -0.52px;
-}
-
-/*# sourceMappingURL=coach-block.css.map */
+}/*# sourceMappingURL=coach-block.css.map */

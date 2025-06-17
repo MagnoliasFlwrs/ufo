@@ -1,7 +1,7 @@
 :root {
-  --Dark-Purple:#241063;
-  --Primary: #FF5C1D;
-  --Light-Grey: #F5F5F5 ;
+  --Dark-Purple: #241063;
+  --Primary: #ff5c1d;
+  --Light-Grey: #f5f5f5;
 }
 
 .header {
@@ -24,7 +24,7 @@
 }
 .header:before {
   content: "";
-  background: linear-gradient(0deg, rgba(255, 255, 255, 0.7) 21%, #FFF 76%);
+  background: linear-gradient(0deg, rgba(255, 255, 255, 0.7) 21%, #fff 76%);
   filter: blur(12.5px);
   position: absolute;
   top: 0;
@@ -95,13 +95,13 @@
 }
 .header .site-content .burger-wrap .get-started {
   border-radius: 8px;
-  background: var(--Primary, #FF5C1D);
+  background: var(--Primary, #ff5c1d);
   display: inline-flex;
   padding: 16px 32px;
   justify-content: center;
   align-items: center;
   gap: 10px;
-  color: var(--Light-Grey, #F5F5F5);
+  color: var(--Light-Grey, #f5f5f5);
   text-align: center;
   font-feature-settings: "liga" off;
   font-family: "Circular Std";
@@ -150,16 +150,16 @@
   left: 0;
   height: 100vh;
   width: 100%;
-  background: #FFFFFF;
+  background: #ffffff;
   z-index: 10;
   padding-top: 130px;
   display: flex;
   flex-direction: column;
   gap: 60px;
-  transition: 0.75s linear;
+  transition: 0.45s linear;
 }
 .mobile-menu.active {
-  transition: 0.75s linear;
+  transition: 0.45s linear;
   top: 0;
 }
 .mobile-menu.active ul {
@@ -169,32 +169,32 @@
 }
 .mobile-menu.active ul li:nth-child(1) a {
   animation: menuItemsVisibility 0.3s ease;
-  animation-delay: 0.75s;
+  animation-delay: 0.3s;
   animation-fill-mode: forwards;
 }
 .mobile-menu.active ul li:nth-child(2) a {
   animation: menuItemsVisibility 0.3s ease;
-  animation-delay: 0.95s;
+  animation-delay: 0.45s;
   animation-fill-mode: forwards;
 }
 .mobile-menu.active ul li:nth-child(3) a {
   animation: menuItemsVisibility 0.3s ease;
-  animation-delay: 1.25s;
+  animation-delay: 0.6s;
   animation-fill-mode: forwards;
 }
 .mobile-menu.active ul li:nth-child(4) a {
   animation: menuItemsVisibility 0.3s ease;
-  animation-delay: 1.45s;
+  animation-delay: 0.75s;
   animation-fill-mode: forwards;
 }
 .mobile-menu.active ul li:nth-child(5) a {
   animation: menuItemsVisibility 0.3s ease;
-  animation-delay: 1.65s;
+  animation-delay: 0.9s;
   animation-fill-mode: forwards;
 }
 .mobile-menu.active .get-started {
   animation: menuItemsVisibilityBtn 0.3s ease;
-  animation-delay: 1.85s;
+  animation-delay: 1.05s;
   animation-fill-mode: forwards;
 }
 .mobile-menu ul {
@@ -210,7 +210,7 @@
   width: 100%;
   padding: 24px 16px;
   gap: 8px;
-  border-bottom: 0.4px solid var(--Stroke-Grey, #DFDFDF);
+  border-bottom: 0.4px solid var(--Stroke-Grey, #dfdfdf);
   color: var(--Dark-Purple, #241063);
   font-family: "Circular Std";
   font-size: 20px;
@@ -227,8 +227,8 @@
   align-items: center;
   gap: 10px;
   border-radius: 8px;
-  background: var(--Primary, #FF5C1D);
-  color: var(--Light-Grey, #F5F5F5);
+  background: var(--Primary, #ff5c1d);
+  color: var(--Light-Grey, #f5f5f5);
   text-align: center;
   font-feature-settings: "liga" off;
   font-family: "Circular Std";
