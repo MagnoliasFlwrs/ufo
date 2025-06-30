@@ -2,18 +2,14 @@ import { useState, useEffect, useRef } from "react";
 import { Typography, Box } from "@mui/material";
 
 export const CountdownTimer = ({ initialMinutes = 0, initialSeconds = 0, onTimerEnd }) => {
-  // State for tracking remaining minutes and seconds
   const [minutes, setMinutes] = useState(initialMinutes);
   const [seconds, setSeconds] = useState(initialSeconds);
 
-  // Refs for main and secondary timer elements
   const mainTimerRef = useRef(null);
   const secondaryTimerRef = useRef(null);
 
-  // State for tracking main timer visibility
   const [isHidden, setIsHidden] = useState(false);
 
-  // Countdown timer logic
   useEffect(() => {
     const timer = setInterval(() => {
       setSeconds((prevSeconds) => {
@@ -22,20 +18,19 @@ export const CountdownTimer = ({ initialMinutes = 0, initialSeconds = 0, onTimer
           setMinutes((prevMinutes) => prevMinutes - 1);
           return 59;
         }
-        clearInterval(timer); // Stop timer when minutes and seconds reach 0
-        if (onTimerEnd) onTimerEnd(); // Invoke callback if timer ends
+        clearInterval(timer);
+        if (onTimerEnd) onTimerEnd();
         return 0;
       });
     }, 1000);
     return () => clearInterval(timer);
   }, [minutes, onTimerEnd]);
 
-  // Dynamic bottom padding for the page
   useEffect(() => {
     const updatePadding = () => {
       if (secondaryTimerRef.current) {
         const timerHeight = secondaryTimerRef.current.offsetHeight;
-        document.body.style.paddingBottom = `${timerHeight}px`; // Add bottom padding
+        document.body.style.paddingBottom = `${timerHeight}px`;
       }
     };
 
@@ -43,22 +38,21 @@ export const CountdownTimer = ({ initialMinutes = 0, initialSeconds = 0, onTimer
     window.addEventListener("resize", updatePadding);
 
     return () => {
-      document.body.style.paddingBottom = "0px"; // Clear padding on unmount
+      document.body.style.paddingBottom = "0px";
       window.removeEventListener("resize", updatePadding);
     };
   }, []);
 
-  // Logic for tracking when main timer scrolls out of view
   useEffect(() => {
     const handleScroll = () => {
       if (!mainTimerRef.current) return;
 
       const { bottom } = mainTimerRef.current.getBoundingClientRect();
-      setIsHidden(bottom < 0); // If main timer is not visible, show secondary timer
+      setIsHidden(bottom < 0);
     };
 
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll); // Remove listener on unmount
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
@@ -103,9 +97,9 @@ export const CountdownTimer = ({ initialMinutes = 0, initialSeconds = 0, onTimer
           position: "fixed",
           bottom: "0px",
           marginLeft: "-20px",
-          opacity: isHidden ? 0.8 : 0, // Smooth appearance when main timer disappears
+          opacity: isHidden ? 0.8 : 0,
           transition: "opacity 0.3s ease-in-out",
-          zIndex: 1000, // Above other content
+          zIndex: 1000,
         }}>
         <Typography
           variant='h6'

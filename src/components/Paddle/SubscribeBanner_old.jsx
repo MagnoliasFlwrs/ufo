@@ -1,5 +1,7 @@
 import { useRef, useState, useEffect } from "react";
 import { Typography, Box, Button, Divider } from "@mui/material";
+import { usePaddle } from "@/hooks/usePaddle";
+import { usePaddleProducts } from "@/hooks/usePaddleProducts";
 import {
   CountdownTimer,
   CustomerReviews,
@@ -12,57 +14,79 @@ import {
   UserStats,
 } from "./index";
 
-export const PLANS = [
-  {
-    id: "price_1RZxNRP7v3zBLEUjKvSNH67Y",
-    id_sale: "price_1RZxR5P7v3zBLEUjWTr9jtJa",
-    title: "1-WEEK",
-    originalPrice: 9.99,
-    discountedPrice: 4.99,
-    introPeriod: 7,
-    periodLabel: "7 days",
-  },
-  {
-    id: "price_1RfcyxP7v3zBLEUjJMynniNV",
-    id_sale: "price_1RfcyXP7v3zBLEUjxMyGcii3",
-    title: "1-MONTH",
-    originalPrice: 29.99,
-    discountedPrice: 17.99,
-    introPeriod: 30,
-    periodLabel: "1 month",
-  },
-  {
-    id: "price_1Rfd1ZP7v3zBLEUjZmPJIIwq",
-    id_sale: "price_1Rfd1BP7v3zBLEUjVSJPTlwT",
-    title: "3-MONTH",
-    originalPrice: 59.99,
-    discountedPrice: 29.99,
-    introPeriod: 90,
-    periodLabel: "3 months",
-  },
-];
-
 export const SubscribeBanner = () => {
-  const [selectedPlan, setSelectedPlan] = useState(null);
-  const [isTimerActive, setIsTimerActive] = useState(true);
-  const checkoutContainerRef = useRef(null);
-  const [clientSecret, setClientSecret] = useState(null);
+  // Hooks and state management
+  const { openInlineCheckout, error } = usePaddle(); // Paddle checkout hook
+  const { products: PLANS, loading: productsLoading, error: productsError } = usePaddleProducts(); // Products data
+  const [selectedPlan, setSelectedPlan] = useState(null); // Currently selected plan
+  const [isPaddleInitialized, setIsPaddleInitialized] = useState(false); // Paddle initialization status
+  const [isTimerActive, setIsTimerActive] = useState(true); // Special offer timer status
+  const [isPaddleReady, setIsPaddleReady] = useState(false); // Paddle SDK readiness
+  const checkoutContainerRef = useRef(null); // Ref for scrolling to checkout
 
+  /**
+   * Calculates the daily price for a subscription plan
+   * @param {Object} plan - The subscription plan object
+   * @returns {string} Formatted daily price string (e.g., "$0.99")
+   */
   const calculatePricePerDay = (plan) => {
+    // Use discounted price if timer is active, otherwise use regular price
     const priceToUse = isTimerActive ? plan.discountedPrice : plan.originalPrice;
     const pricePerDay = priceToUse / plan.introPeriod;
     return `${pricePerDay.toFixed(2)}`;
   };
 
+  // Check for Paddle SDK availability
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (window.Paddle) {
+        setIsPaddleReady(true);
+        clearInterval(interval);
+      }
+    }, 500);
+
+    return () => clearInterval(interval); // Cleanup interval on unmount
+  }, []);
+
+  // Initialize default plan when products load and Paddle is ready
+  useEffect(() => {
+    if (PLANS.length > 0 && isPaddleReady) {
+      const defaultPlan = PLANS.find((plan) => plan.title === "1-MONTH");
+      if (defaultPlan) {
+        openInlineCheckout(defaultPlan.id_sale);
+        setSelectedPlan(defaultPlan.title);
+        setIsPaddleInitialized(true);
+      }
+    }
+  }, [PLANS, isPaddleReady]);
+
+  /**
+   * Handles timer completion - switches to regular pricing
+   */
+  const handleTimerEnd = () => {
+    setIsTimerActive(false);
+    const defaultPlan = PLANS.find((plan) => plan.title === "1-MONTH");
+    if (defaultPlan) {
+      setSelectedPlan(defaultPlan.title);
+      openInlineCheckout(defaultPlan.id); // Use regular price ID after timer ends
+    }
+  };
+
+  /**
+   * Calculates the end date for the subscription period
+   * @param {Object} plan - The subscription plan object
+   * @returns {string} Formatted end date string
+   */
   const calculateEndDate = (plan) => {
     const now = new Date();
 
+    // Add appropriate time based on plan duration
     if (plan.title.includes("WEEK")) {
       now.setDate(now.getDate() + plan.introPeriod);
     } else if (plan.title.includes("MONTH")) {
-      now.setMonth(now.getMonth() + plan.introPeriod / 30);
+      now.setMonth(now.getMonth() + plan.introPeriod / 30); // Approximate month as 30 days
     } else {
-      now.setMonth(now.getMonth() + 1);
+      now.setMonth(now.getMonth() + 1); // Default fallback
     }
 
     return now.toLocaleString("en-US", {
@@ -74,39 +98,20 @@ export const SubscribeBanner = () => {
     });
   };
 
-  const handlePlanSelect = async (plan, planTitle) => {
+  /**
+   * Handles plan selection
+   * @param {string} priceId - The price ID object (contains both regular and sale IDs)
+   * @param {string} planTitle - The title of the selected plan
+   */
+  const handlePlanSelect = (priceId, planTitle) => {
     setSelectedPlan(planTitle);
-
-    const priceId = isTimerActive ? plan.id_sale : plan.id;
-
-    try {
-      const res = await fetch("http://localhost:4242/create-checkout-session", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          priceId,
-          customerEmail: "", // optionally pass user's email
-        }),
-      });
-
-      const data = await res.json();
-      setClientSecret(data.clientSecret);
-    } catch (err) {
-      console.error("Error creating Stripe session:", err);
-    }
+    // Use sale price ID if timer is active, otherwise use regular price ID
+    openInlineCheckout(isTimerActive ? priceId.id_sale : priceId.id);
   };
 
-  const handleTimerEnd = () => {
-    setIsTimerActive(false);
-    const defaultPlan = PLANS.find((plan) => plan.title === "1-MONTH");
-    if (defaultPlan) {
-      setSelectedPlan(defaultPlan.title);
-      handlePlanSelect(defaultPlan, defaultPlan.title);
-    }
-  };
-
+  /**
+   * Scrolls to the checkout section smoothly
+   */
   const scrollToCheckout = () => {
     checkoutContainerRef.current?.scrollIntoView({
       behavior: "smooth",
@@ -114,19 +119,30 @@ export const SubscribeBanner = () => {
     });
   };
 
-  useEffect(() => {
-    if (PLANS.length > 0) {
-      const defaultPlan = PLANS.find((plan) => plan.title === "1-MONTH");
-      if (defaultPlan) {
-        handlePlanSelect(defaultPlan, defaultPlan.title);
-      }
-    }
-  }, [PLANS]);
+  // Error state handling
+  if (error || productsError) {
+    return (
+      <Box textAlign='center' color='error.main' py={2}>
+        <Typography>{error || productsError}</Typography>
+      </Box>
+    );
+  }
 
+  // Loading state handling
+  if (productsLoading) {
+    return (
+      <Box textAlign='center' py={4}>
+        <Typography>Loading subscription plans...</Typography>
+      </Box>
+    );
+  }
+
+  // Fallback to 1-MONTH plan if no selection exists
   const currentPlan = PLANS.find((plan) => plan.title === selectedPlan) || PLANS[1];
 
   return (
     <Box>
+      {/* Header Section */}
       <UfoLogo />
       <Schedule />
 
@@ -138,8 +154,10 @@ export const SubscribeBanner = () => {
         Grab your Personal Plan before it&apos;s gone!
       </Typography>
 
-      {isTimerActive && <CountdownTimer initialMinutes={0} initialSeconds={2} onTimerEnd={handleTimerEnd} />}
+      {/* Special Offer Timer */}
+      {isTimerActive && <CountdownTimer initialMinutes={10} initialSeconds={0} onTimerEnd={handleTimerEnd} />}
 
+      {/* Plan Selection Cards */}
       <Box display='flex' flexDirection='column' gap={2} mt={4}>
         {PLANS.map((plan) => (
           <SubscriptionPlanCard
@@ -154,8 +172,10 @@ export const SubscribeBanner = () => {
         ))}
       </Box>
 
+      {/* Informational Sections */}
       <ResearchNote />
 
+      {/* CTA Button */}
       <Button
         variant='contained'
         fullWidth
@@ -171,9 +191,11 @@ export const SubscribeBanner = () => {
         Get my plan
       </Button>
 
+      {/* Additional Marketing Sections */}
       <UserStats />
       <CustomerReviews />
 
+      {/* CTA Button */}
       <Button
         variant='contained'
         fullWidth
@@ -189,6 +211,7 @@ export const SubscribeBanner = () => {
 
       <MoneyBack />
 
+      {/* Subscription Summary */}
       <SubscriptionInfo
         introPrice={isTimerActive ? currentPlan.discountedPrice : currentPlan.originalPrice}
         originalPrice={currentPlan.originalPrice}
@@ -196,6 +219,7 @@ export const SubscribeBanner = () => {
         introPeriod={currentPlan.periodLabel}
       />
 
+      {/* Checkout Section */}
       <Typography
         variant='h5'
         align='left'
@@ -210,22 +234,15 @@ export const SubscribeBanner = () => {
         UFO will use your payment details for seamless future payments.
       </Typography>
 
+      {/* Paddle Checkout Container */}
       <Box
         className='checkout-container'
         sx={{ mt: 3, p: 2, borderRadius: "8px", border: "0.4px solid #DFDFDF" }}
         ref={checkoutContainerRef}>
-        {clientSecret ? (
-          <iframe
-            src={`https://checkout.stripe.com/embedded?clientSecret=${clientSecret}`}
-            width='100%'
-            height='600'
-            style={{ border: "none", borderRadius: "8px" }}
-          />
-        ) : (
-          <Typography color='text.secondary'>Loading payment options...</Typography>
-        )}
+        {!isPaddleInitialized && <Typography color='text.secondary'>Loading payment options...</Typography>}
       </Box>
 
+      {/* Footer Information */}
       <Typography align='left' sx={{ color: "primary.main", fontWeight: 450, fontSize: "16px", mt: 2 }}>
         You will need an iPhone smartphone to use UFO.
       </Typography>

@@ -89,9 +89,6 @@ export const usePaddle = () => {
         throw new Error("Paddle token is missing in environment variables");
       }
 
-      // const isProduction = import.meta.env.MODE === "production";
-      // window.Paddle.Environment.set(isProduction ? "production" : "sandbox");
-
       window.Paddle.Environment.set("sandbox");
       window.Paddle.Initialize({
         token: paddleToken,
