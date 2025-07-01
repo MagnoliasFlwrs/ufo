@@ -46,7 +46,6 @@ export const SubscribeBanner = () => {
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [isTimerActive, setIsTimerActive] = useState(true);
   const checkoutContainerRef = useRef(null);
-  const [clientSecret, setClientSecret] = useState(null);
 
   const calculatePricePerDay = (plan) => {
     const priceToUse = isTimerActive ? plan.discountedPrice : plan.originalPrice;
@@ -76,26 +75,6 @@ export const SubscribeBanner = () => {
 
   const handlePlanSelect = async (plan, planTitle) => {
     setSelectedPlan(planTitle);
-
-    const priceId = isTimerActive ? plan.id_sale : plan.id;
-
-    try {
-      const res = await fetch("http://localhost:4242/create-checkout-session", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          priceId,
-          customerEmail: "", // optionally pass user's email
-        }),
-      });
-
-      const data = await res.json();
-      setClientSecret(data.clientSecret);
-    } catch (err) {
-      console.error("Error creating Stripe session:", err);
-    }
   };
 
   const handleTimerEnd = () => {
@@ -210,21 +189,8 @@ export const SubscribeBanner = () => {
         UFO will use your payment details for seamless future payments.
       </Typography>
 
-      <Box
-        className='checkout-container'
-        sx={{ mt: 3, p: 2, borderRadius: "8px", border: "0.4px solid #DFDFDF" }}
-        ref={checkoutContainerRef}>
-        {clientSecret ? (
-          <iframe
-            src={`https://checkout.stripe.com/embedded?clientSecret=${clientSecret}`}
-            width='100%'
-            height='600'
-            style={{ border: "none", borderRadius: "8px" }}
-          />
-        ) : (
-          <Typography color='text.secondary'>Loading payment options...</Typography>
-        )}
-      </Box>
+      {/* stripe checkout */}
+      <Box sx={{ mt: 3, p: 2, borderRadius: "8px", border: "0.4px solid #DFDFDF" }} ref={checkoutContainerRef}></Box>
 
       <Typography align='left' sx={{ color: "primary.main", fontWeight: 450, fontSize: "16px", mt: 2 }}>
         You will need an iPhone smartphone to use UFO.
