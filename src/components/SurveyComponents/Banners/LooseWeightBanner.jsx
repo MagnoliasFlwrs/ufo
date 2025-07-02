@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Box, Button, LinearProgress, Typography } from "@mui/material";
-import { UfoLogo } from "@/components/Paddle";
+import { UfoLogo } from "@/components/Stripe";
 import { WeightLostImage } from "../SvgImages/WeightLostImage";
 
 export const LooseWeightBanner = ({ onClose }) => {

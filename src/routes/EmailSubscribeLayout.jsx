@@ -1,5 +1,5 @@
 import React from "react";
-import { EmailInput } from "@/components/Paddle/EmailInput";
+import { EmailInput } from "@/components/Stripe/EmailInput";
 import { useNavigate } from "react-router-dom";
 
 const EmailSubscribeLayout = () => {

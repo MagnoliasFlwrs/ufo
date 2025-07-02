@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Box, CircularProgress, Typography } from "@mui/material";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
-import { UfoLogo } from "@/components/Paddle";
+import { UfoLogo } from "@/components/Stripe";
 
 import img1 from "../../Site/site-images/expirienceBanner1.webp";
 import img2 from "../../Site/site-images/expirienceBanner2.webp";

@@ -5,7 +5,7 @@ import {
   sendSignInLinkToEmail,
   signInWithEmailLink,
   signInAnonymously,
-  createUserWithEmailAndPassword
+  createUserWithEmailAndPassword,
 } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { auth, db } from "@/firebase.js";
@@ -37,7 +37,6 @@ export const useUserStore = create((set) => ({
   dailyCalories: null,
   selectedMealPlan: null,
   email: getLocalStorageItem("email"),
-
   customerData: null,
 
   updateUserData: (key, value) =>
@@ -80,7 +79,7 @@ export const useFirestoreDataStore = create((set) => ({
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-      console.log(email , password , onboardingData);
+      console.log(email, password, onboardingData);
 
       const userData = {
         userEmail: email,

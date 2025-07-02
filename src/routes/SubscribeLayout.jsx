@@ -1,5 +1,5 @@
 import React from "react";
-import { SubscribeBanner } from "@/components/Paddle/SubscribeBanner";
+import { SubscribeBanner } from "@/components/Stripe/SubscribeBanner";
 
 const SubscribeLayout = () => {
   return (

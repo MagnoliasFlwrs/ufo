@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { Box, Button, Typography } from "@mui/material";
-import { UfoLogo } from "@/components/Paddle";
+import { UfoLogo } from "@/components/Stripe";
 import { BannerImage } from "../SvgImages/BannerImage";
 
 export const LongTermResultsBanner = ({ onClose }) => {

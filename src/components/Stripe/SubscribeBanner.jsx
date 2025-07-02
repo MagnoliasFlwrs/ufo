@@ -1,5 +1,7 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
 import { Typography, Box, Button, Divider } from "@mui/material";
+import { EmbeddedCheckoutProvider, EmbeddedCheckout } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
 import {
   CountdownTimer,
   CustomerReviews,
@@ -11,6 +13,11 @@ import {
   UfoLogo,
   UserStats,
 } from "./index";
+import { useUserStore } from "@/store/store";
+
+const stripePromise = loadStripe(
+  "pk_test_51RZwwMP7v3zBLEUjuyCmhmxe5AVYIhOW36sCREk2LQokIY9hM2ufrB38ObWe2fzEwdHM92kO1tI1fqoQH21JhLpR00GRrasQ9w",
+);
 
 export const PLANS = [
   {
@@ -45,7 +52,80 @@ export const PLANS = [
 export const SubscribeBanner = () => {
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [isTimerActive, setIsTimerActive] = useState(true);
+  const [clientSecret, setClientSecret] = useState(null);
+  const [stripeSessionId, setSessionId] = useState(null);
+  const [checkoutReady, setCheckoutReady] = useState(false);
   const checkoutContainerRef = useRef(null);
+
+  const fetchClientSecret = useCallback(async (priceId, mode, sessionId) => {
+    const email = useUserStore.getState().email;
+    try {
+      setCheckoutReady(false); // ⛔️ Убираем старый checkout
+      const res = await fetch("http://localhost:4242/create-checkout-session", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ priceId, mode, email, sessionId }),
+      });
+
+      const data = await res.json();
+      setClientSecret(data.clientSecret);
+      setSessionId(data.sessionId);
+      console.log("✅ Получен clientSecret:", data.clientSecret);
+      setCheckoutReady(true); // ✅ Показываем новый checkout
+    } catch (error) {
+      console.error("Error fetching clientSecret:", error);
+    }
+  }, []);
+
+  const handleCheckoutComplete = async () => {
+    try {
+      const res = await fetch("http://localhost:4242/payment-success", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ clientSecret, sessionId: stripeSessionId }),
+      });
+
+      const paymentData = await res.json();
+      useUserStore.getState().setPaymentData(paymentData);
+      console.log("✅ Данные об оплате получены:", paymentData);
+    } catch (error) {
+      console.error("❌ Ошибка при получении данных:", error);
+    }
+  };
+
+  const handlePlanSelect = async (plan) => {
+    setSelectedPlan(plan.title);
+    const priceId = isTimerActive ? plan.id_sale : plan.id;
+    const mode = isTimerActive ? "payment" : "subscription";
+    await fetchClientSecret(priceId, mode);
+  };
+
+  const handleTimerEnd = async () => {
+    setIsTimerActive(false);
+
+    const currentPlan = PLANS.find((plan) => plan.title === selectedPlan);
+
+    if (currentPlan) {
+      await fetchClientSecret(currentPlan.id, "subscription");
+    }
+  };
+
+  const scrollToCheckout = () => {
+    checkoutContainerRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  };
+
+  useEffect(() => {
+    const defaultPlan = PLANS.find((plan) => plan.title === "1-MONTH");
+    if (defaultPlan) {
+      setSelectedPlan(defaultPlan.title);
+      handlePlanSelect(defaultPlan);
+    }
+  }, []);
+
+  const currentPlan = PLANS.find((plan) => plan.title === selectedPlan) || PLANS[1];
 
   const calculatePricePerDay = (plan) => {
     const priceToUse = isTimerActive ? plan.discountedPrice : plan.originalPrice;
@@ -73,37 +153,6 @@ export const SubscribeBanner = () => {
     });
   };
 
-  const handlePlanSelect = async (plan, planTitle) => {
-    setSelectedPlan(planTitle);
-  };
-
-  const handleTimerEnd = () => {
-    setIsTimerActive(false);
-    const defaultPlan = PLANS.find((plan) => plan.title === "1-MONTH");
-    if (defaultPlan) {
-      setSelectedPlan(defaultPlan.title);
-      handlePlanSelect(defaultPlan, defaultPlan.title);
-    }
-  };
-
-  const scrollToCheckout = () => {
-    checkoutContainerRef.current?.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
-  };
-
-  useEffect(() => {
-    if (PLANS.length > 0) {
-      const defaultPlan = PLANS.find((plan) => plan.title === "1-MONTH");
-      if (defaultPlan) {
-        handlePlanSelect(defaultPlan, defaultPlan.title);
-      }
-    }
-  }, [PLANS]);
-
-  const currentPlan = PLANS.find((plan) => plan.title === selectedPlan) || PLANS[1];
-
   return (
     <Box>
       <UfoLogo />
@@ -117,7 +166,7 @@ export const SubscribeBanner = () => {
         Grab your Personal Plan before it&apos;s gone!
       </Typography>
 
-      {isTimerActive && <CountdownTimer initialMinutes={0} initialSeconds={2} onTimerEnd={handleTimerEnd} />}
+      {isTimerActive && <CountdownTimer initialMinutes={10} initialSeconds={0} onTimerEnd={handleTimerEnd} />}
 
       <Box display='flex' flexDirection='column' gap={2} mt={4}>
         {PLANS.map((plan) => (
@@ -190,7 +239,16 @@ export const SubscribeBanner = () => {
       </Typography>
 
       {/* stripe checkout */}
-      <Box sx={{ mt: 3, p: 2, borderRadius: "8px", border: "0.4px solid #DFDFDF" }} ref={checkoutContainerRef}></Box>
+      <Box
+        sx={{ mt: 3, p: 1, backgroundColor: "#F5F5F5", borderRadius: "8px", border: "0.4px solid #DFDFDF" }}
+        ref={checkoutContainerRef}
+        id='checkout'>
+        {checkoutReady && clientSecret && (
+          <EmbeddedCheckoutProvider stripe={stripePromise} options={{ clientSecret }}>
+            <EmbeddedCheckout clientSecret={clientSecret} onComplete={handleCheckoutComplete} />
+          </EmbeddedCheckoutProvider>
+        )}
+      </Box>
 
       <Typography align='left' sx={{ color: "primary.main", fontWeight: 450, fontSize: "16px", mt: 2 }}>
         You will need an iPhone smartphone to use UFO.

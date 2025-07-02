@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { Button, Typography, Box, Link } from "@mui/material";
+import CircularProgress from "@mui/material/CircularProgress";
 import { useFirestoreDataStore, useUserStore } from "@/store/store";
 import { UfoLogo } from "./UfoLogo";
 
@@ -7,6 +8,7 @@ export const EmailInput = ({ onNext }) => {
   const [email, setEmail] = useState("");
   const [isValidEmail, setIsValidEmail] = useState(false);
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const inputRef = useRef(null);
 
   const createUser = useFirestoreDataStore((state) => state.createUser);
@@ -63,10 +65,11 @@ export const EmailInput = ({ onNext }) => {
   const handleNext = async () => {
     if (!isValidEmail) return;
 
+    setIsLoading(true);
+
     const trimmedEmail = email.trim();
     updateUserData("email", trimmedEmail);
     localStorage.setItem("email", trimmedEmail);
-
 
     const onboardingData = {
       userAge: age,
@@ -81,7 +84,7 @@ export const EmailInput = ({ onNext }) => {
       userEats: nonHungerTriggers,
       userConditions: healthConditions,
     };
-    console.log(trimmedEmail , password , onboardingData);
+    console.log(trimmedEmail, password, onboardingData);
     if (trimmedEmail && password) {
       try {
         await createUser({
@@ -97,6 +100,8 @@ export const EmailInput = ({ onNext }) => {
       } catch (error) {
         console.error("Ошибка в процессе регистрации:", error);
         onNext();
+      } finally {
+        setIsLoading(false);
       }
     }
   };
@@ -171,8 +176,8 @@ export const EmailInput = ({ onNext }) => {
             color: "white",
           },
         }}
-        disabled={!isValidEmail}>
-        See my plan
+        disabled={!isValidEmail || isLoading}>
+        {isLoading ? <CircularProgress size={20} sx={{ color: "white" }} /> : "See my plan"}
       </Button>
 
       <div style={{ display: "flex", flexDirection: "column", gap: "18px", marginTop: "24px" }}>

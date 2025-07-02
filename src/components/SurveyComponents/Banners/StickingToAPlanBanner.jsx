@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Box, Button, Typography, CircularProgress } from "@mui/material";
 import bannerImage from "../../Site/site-images/banner1.webp";
-import { UfoLogo } from "@/components/Paddle";
+import { UfoLogo } from "@/components/Stripe";
 
 export const StickingToAPlanBanner = ({ onNext }) => {
   const containerRef = useRef(null);
