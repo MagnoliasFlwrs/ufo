@@ -53,43 +53,47 @@ export const SubscribeBanner = () => {
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [isTimerActive, setIsTimerActive] = useState(true);
   const [clientSecret, setClientSecret] = useState(null);
-  const [stripeSessionId, setSessionId] = useState(null);
   const [checkoutReady, setCheckoutReady] = useState(false);
   const checkoutContainerRef = useRef(null);
 
-  const fetchClientSecret = useCallback(async (priceId, mode, sessionId) => {
-    const email = useUserStore.getState().email;
-    try {
-      setCheckoutReady(false); // ⛔️ Убираем старый checkout
-      const res = await fetch("http://localhost:4242/create-checkout-session", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ priceId, mode, email, sessionId }),
-      });
+  const email = useUserStore((state) => state.email);
+  const setPaymentData = useUserStore((state) => state.setPaymentData);
 
-      const data = await res.json();
-      setClientSecret(data.clientSecret);
-      setSessionId(data.sessionId);
-      console.log("✅ Получен clientSecret:", data.clientSecret);
-      setCheckoutReady(true); // ✅ Показываем новый checkout
-    } catch (error) {
-      console.error("Error fetching clientSecret:", error);
-    }
-  }, []);
+  const fetchClientSecret = useCallback(
+    async (priceId, mode) => {
+      try {
+        setCheckoutReady(false);
+        const res = await fetch("http://localhost:4242/create-checkout-session", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ priceId, mode, email }),
+        });
+
+        const data = await res.json();
+        console.log("✅ clientSecret:", data.clientSecret);
+        setClientSecret(data.clientSecret);
+        setCheckoutReady(true);
+      } catch (error) {
+        console.error("❌ Error fetching clientSecret:", error);
+      }
+    },
+    [email],
+  );
 
   const handleCheckoutComplete = async () => {
     try {
       const res = await fetch("http://localhost:4242/payment-success", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ clientSecret, sessionId: stripeSessionId }),
+        body: JSON.stringify({ clientSecret }),
       });
 
       const paymentData = await res.json();
-      useUserStore.getState().setPaymentData(paymentData);
-      console.log("✅ Данные об оплате получены:", paymentData);
+      console.log("✅ paymentData:", paymentData);
+
+      setPaymentData(paymentData); // 🔥 Запись в Zustand
     } catch (error) {
-      console.error("❌ Ошибка при получении данных:", error);
+      console.error("❌ Ошибка при получении данных оплаты:", error);
     }
   };
 
@@ -102,19 +106,10 @@ export const SubscribeBanner = () => {
 
   const handleTimerEnd = async () => {
     setIsTimerActive(false);
-
     const currentPlan = PLANS.find((plan) => plan.title === selectedPlan);
-
     if (currentPlan) {
       await fetchClientSecret(currentPlan.id, "subscription");
     }
-  };
-
-  const scrollToCheckout = () => {
-    checkoutContainerRef.current?.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
   };
 
   useEffect(() => {
@@ -129,21 +124,16 @@ export const SubscribeBanner = () => {
 
   const calculatePricePerDay = (plan) => {
     const priceToUse = isTimerActive ? plan.discountedPrice : plan.originalPrice;
-    const pricePerDay = priceToUse / plan.introPeriod;
-    return `${pricePerDay.toFixed(2)}`;
+    return (priceToUse / plan.introPeriod).toFixed(2);
   };
 
   const calculateEndDate = (plan) => {
     const now = new Date();
-
     if (plan.title.includes("WEEK")) {
       now.setDate(now.getDate() + plan.introPeriod);
-    } else if (plan.title.includes("MONTH")) {
-      now.setMonth(now.getMonth() + plan.introPeriod / 30);
     } else {
-      now.setMonth(now.getMonth() + 1);
+      now.setMonth(now.getMonth() + plan.introPeriod / 30);
     }
-
     return now.toLocaleString("en-US", {
       month: "long",
       day: "numeric",
@@ -161,7 +151,6 @@ export const SubscribeBanner = () => {
       <Typography
         variant='h5'
         align='center'
-        gutterBottom
         sx={{ color: "primary.main", fontSize: "28px", fontWeight: 700, p: 3, pb: 0 }}>
         Grab your Personal Plan before it&apos;s gone!
       </Typography>
@@ -177,7 +166,7 @@ export const SubscribeBanner = () => {
             discountedPrice={isTimerActive ? `$${plan.discountedPrice.toFixed(2)}` : null}
             pricePerDay={calculatePricePerDay(plan)}
             isSelected={plan.title === selectedPlan}
-            onClick={() => handlePlanSelect(plan, plan.title)}
+            onClick={() => handlePlanSelect(plan)}
           />
         ))}
       </Box>
@@ -187,33 +176,18 @@ export const SubscribeBanner = () => {
       <Button
         variant='contained'
         fullWidth
-        className='email-button'
-        onClick={scrollToCheckout}
+        onClick={() => checkoutContainerRef.current?.scrollIntoView({ behavior: "smooth" })}
         sx={{
           mt: 3,
           mb: 2,
           backgroundColor: "#FF5C1D",
           "&:hover": { backgroundColor: "#FF4500" },
-          "&:disabled": { backgroundColor: "#FF8D63", color: "white" },
         }}>
         Get my plan
       </Button>
 
       <UserStats />
       <CustomerReviews />
-
-      <Button
-        variant='contained'
-        fullWidth
-        className='email-button'
-        onClick={scrollToCheckout}
-        sx={{
-          backgroundColor: "#FF5C1D",
-          "&:hover": { backgroundColor: "#FF4500" },
-          "&:disabled": { backgroundColor: "#FF8D63", color: "white" },
-        }}>
-        Get my plan
-      </Button>
 
       <MoneyBack />
 
@@ -224,21 +198,17 @@ export const SubscribeBanner = () => {
         introPeriod={currentPlan.periodLabel}
       />
 
-      <Typography
-        variant='h5'
-        align='left'
-        gutterBottom
-        sx={{ color: "primary.main", fontSize: "26px", fontWeight: 700 }}>
+      <Typography variant='h5' sx={{ color: "primary.main", fontWeight: 700, mt: 4 }}>
         Payment method
       </Typography>
 
-      <Divider sx={{ borderWidth: "1px", borderColor: "#241063", width: "100%", mx: "auto", opacity: "0.6" }} />
+      <Divider sx={{ my: 1, borderColor: "#241063", opacity: 0.6 }} />
 
-      <Typography align='left' sx={{ color: "primary.main", fontWeight: 450, fontSize: "16px", mt: 2 }}>
+      <Typography sx={{ color: "primary.main", fontSize: "16px", mt: 2 }}>
         UFO will use your payment details for seamless future payments.
       </Typography>
 
-      {/* stripe checkout */}
+      {/* Stripe checkout */}
       <Box
         sx={{ mt: 3, p: 1, backgroundColor: "#F5F5F5", borderRadius: "8px", border: "0.4px solid #DFDFDF" }}
         ref={checkoutContainerRef}
@@ -250,14 +220,11 @@ export const SubscribeBanner = () => {
         )}
       </Box>
 
-      <Typography align='left' sx={{ color: "primary.main", fontWeight: 450, fontSize: "16px", mt: 2 }}>
+      <Typography sx={{ mt: 2, fontSize: "16px", color: "primary.main" }}>
         You will need an iPhone smartphone to use UFO.
       </Typography>
-
-      <Typography align='left' sx={{ color: "primary.main", fontWeight: 700, fontSize: "16px", mt: 2 }}>
-        Secure checkout
-      </Typography>
-      <Typography align='left' sx={{ color: "primary.main", fontWeight: 450, fontSize: "16px", lineHeight: 1.2 }}>
+      <Typography sx={{ fontWeight: 700, fontSize: "16px", mt: 2, color: "primary.main" }}>Secure checkout</Typography>
+      <Typography sx={{ fontSize: "16px", lineHeight: 1.2, color: "primary.main" }}>
         All information is encrypted and transmitted using Secure Sockets Layer protocol.
       </Typography>
     </Box>

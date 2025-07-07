@@ -37,7 +37,7 @@ export const useUserStore = create((set) => ({
   dailyCalories: null,
   selectedMealPlan: null,
   email: getLocalStorageItem("email"),
-  customerData: null,
+  paymentData: null,
 
   updateUserData: (key, value) =>
     set((state) => {
@@ -66,7 +66,7 @@ export const useUserStore = create((set) => ({
       };
     }),
 
-  setPaymentData: (data) => set({ customerData: data }),
+  setPaymentData: (data) => set({ paymentData: data }),
 }));
 
 export const useFirestoreDataStore = create((set) => ({
